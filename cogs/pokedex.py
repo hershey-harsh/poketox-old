@@ -110,7 +110,7 @@ from similar import Similar
 import os
 from discord.ext.commands import cooldown, BucketType
 
-def poke_name(url):
+def pokemon_name(url):
   try:
     response = requests.get(url)
     file = open("pokemon.png", "wb")
