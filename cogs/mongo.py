@@ -63,6 +63,16 @@ class Guild(Document):
 
     ping_channels = fields.ListField(fields.IntegerField, default=list)
     prefix = fields.StringField(default=config.DEFAULT_PREFIX)
+    sh_channels = fields.ListField(fields.IntegerField, default=list)
+
+class Shtimer(Document):
+    class Meta:
+        collection_name = "shtimer"
+
+    id = fields.IntegerField(attribute="_id")
+
+    ping_channels = fields.ListField(fields.IntegerField, default=list)
+    prefix = fields.StringField(default=config.DEFAULT_PREFIX)
 
 class Mongo(commands.Cog):
     """For database operations."""
@@ -76,6 +86,7 @@ class Mongo(commands.Cog):
         self.Member = instance.register(Member)
         self.Global = instance.register(Global)
         self.Guild = instance.register(Guild)
+        self.Shtimer = instance.register(Shtimer)
 
     async def reserve_id(self, name, reserve=1):
         result = await self.db.counter.find_one_and_update(
@@ -106,6 +117,9 @@ class Mongo(commands.Cog):
     async def update_guild(self, guild: discord.Guild, update):
         return await self.db.guild.update_one({"_id": guild.id}, update, upsert=True)
 
+    async def update_shtimer(self, guild: discord.Guild, update):
+        return await self.db.guild.update_one({"_id": guild.id}, update, upsert=True)
+
     async def fetch_member_info(self, member: discord.Member):
         mem = await self.Member.find_one(
             {"_id": member.id}
@@ -127,4 +141,5 @@ class Mongo(commands.Cog):
         return glob
 
 def setup(bot):
+    print("Loaded Mongo")
     bot.add_cog(Mongo(bot))
