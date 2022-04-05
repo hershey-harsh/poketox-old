@@ -1,7 +1,7 @@
 import os
 import discord
 
-BOT_TOKEN = "OTUwNTIyNTY0NzUxNTQ0MzMw.YiaJHw.69ebbOUKTaGoC6IWK4hqcx_8yfM"
+BOT_TOKEN = os.getenv("Discord_Token")
 DATABASE_URI = "mongodb+srv://xen:discord@cluster0.ygld5.mongodb.net/discord?retryWrites=true&w=majority"
 DATABASE_NAME = "discord"
 DEFAULT_PREFIX = "a!"
