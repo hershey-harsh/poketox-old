@@ -33,7 +33,7 @@ class Confirm(discord.ui.View):
         self.value = True
         self.stop()
 
-def poke_name(url):
+def pokemon_name(url):
   try:
     response = requests.get(url)
     file = open("pokemon.png", "wb")
