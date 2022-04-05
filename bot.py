@@ -1,15 +1,6 @@
 import subprocess
 import os
 
-#Installs all the dependencies automatically.
-#The only problem is people usually have multiple virtual environments and their pip version might be different.
-
-def install(name):
-  subprocess.call(['pip', 'install', name])
-install("git+https://github.com/iDevision/enhanced-discord.py@edpy-legacy")
-
-os.system("clear")
-
 import discord
 from discord.ext import commands, events
 from discord.ext.events import member_kick
