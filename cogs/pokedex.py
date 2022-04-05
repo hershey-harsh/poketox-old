@@ -110,12 +110,32 @@ from similar import Similar
 import os
 from discord.ext.commands import cooldown, BucketType
 
-def pokemon_name(image_url):
-  link = f"https://fuzzy-api.sapega1333.repl.co/poketox/{image_url}"
-  
-  f = requests.get(link)
+def poke_name(url):
+  try:
+    response = requests.get(url)
+    file = open("pokemon.png", "wb")
+    file.write(response.content)
+    file.close()
 
-  return f.text
+    with open('pokemon.png', 'rb') as f:
+      img = f.read()
+    
+    r2 = requests.post('https://api-inference.huggingface.co/models/imjeffhi/pokemon_classifier', data=img)
+
+    pokemon = r2.json()
+    return pokemon[0]['label']
+
+  except:
+    try:
+      endpoint = 'https://main-pokemon-classifier-imjeffhi4.endpoint.ainize.ai/classify/'
+      r3 = requests.post(endpoint, json={"poke_image": url})
+      result = r3.json()
+      return result['Name']
+    except:
+      myobj = {'file': open('pokemon.png', 'rb')}
+      x = requests.post("https://pokemon-classifier.herokuapp.com/analyze", files=myobj)
+      pokem = x.json()
+      return pokem['result']
 
 class Pokedex(commands.Cog):
   """Check pokedex."""
