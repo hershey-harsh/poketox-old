@@ -7,6 +7,8 @@ import config
 import asyncio
 import requests
 import json
+import asyncio
+import datetime
 
 class Confirm(discord.ui.View):
     def __init__(self, url):
@@ -21,6 +23,71 @@ class Confirm(discord.ui.View):
         url = "https://discord.gg/mhcjdJkxn6"
 
         self.add_item(discord.ui.Button(label="Support Server", url=str(url)))
+        
+    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.gray)
+    async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
+
+        species = self.species
+      
+        if species.isdigit():
+            species = self.bot.data.species_by_number(int(species))
+        else:
+            if species.lower().startswith("shiny "):
+                shiny = True
+                species = species[6:]
+
+            species = self.bot.data.species_by_name(species)
+
+        embed = discord.Embed(color=0x2F3136)
+        embed.title = f"#{species.dex_number} — {species}"
+
+        if species.description:
+            embed.description = species.description.replace("\n", " ")
+
+        # Pokemon Rarity
+        rarity = []
+        if species.mythical:
+            rarity.append("Mythical")
+        if species.legendary:
+            rarity.append("Legendary")
+        if species.ultra_beast:
+            rarity.append("Ultra Beast")
+        if species.event:
+            rarity.append("Event")
+
+        if rarity:
+            rarity = ", ".join(rarity)
+            embed.add_field(
+                name="Rarity",
+                value=rarity,
+                inline=False,
+            )
+
+        if species.evolution_text:
+            embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
+
+        if 1 == 2:
+            print("idk")
+        else:
+            embed.set_thumbnail(url=species.image_url)
+
+        base_stats = (
+            f"**HP:** {species.base_stats.hp}",
+            f"**Attack:** {species.base_stats.atk}",
+            f"**Defense:** {species.base_stats.defn}",
+            f"**Sp. Atk:** {species.base_stats.satk}",
+            f"**Sp. Def:** {species.base_stats.sdef}",
+            f"**Speed:** {species.base_stats.spd}",
+        )
+
+        embed.add_field(
+            name="Names",
+            value="\n".join(f"{x} {y}" for x, y in species.names),
+        )
+        embed.add_field(name="Base Stats", value="\n".join(base_stats))
+        embed.add_field(name="Types", value="\n".join(species.types))
+
+        await interaction.response.send_message(embed=embed,ephemeral=True)
 
     @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.gray)
     async def confirm(self, button: discord.ui.Button, interaction: discord.Interaction):
