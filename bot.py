@@ -1,12 +1,9 @@
-import subprocess
 import os
-
 import discord
 from discord.ext import commands, events
 from discord.ext.events import member_kick
 import datetime
 import config
-import keep_alive
 
 COGS = [
     "data",
@@ -32,10 +29,21 @@ class Bot(commands.Bot, events.EventsMixin):
       
         self.config = config
 
-
-
-        for i in COGS:
+        self.load_extension("jishaku")
+        for i in cogs.default:
             self.load_extension(f"cogs.{i}")
+
+        self.add_check(
+            commands.bot_has_permissions(
+                read_messages=True,
+                send_messages=True,
+                embed_links=True,
+                attach_files=True,
+                read_message_history=True,
+                add_reactions=True,
+                external_emojis=True,
+            ).predicate
+        )
         
     @property
     def mongo(self):
@@ -45,11 +53,7 @@ class Bot(commands.Bot, events.EventsMixin):
     def data(self):
         return self.get_cog("Data").instance
 
-    async def on_ready(self):
-        self.log.info(f"Logged in")
-
 if __name__ == "__main__":
     bot = Bot()
     bot.remove_command('help')
-    keep_alive.keep_alive()
     bot.run(config.BOT_TOKEN)
