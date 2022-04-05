@@ -15,7 +15,6 @@ COGS = [
     "info",
     "weakness",
     "dex",
-    "bot"
 ]
 
 
