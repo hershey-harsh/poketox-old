@@ -31,18 +31,6 @@ class Bot(commands.Bot, events.EventsMixin):
 
         for i in COGS:
             self.load_extension(f"cogs.{i}")
-
-        self.add_check(
-            commands.bot_has_permissions(
-                read_messages=True,
-                send_messages=True,
-                embed_links=True,
-                attach_files=True,
-                read_message_history=True,
-                add_reactions=True,
-                external_emojis=True,
-            ).predicate
-        )
         
     @property
     def mongo(self):
