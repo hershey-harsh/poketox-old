@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pokehelper"
+name = "Poketox"
 version = "0.1.0"
 description = ""
 authors = ["Harsh Mannava <futureslinky369@gmail.com>"]
