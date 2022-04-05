@@ -29,8 +29,7 @@ class Bot(commands.Bot, events.EventsMixin):
       
         self.config = config
 
-        self.load_extension("jishaku")
-        for i in cogs.default:
+        for i in COGS:
             self.load_extension(f"cogs.{i}")
 
         self.add_check(
