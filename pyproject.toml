@@ -2,7 +2,7 @@
 name = "pokehelper"
 version = "0.1.0"
 description = ""
-authors = ["Kyle He <keelayhe@gmail.com>"]
+authors = ["Harsh Mannava <futureslinky369@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
