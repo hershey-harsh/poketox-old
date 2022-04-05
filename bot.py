@@ -28,7 +28,7 @@ class Bot(commands.Bot, events.EventsMixin):
         )
       
         self.config = config
-
+        os.system("clear")
         for i in COGS:
             self.load_extension(f"cogs.{i}")
         
