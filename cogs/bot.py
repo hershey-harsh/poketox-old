@@ -9,7 +9,6 @@ class Bot(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.update_status.start()
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
