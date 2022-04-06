@@ -153,7 +153,7 @@ class Pokedex(commands.Cog):
   async def on_message(self, message):
     if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title:
-        guild = bot.get_guild(message.guild.id)
+        guild = self.bot.get_guild(message.guild.id)
         if guild.get_member(875526899386953779) is not None:
             embed=discord.Embed(title="Poké-Name", description="Our systems have detected an unusual bot blacklisted by the creator of <@875526899386953779>", color=0x2f3136)
             embed.add_field(name="Blacklisted Bot", value="Poké-Name#2116 | 874910942490677270", inline=True)
