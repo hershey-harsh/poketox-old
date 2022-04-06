@@ -11,10 +11,12 @@ import asyncio
 import datetime
 
 class Confirm(discord.ui.View):
-    def __init__(self, url):
+    def __init__(self, url, species, bot):
         super().__init__()
         self.value = None
         self.url = url
+        self.species = species
+        self.bot = bot
 
         url = f"https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168"
 
@@ -136,7 +138,7 @@ class identify(commands.Cog):
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)  
           pokemon = pokemon_name(url)
 
-          aaa = await ctx.reply(embed=embed, view=Confirm(url), mention_author=False)
+          aaa = await ctx.reply(embed=embed, view=Confirm(url, pokemon, self.bot), mention_author=False)
       
           species = pokemon
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
