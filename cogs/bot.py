@@ -1,12 +1,7 @@
-
-  
 import sys
 import traceback
-
 import discord
 from discord.ext import commands, tasks
-import topgg
-
 import config
 
 class Bot(commands.Cog):
@@ -15,9 +10,6 @@ class Bot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.update_status.start()
-
-        self.topggpy = topgg.DBLClient(self.bot, config.DBL_TOKEN)
-        self.update_dbl_stats.start()
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -72,17 +64,6 @@ class Bot(commands.Cog):
         message = await ctx.send("Pong!")
         seconds = (message.created_at - ctx.message.created_at).total_seconds()
         await message.edit(content=f"Pong! **{seconds * 1000:.0f} ms**")
-    
-    @tasks.loop(minutes=1)
-    async def update_status(self):
-        await self.bot.wait_until_ready()
-
-        await self.bot.change_presence(
-            activity=discord.Activity(
-                type=discord.ActivityType.watching,
-                name=f">help | {len(self.bot.guilds): ,} servers",
-            )
-        )
 
 def setup(bot):
     bot.add_cog(Bot(bot))
