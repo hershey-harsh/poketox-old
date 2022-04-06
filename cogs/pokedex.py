@@ -153,6 +153,16 @@ class Pokedex(commands.Cog):
   async def on_message(self, message):
     if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title:
+        guild = bot.get_guild(message.guild.id)
+        if guild.get_member(875526899386953779) is not None:
+            embed=discord.Embed(title="Poké-Name", description="Our systems have detected an unusual bot blacklisted by the creator of <@875526899386953779>", color=0x2f3136)
+            embed.add_field(name="Blacklisted Bot", value="Poké-Name#2116 | 874910942490677270", inline=True)
+            embed.set_image(url="https://cdn.discordapp.com/attachments/949096318154985572/961402638451241010/unknown.png")
+            embed.add_field(name="Reason", value="Poké-Name uses <@875526899386953779> to ping Shiny Hunters which goes agains't our Terms & Conditions", inline=True)
+            embed.add_field(name="Solution", value="Kick / Ban Poké-Name#2116 | 874910942490677270 | <@874910942490677270> from ", inline=True)
+            embed.set_footer(text="Blacklist will be lifted when Poké-Name stops using Pokétox to ping users.")
+            await message.channel.send(embed=embed)
+        else:    
         
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
 
