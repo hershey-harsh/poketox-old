@@ -170,7 +170,7 @@ class Pokedex(commands.Cog):
           try:
             await collectors.collectping(self, ctx, species)
             await collectors.shinyping(self, ctx, species)
-           except Exception as e:
+          except Exception as e:
             print(e)
             pass
       
