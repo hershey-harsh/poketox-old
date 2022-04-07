@@ -1,0 +1,196 @@
+{
+    "common": {
+        "70": [
+            "slaking",
+            "golisopod"
+        ],
+        "60": [
+            "metagross",
+            "primarina",
+            "mareanie"
+        ],
+        "50": [
+            "dragonite",
+            "garchomp",
+            "pyroar",
+            "delphox",
+            "hawlucha"
+        ],
+        "40": [
+            "skuntank",
+            "staraptor",
+            "feraligatr",
+            "braviary",
+            "aerodactyl"
+        ],
+        "30": [
+            "archeops",
+            "haxorus",
+            "kommo-o",
+            "dodrio",
+            "florges",
+            "flygon",
+            "tyrantrum"
+        ],
+        "20": [
+            "snorlax",
+            "porygon-z",
+            "swampert",
+            "gyarados",
+            "electivire",
+            "salamence",
+            "rhyperior",
+            "stoutland",
+            "doublade",
+            "mamoswine",
+            "darmanitan",
+            "goodra",
+            "arcanine",
+            "gigalith",
+            "chandelure"
+        ],
+        "10": [
+            "conkeldurr",
+            "crustle",
+            "charizard",
+            "bouffalant",
+            "mudsdale",
+            "gengar",
+            "talonflame",
+            "tauros"
+        ]
+    },
+    "mega": {
+        "70": [
+            "mega-rayquaza",
+            "primal-kyogre",
+            "mega-mewtwo-y",
+            "mega-metagross"
+        ],
+        "60": [
+            "primal-groudon",
+            "mega-gengar",
+            "mega-gyarados",
+            "mega-aerodactyl",
+            "mega-gardevoir",
+            "mega-mewtwo-x"
+        ],
+        "50": [
+            "mega-scizor",
+            "mega-blaziken",
+            "mega-gallade",
+            "mega-swampert",
+            "mega-salamence",
+            "mega-charizard-x"
+        ],
+        "40": [
+            "mega-lucario",
+            "mega-diancie",
+            "mega-kangaskhan",
+            "mega-pinsir",
+            "mega-steelix",
+            "mega-heracross",
+            "mega-tyranitar"
+        ],
+        "30": [
+            "mega-mawile",
+            "mega-absol",
+            "mega-latios",
+            "mega-lopunny",
+            "mega-garchomp",
+            "mega-charizard-y",
+            "mega-sceptile"
+        ],
+        "20": [
+            "mega-beedril",
+            "mega-alakazam",
+            "mega-ampharos",
+            "mega-aggron",
+            "mega-medicham",
+            "mega-latias",
+            "mega-pidgeot",
+            "mega-houndoom",
+            "mega-manectric"
+        ],
+        "10": [
+            "mega-camerupt",
+            "mega-sableye",
+            "mega-sharpedo",
+            "mega-glalie",
+            "mega-venusaur",
+            "mega-blastoise",
+            "mega-slowbro",
+            "mega-abomasnow",
+            "mega-altaria",
+            "mega-audino"
+        ]
+    },
+    "rare": {
+        "70": [
+            "primal-kyogre",
+            "mega-rayquaza",
+            "arceus",
+            "yveltal"
+        ],
+        "60": [
+            "mega-mewtwo-y",
+            "primal-groudon",
+            "dialga",
+            "regigigas"
+        ],
+        "50": [
+            "magearna",
+            "mega-mewtwo-x",
+            "zekrom",
+            "xerneas",
+            "complete-zygarde",
+            "diancie",
+            "marshadow"
+        ],
+        "40": [
+            "lugia",
+            "ho-oh",
+            "jirachi",
+            "deoxys",
+            "volcanion",
+            "solgaleo",
+            "lunala",
+            "kartana",
+            "zeraora"
+        ],
+        "30": [
+            "azelf",
+            "mega-latios",
+            "palkia",
+            "giratina",
+            "reshiram",
+            "landorus",
+            "tapu-bulu",
+            "tapu-lele",
+            "pheromosa"
+        ],
+        "20": [
+            "buzzwole",
+            "keldeo",
+            "entei",
+            "moltres",
+            "articuno",
+            "suicune",
+            "celebi",
+            "genesect"
+        ],
+        "10": [
+            "cobalion",
+            "terrakion",
+            "virizion",
+            "regice",
+            "heatran",
+            "kyurem",
+            "blacephalon",
+            "victini",
+            "stakataka",
+            "tapu-fini",
+            "tapu-koko"
+        ]
+    }
+}
