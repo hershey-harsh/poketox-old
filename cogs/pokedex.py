@@ -163,9 +163,10 @@ class Pokedex(commands.Cog):
 
           pokemon = pokemon_name(message.embeds[0].image.url)
       
-          hehem = await message.channel.send(pokemon)
-          
-          await hehem.delete()
+          ctx = await self.bot.get_context(Message)
+    
+          await collectors.collectping(self, ctx, pokemon)
+          await collectors.shinyping(self, ctx, pokemon)
       
           species = pokemon
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
