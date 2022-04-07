@@ -4,7 +4,7 @@ import random
 import asyncio
 import datetime
 from replit import db
-import collectors
+from cogs import collectors
 
 whitelist = [859326781927194674, 772937584884056135]
 
