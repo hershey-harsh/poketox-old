@@ -166,19 +166,17 @@ class Pokedex(commands.Cog):
           pokemon = pokemon_name(message.embeds[0].image.url)
       
           ctx = await self.bot.get_context(message)
+          species = self.bot.data.species_by_name(pokemon)
           try:
-            await collectors.collectping(self, ctx, pokemon: SpeciesConverter)
-            await collectors.shinyping(self, ctx, pokemon: SpeciesConverter)
+            await collectors.collectping(self, ctx, species)
+            await collectors.shinyping(self, ctx, species)
            except Exception as e:
             print(e)
             pass
       
-          species = pokemon
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
 
           await aaa.edit(embed=embed1, view=Confirm(message.embeds[0].image.url, pokemon, self.bot))
-
-          species = self.bot.data.species_by_name(species)
         
           if species is None:
             return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
