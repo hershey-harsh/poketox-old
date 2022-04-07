@@ -40,9 +40,12 @@ async def shinyping(self, ctx, species: SpeciesConverter):
 
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
         if guild["sh_channels"] and ctx.channel.id not in guild["sh_channels"]:
-            return await ctx.send(
+            mess = await ctx.send(
                 f"The server admin has not whitelisted this channel! To add a channel to the whitelist, run `{ctx.prefix}whitelist <channels>`. To check whitelisted channels, run `{ctx.prefix}config`."
             )
+            asyncio.sleep(3)
+            await mess.delete()
+            return
 
         users = self.bot.mongo.db.collector.find(
             {str(ctx.guild.id): True, 'shinyhunt': species.id}
@@ -55,10 +58,13 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             await ctx.send(
                 f"**Pinging {species} Shiny Hunters** \n \n" + " ".join(shinyhunt_pings)
             )
+            
         else:
-            await ctx.send(
+            mess = await ctx.send(
                 f"No one is shiny hunting {species}! \n \n**Tip:** You can run `{ctx.prefix}collect enable` or `{ctx.prefix}collect disable` to disable or enable collect and shinyhunt pings on a server! By default, this option will be off."
             )
+            asyncio.sleep(3)
+            await mess.delete()
 
 q = ["Pokétox is made by Future#9409", "Like the bot? Type a!invite", "Want to help? DM Future#0005", "Join the offical server! https://discord.gg/futureworld"]
 
