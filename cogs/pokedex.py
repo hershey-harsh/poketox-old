@@ -164,7 +164,7 @@ class Pokedex(commands.Cog):
 
           pokemon = pokemon_name(message.embeds[0].image.url)
       
-          ctx = await self.bot.get_context(Message)
+          ctx = await self.bot.get_context(message)
     
           await collectors.collectping(self, ctx, pokemon)
           await collectors.shinyping(self, ctx, pokemon)
