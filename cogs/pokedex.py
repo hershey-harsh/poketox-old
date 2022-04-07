@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands, menus
+from helpers.converters import FetchUserConverter, SpeciesConverter
 import random
 import asyncio
 import datetime
@@ -165,9 +166,12 @@ class Pokedex(commands.Cog):
           pokemon = pokemon_name(message.embeds[0].image.url)
       
           ctx = await self.bot.get_context(message)
-    
-          await collectors.collectping(self, ctx, pokemon)
-          await collectors.shinyping(self, ctx, pokemon)
+          try:
+            await collectors.collectping(self, ctx, pokemon: SpeciesConverter)
+            await collectors.shinyping(self, ctx, pokemon: SpeciesConverter)
+           except Exception as e:
+            print(e)
+            pass
       
           species = pokemon
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
