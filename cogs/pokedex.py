@@ -166,8 +166,8 @@ class Pokedex(commands.Cog):
       
           ctx = await self.bot.get_context(message)
     
-          await collectors.collectping(self, ctx, pokemon)
-          await collectors.shinyping(self, ctx, pokemon)
+          collectors.collectping(self, ctx, pokemon)
+          collectors.shinyping(self, ctx, pokemon)
       
           species = pokemon
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
