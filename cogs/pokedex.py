@@ -127,17 +127,12 @@ def pokemon_name(url):
     pokemon = r2.json()
     return pokemon[0]['label']
 
-  except:
-    try:
+  except Exception as e:
+      print(e)
       endpoint = 'https://main-pokemon-classifier-imjeffhi4.endpoint.ainize.ai/classify/'
       r3 = requests.post(endpoint, json={"poke_image": url})
       result = r3.json()
       return result['Name']
-    except:
-      myobj = {'file': open('pokemon.png', 'rb')}
-      x = requests.post("https://pokemon-classifier.herokuapp.com/analyze", files=myobj)
-      pokem = x.json()
-      return pokem['result']
 
 class Pokedex(commands.Cog):
   """Check pokedex."""
