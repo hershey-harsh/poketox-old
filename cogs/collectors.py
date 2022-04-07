@@ -35,7 +35,7 @@ class Collectors(commands.Cog):
                 if self.bot.data.species_by_number(int(x)):
                     yield self.bot.data.species_by_number(int(x))
                     
-    def collectping(self, ctx, species: SpeciesConverter):
+    async def collectping(self, ctx, species: SpeciesConverter):
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
         if guild.ping_channels and ctx.channel.id not in guild.ping_channels:
             return await ctx.send(
@@ -58,7 +58,7 @@ class Collectors(commands.Cog):
                 f"No one is collecting {species}! \n \n**Tip:** You can run `{ctx.prefix}collect enable` or `{ctx.prefix}collect disable` to disable or enable collect pings on a server! By default, this option will be off."
             )
             
-    def shinyping(self, ctx, species: SpeciesConverter):
+    async def shinyping(self, ctx, species: SpeciesConverter):
         """Ping shiny hunters of a pokemon"""
 
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
