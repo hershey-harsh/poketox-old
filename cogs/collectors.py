@@ -34,6 +34,55 @@ class Collectors(commands.Cog):
             if x != "_id":
                 if self.bot.data.species_by_number(int(x)):
                     yield self.bot.data.species_by_number(int(x))
+                    
+    async def collectping(self, ctx, species: SpeciesConverter):
+        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+        if guild.ping_channels and ctx.channel.id not in guild.ping_channels:
+            return await ctx.send(
+                f"The server admin has not whitelisted this channel! To add a channel to the whitelist, run `{ctx.prefix}whitelist <channels>`. To check whitelisted channels, run `{ctx.prefix}config`."
+            )
+
+        users = self.bot.mongo.db.collector.find(
+            {str(species.id): True, str(ctx.guild.id): True}
+        )
+
+        collector_pings = []
+        async for user in users:
+            collector_pings.append(f"<@{user['_id']}> ")
+        if len(collector_pings) > 0:
+            await ctx.send(
+                f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
+            )
+        else:
+            await ctx.send(
+                f"No one is collecting {species}! \n \n**Tip:** You can run `{ctx.prefix}collect enable` or `{ctx.prefix}collect disable` to disable or enable collect pings on a server! By default, this option will be off."
+            )
+            
+    async def shinyping(self, ctx, species: SpeciesConverter):
+        """Ping shiny hunters of a pokemon"""
+
+        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+        if guild["sh_channels"] and ctx.channel.id not in guild["sh_channels"]:
+            return await ctx.send(
+                f"The server admin has not whitelisted this channel! To add a channel to the whitelist, run `{ctx.prefix}whitelist <channels>`. To check whitelisted channels, run `{ctx.prefix}config`."
+            )
+
+        users = self.bot.mongo.db.collector.find(
+            {str(ctx.guild.id): True, 'shinyhunt': species.id}
+        )
+
+        shinyhunt_pings = []
+        async for user in users:
+            shinyhunt_pings.append(f"<@{user['_id']}> ")
+        if len(shinyhunt_pings) > 0:
+            await ctx.send(
+                f"**Pinging {species} Shiny Hunters** \n \n" + " ".join(shinyhunt_pings)
+            )
+        else:
+            await ctx.send(
+                f"No one is shiny hunting {species}! \n \n**Tip:** You can run `{ctx.prefix}collect enable` or `{ctx.prefix}collect disable` to disable or enable collect and shinyhunt pings on a server! By default, this option will be off."
+            )
+
 
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
