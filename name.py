@@ -1,6 +1,7 @@
 from transformers import ViTForImageClassification, ViTFeatureExtractor
 from PIL import Image
 import torch
+import requests
 
 # Loading in Model
 device = "cuda" if torch.cuda.is_available() else "cpu"
