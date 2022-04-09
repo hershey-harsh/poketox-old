@@ -6,6 +6,7 @@ import asyncio
 import datetime
 from replit import db
 from cogs import collectors
+from name import solve
 
 whitelist = [859326781927194674, 772937584884056135]
 
@@ -112,33 +113,6 @@ from similar import Similar
 import os
 from discord.ext.commands import cooldown, BucketType
 
-def pokemon_name(url):
-  try:
-    response = requests.get(url)
-    file = open("pokemon.png", "wb")
-    file.write(response.content)
-    file.close()
-
-    with open('pokemon.png', 'rb') as f:
-      img = f.read()
-    
-    r2 = requests.post('https://api-inference.huggingface.co/models/imjeffhi/pokemon_classifier', data=img)
-
-    pokemon = r2.json()
-    return pokemon[0]['label']
-
-  except Exception as e:
-    try:
-      endpoint = 'https://main-pokemon-classifier-imjeffhi4.endpoint.ainize.ai/classify/'
-      r3 = requests.post(endpoint, json={"poke_image": url})
-      result = r3.json()
-      return result['Name']
-    except:
-      myobj = {'file': open('pokemon.png', 'rb')}
-      x = requests.post("https://pokemon-classifier.herokuapp.com/analyze", files=myobj)
-      pokem = x.json()
-      return pokem['result']
-
 class Pokedex(commands.Cog):
   """Check pokedex."""
 
@@ -162,8 +136,8 @@ class Pokedex(commands.Cog):
         
           #retry_after = self.get_ratelimit(message)
         #if retry_after is None or message.guild.id == 815598238820335668:
-
-          pokemon = pokemon_name(message.embeds[0].image.url)
+        
+          pokemon = solve(message.embeds[0].image.url)
       
           ctx = await self.bot.get_context(message)
           species = self.bot.data.species_by_name(pokemon)
