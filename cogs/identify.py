@@ -9,6 +9,7 @@ import requests
 import json
 import asyncio
 import datetime
+from name import solve
 
 class Confirm(discord.ui.View):
     def __init__(self, url, species, bot):
@@ -102,33 +103,6 @@ class Confirm(discord.ui.View):
         self.value = True
         self.stop()
 
-def pokemon_name(url):
-  try:
-    response = requests.get(url)
-    file = open("pokemon.png", "wb")
-    file.write(response.content)
-    file.close()
-
-    with open('pokemon.png', 'rb') as f:
-      img = f.read()
-    
-    r2 = requests.post('https://api-inference.huggingface.co/models/imjeffhi/pokemon_classifier', data=img)
-
-    pokemon = r2.json()
-    return pokemon[0]['label']
-
-  except:
-    try:
-      endpoint = 'https://main-pokemon-classifier-imjeffhi4.endpoint.ainize.ai/classify/'
-      r3 = requests.post(endpoint, json={"poke_image": url})
-      result = r3.json()
-      return result['Name']
-    except:
-      myobj = {'file': open('pokemon.png', 'rb')}
-      x = requests.post("https://pokemon-classifier.herokuapp.com/analyze", files=myobj)
-      pokem = x.json()
-      return pokem['result']
-
 class identify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -136,7 +110,7 @@ class identify(commands.Cog):
     @commands.command()
     async def identify(self, ctx, *, url):
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)  
-          pokemon = pokemon_name(url)
+          pokemon = solve(url)
 
           aaa = await ctx.reply(embed=embed, view=Confirm(url, pokemon, self.bot), mention_author=False)
       
