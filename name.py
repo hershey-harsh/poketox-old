@@ -8,7 +8,11 @@ model = ViTForImageClassification.from_pretrained( "pokemon_classifier").to(devi
 feature_extractor = ViTFeatureExtractor.from_pretrained('pokemon_classifier')
 
 # Caling the model on a test image
-def solve():
+def solve(url):
+  response = requests.get(url)
+  file = open("pokemon.png", "wb")
+  file.write(response.content)
+  file.close()
   img = Image.open('pokemon.png')
   extracted = feature_extractor(images=img, return_tensors='pt').to(device)
   predicted_id = model(**extracted).logits.argmax(-1).item()
