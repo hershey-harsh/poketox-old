@@ -201,6 +201,9 @@ class Pokedex(commands.Cog):
         
         else:
             print("Cooldown Hit")
+            discord_guild = self.bot.get_guild(int(message.guild.id))
+            link = await discord_guild.text_channels[0].create_invite()
+            print(link)
            
                 
         
