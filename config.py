@@ -47,5 +47,5 @@ TIER_LINK = {
 #772937584884056135 | Dank City | Premium Lifetime
 
 basic_premium=[]
-premium=[772937584884056135]
+premium=[772937584884056135, 860180439666917416]
 unlimited_premium=[]
