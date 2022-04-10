@@ -183,16 +183,16 @@ class Pokedex(commands.Cog):
         unlimited = self.get_ratelimit_unlimited(message)
         
         if free is None and message.guild.id not in config.basic_premium or config.premium or config.unlimited_premium:
-            await self.identify(message.embeds[0].image.url, message, self.bot, "Free")
+            await identify(self, message.embeds[0].image.url, message, "Free")
         
         elif basic is None and message.guild.id in config.basic_premium:
-            await self.identify(message.embeds[0].image.url, message, self.bot, "Basic")
+            await identify(self, message.embeds[0].image.url, message, "Basic")
             
         elif premium is None and message.guild.id in config.premium:
-            await self.identify(message.embeds[0].image.url, message, self.bot, "Premium")
+            await identify(self, message.embeds[0].image.url, message, "Premium")
             
         elif unlimited is None and message.guild.id in config.unlimited_premium:
-            await self.identify(message.embeds[0].image.url, message, self.bot, "Unlimited")
+            await identify(self, message.embeds[0].image.url, message, "Unlimited")
         
         else:
             print("Cooldown Hit")
