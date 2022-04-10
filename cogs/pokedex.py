@@ -7,6 +7,7 @@ import datetime
 from replit import db
 from cogs import collectors
 from name import solve
+import config
 
 whitelist = [859326781927194674, 772937584884056135]
 
