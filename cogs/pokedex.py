@@ -141,12 +141,6 @@ class Pokedex(commands.Cog):
       
           ctx = await self.bot.get_context(message)
           species = self.bot.data.species_by_name(pokemon)
-          try:
-            await collectors.collectping(self, ctx, species)
-            await collectors.shinyping(self, ctx, species)
-          except Exception as e:
-            print(e)
-            pass
       
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
 
@@ -162,6 +156,12 @@ class Pokedex(commands.Cog):
           embed1.set_thumbnail(url=species.image_url)
 
           await aaa.edit(embed=embed1)
+            
+          try:
+            await collectors.collectping(self, ctx, species)
+            await collectors.shinyping(self, ctx, species)
+          except:
+            pass
 
 
           
