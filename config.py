@@ -43,3 +43,9 @@ TIER_LINK = {
     "steel" : "https://cdn.discordapp.com/attachments/918973688932630589/935029992541278208/my-image_8.png",
     "water" : "https://cdn.discordapp.com/attachments/774499540938129429/876979764773126225/my-image_55.png"
 }
+
+#772937584884056135 | Dank City | Premium Lifetime
+
+basic_premium=[]
+premium=[772937584884056135]
+unlimited_premium=[]
