@@ -139,7 +139,7 @@ class Pokedex(commands.Cog):
         bucket = self._unlimited.get_bucket(message)
         return bucket.update_rate_limit()
     
-  def identify(self, img_url, message, plan):
+  async def identify(self, img_url, message, plan):
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
 
           aaa = await message.channel.send(embed=embed)
@@ -182,16 +182,16 @@ class Pokedex(commands.Cog):
         unlimited = self.get_ratelimit_unlimited(message)
         
         if free is None and message.guild.id not in config.basic_premium or config.premium or config.unlimited_premium:
-            self.identify(message.embeds[0].image.url, message, self.bot, "Free")
+            await self.identify(message.embeds[0].image.url, message, self.bot, "Free")
         
         elif basic is None and message.guild.id in config.basic_premium:
-            self.identify(message.embeds[0].image.url, message, self.bot, "Basic")
+            await self.identify(message.embeds[0].image.url, message, self.bot, "Basic")
             
         elif premium is None and message.guild.id in config.premium:
-            self.identify(message.embeds[0].image.url, message, self.bot, "Premium")
+            await self.identify(message.embeds[0].image.url, message, self.bot, "Premium")
             
         elif unlimited is None and message.guild.id in config.unlimited_premium:
-            self.identify(message.embeds[0].image.url, message, self.bot, "Unlimited")
+            await self.identify(message.embeds[0].image.url, message, self.bot, "Unlimited")
         
         else:
             print("Cooldown Hit")
