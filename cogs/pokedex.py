@@ -113,38 +113,19 @@ from similar import Similar
 import os
 from discord.ext.commands import cooldown, BucketType
 
-class Pokedex(commands.Cog):
-  """Check pokedex."""
-
-  def __init__(self, bot):
-    self.bot = bot
-    self._cd = commands.CooldownMapping.from_cooldown(1, 5.0, commands.BucketType.guild)
-
-  def get_ratelimit(self, message):
-        """Returns the ratelimit left"""
-        bucket = self._cd.get_bucket(message)
-        return bucket.update_rate_limit()
-
-  @commands.Cog.listener()
-  async def on_message(self, message):
-    if message.embeds and message.author.id == 716390085896962058:
-      if "wild" in message.embeds[0].title:
-
+def identify(img_url, message, self.bot, plan)
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
 
           aaa = await message.channel.send(embed=embed)
         
-          #retry_after = self.get_ratelimit(message)
-        #if retry_after is None or message.guild.id == 815598238820335668:
-        
-          pokemon = solve(message.embeds[0].image.url)
+          pokemon = solve(img_url)
       
           ctx = await self.bot.get_context(message)
           species = self.bot.data.species_by_name(pokemon)
       
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
 
-          await aaa.edit(embed=embed1, view=Confirm(message.embeds[0].image.url, pokemon, self.bot))
+          await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, self.bot))
         
           if species is None:
             return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
@@ -154,6 +135,7 @@ class Pokedex(commands.Cog):
               embed1.add_field(name="Description",value= species.description.replace("\n", " "),inline=False)
 
           embed1.set_thumbnail(url=species.image_url)
+          embed.set_footer(text=plan)
 
           await aaa.edit(embed=embed1)
             
@@ -164,13 +146,58 @@ class Pokedex(commands.Cog):
             pass
 
 
-          
-        #else:
-          #retry_after = int(retry_after)
+class Pokedex(commands.Cog):
+  """Check pokedex."""
 
-          #embed1=discord.Embed(title=f"Cooldown has been hit! Cooldown ends in {retry_after} seconds",color=0x2F3136)
+  def __init__(self, bot):
+    self.bot = bot
+    self._free = commands.CooldownMapping.from_cooldown(1, 120.0, commands.BucketType.guild)
+    self._basic = commands.CooldownMapping.from_cooldown(1, 60.0, commands.BucketType.guild)
+    self._premium = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
+    self._unlimited = commands.CooldownMapping.from_cooldown(1, 5.0, commands.BucketType.guild)
 
-          #await aaa.edit(embed=embed1)
+  def get_ratelimit(self, message):
+        bucket = self._free.get_bucket(message)
+        return bucket.update_rate_limit()
+
+  def get_ratelimit_basic(self, message):
+        bucket = self._basic.get_bucket(message)
+        return bucket.update_rate_limit()
+    
+  def get_ratelimit_premium(self, message):
+        bucket = self._premium.get_bucket(message)
+        return bucket.update_rate_limit()
+    
+  def get_ratelimit_unlimited(self, message):
+        bucket = self._unlimited.get_bucket(message)
+        return bucket.update_rate_limit()
+
+  @commands.Cog.listener()
+  async def on_message(self, message):
+    if message.embeds and message.author.id == 716390085896962058:
+      if "wild" in message.embeds[0].title and message.author.id == 716390085896962058:
+        
+        free = self.get_ratelimit(message)
+        basic = self.get_ratelimit_basic(message)
+        premium = self.get_ratelimit_premium(message)
+        unlimited = self.get_ratelimit_unlimited(message)
+        
+        if free is None and message.guild.id not in config.basic_premium or config.premium or config.unlimited_premium:
+            identify(message.embeds[0].image.url, message, self.bot, "Free")
+        
+        elif basic is None and message.guild.id in config.basic_premium:
+            identify(message.embeds[0].image.url, message, self.bot, "Basic")
+            
+        elif premium is None and message.guild.id in config.premium:
+            identify(message.embeds[0].image.url, message, self.bot, "Premium")
+            
+        elif unlimited is None and message.guild.id in config.unlimited_premium:
+            identify(message.embeds[0].image.url, message, self.bot, "Unlimited")
+        
+        else:
+            print("Cooldown Hit")
+           
+                
         
     
 def setup(bot):
