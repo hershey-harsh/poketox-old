@@ -162,7 +162,7 @@ class Pokedex(commands.Cog):
               embed1.add_field(name="Description",value= species.description.replace("\n", " "),inline=False)
 
           embed1.set_thumbnail(url=species.image_url)
-          embed.set_footer(text=plan)
+          embed1.set_footer(text=f'This server is currently on the {plan} Plan')
 
           await aaa.edit(embed=embed1)
             
