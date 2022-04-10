@@ -139,7 +139,7 @@ class Pokedex(commands.Cog):
         bucket = self._unlimited.get_bucket(message)
         return bucket.update_rate_limit()
     
-  def identify(self, img_url, message, plan)
+  def identify(self, img_url, message, plan):
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
 
           aaa = await message.channel.send(embed=embed)
