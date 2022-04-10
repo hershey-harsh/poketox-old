@@ -182,20 +182,21 @@ class Pokedex(commands.Cog):
         premium = self.get_ratelimit_premium(message)
         unlimited = self.get_ratelimit_unlimited(message)
         
-        if free is None:
-            if message.guild.id not in config.basic_premium and config.premium and config.unlimited_premium:
+        if message.guild.id not in config.basic_premium and config.premium and config.unlimited_premium:
+            if free is None:
                 await self.identify(message.embeds[0].image.url, message, "Free")
         
-        elif basic is None:
-            if message.guild.id in config.basic_premium:
+        
+        elif message.guild.id in config.basic_premium:
+            if basic is None:
                 await self.identify(message.embeds[0].image.url, message, "Basic")
             
-        elif premium is None:
-            if message.guild.id in config.premium:
+        elif message.guild.id in config.premium:
+            if premium is None:
                 await self.identify(message.embeds[0].image.url, message, "Premium")
             
-        elif unlimited is None:
-            if message.guild.id in config.unlimited_premium:
+        elif message.guild.id in config.unlimited_premium:
+            if unlimited is None:
                 await self.identify(message.embeds[0].image.url, message, "Unlimited")
         
         else:
