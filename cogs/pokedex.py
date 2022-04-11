@@ -185,25 +185,38 @@ class Pokedex(commands.Cog):
         if message.guild.id not in config.basic_premium and config.premium and config.unlimited_premium:
             if free is None:
                 await self.identify(message.embeds[0].image.url, message, "Free")
-        
+            else:
+                embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{free}` seconds left till Cooldown expires", color=0x2f3136)
+                embed.add_field(name="Tired of cooldowns?", value="You can support the bot by buying one of our many plans at https://poketox.me/pricing", inline=False)
+                embed.set_footer(text="Did you know if your server has over 10k members you get free Premium! DM Future#0811 to claim your free premium")
+                await message.channel.send(embed=embed)
         
         elif message.guild.id in config.basic_premium:
             if basic is None:
                 await self.identify(message.embeds[0].image.url, message, "Basic")
+            else:
+                embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{basic}` seconds left till Cooldown expires", color=0x2f3136)
+                embed.add_field(name="Tired of cooldowns?", value="Your current plan is **Basic**, you can upgrade your plan at https://poketox.me/pricing", inline=False)
+                embed.set_footer(text="Did you know if your server has over 10k members you get free Premium! DM Future#0811 to claim your free premium")
+                await message.channel.send(embed=embed)
             
         elif message.guild.id in config.premium:
             if premium is None:
                 await self.identify(message.embeds[0].image.url, message, "Premium")
+            else:
+                embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{premium}` seconds left till Cooldown expires", color=0x2f3136)
+                embed.add_field(name="Tired of cooldowns?", value="Your current plan is **Premium**, you can upgrade your plan at https://poketox.me/pricing", inline=False)
+                embed.set_footer(text="Did you know if your server has over 10k members you get free Premium! DM Future#0811 to claim your free premium")
+                await message.channel.send(embed=embed)
             
         elif message.guild.id in config.unlimited_premium:
             if unlimited is None:
                 await self.identify(message.embeds[0].image.url, message, "Unlimited")
-        
-        else:
-            print("Cooldown Hit")
-            discord_guild = self.bot.get_guild(int(message.guild.id))
-            link = await discord_guild.text_channels[0].create_invite()
-            print(link)
+            else:
+                embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{unlimited}` seconds left till Cooldown expires", color=0x2f3136)
+                embed.add_field(name="Tired of cooldowns?", value="Your current plan is **Unlimited**, you can upgrade your plan at https://poketox.me/pricing", inline=False)
+                embed.set_footer(text="Did you know if your server has over 10k members you get free Premium! DM Future#0811 to claim your free premium")
+                await message.channel.send(embed=embed)
            
                 
         
