@@ -45,7 +45,8 @@ TIER_LINK = {
 }
 
 #772937584884056135 | Dank City | Premium Lifetime
+#860180439666917416 | Khaleesi & Friends | Basic Lifetime
 
 basic_premium=[]
-premium=[772937584884056135, 860180439666917416]
+premium=[772937584884056135]
 unlimited_premium=[]
