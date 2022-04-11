@@ -183,7 +183,7 @@ class Pokedex(commands.Cog):
         unlimited = self.get_ratelimit_unlimited(message)
         
         total_servers = config.basic_premium + config.premium + config.unlimited_premium
-        
+        print(message.guild.id in total_servers)
         if message.guild.id in total_servers == False:
             if free is None:
                 await self.identify(message.embeds[0].image.url, message, "Free")
