@@ -9,11 +9,30 @@ from cogs import collectors
 from name import solve
 import config
 
+with open("pokemon.txt","r",encoding="utf8") as file:
+    pokemon_list_string = file.read()
+
 whitelist = [859326781927194674, 772937584884056135]
 
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779]
 
 q = ["Xen is made by Future#9409", "Like the bot? Type -invite in the bot's DM", "Want to help? DM Future#9409", "Join the offical server! https://discord.gg/futureworld"]
+
+def hint_solve(message):
+    hint = []
+
+    for i in range(15,len(message) - 1):
+        if message[i] != "\\":
+            hint.append(message[i])
+
+    hint_string = ""
+    for i in hint:
+        hint_string += i
+        
+    hint_replaced = hint_string.replace("_",".")
+    solution = re.findall('^'+hint_replaced+'$',pokemon_list_string, re.MULTILINE)
+    return solution
+
 
 class Confirm(discord.ui.View):
     def __init__(self, url, species, bot):
@@ -171,9 +190,12 @@ class Pokedex(commands.Cog):
             await collectors.shinyping(self, ctx, species)
           except:
             pass
-
+  
   @commands.Cog.listener()
   async def on_message(self, message):
+    if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
+        solution = solve(message.content)
+        
     if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title and message.author.id == 716390085896962058:
         
