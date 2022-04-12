@@ -8,6 +8,7 @@ from replit import db
 from cogs import collectors
 from name import solve
 import config
+import re
 
 with open("pokemon.txt","r",encoding="utf8") as file:
     pokemon_list_string = file.read()
