@@ -283,6 +283,25 @@ class Pokedex(commands.Cog):
                         await collectors.shinyping(self, ctx, species)
                 except:
                         pass
+                
+          else:
+
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'<@&{roleid}>')
+                except:
+                    pass
+            
+                if pokemon in pokes:
+                        await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+                else:
+                        await aaa.edit(embed=embed1, view=Confirmm(img_url, pokemon, pokemon, self.bot))
+            
+                try:
+                        await collectors.collectping(self, ctx, species)
+                        await collectors.shinyping(self, ctx, species)
+                except:
+                        pass
   
   @commands.Cog.listener()
   async def on_message(self, message):
