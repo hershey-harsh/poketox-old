@@ -30,7 +30,7 @@ class raredex(commands.Cog):
       return await ctx.send(f"Please run f`{ctx.prefix}raredex setup <roleid>`")
     
     @commands.has_permissions(manage_messages=True)
-    @raredex.command(slash_command=True)
+    @raredex.command()
     async def setup(self, ctx, roleid):
       if len(roleid) != 18:
         return await ctx.send("Please provide a valid Role ID")
@@ -41,7 +41,7 @@ class raredex(commands.Cog):
       
       await ctx.send(f"The Role {roleid} will be pinged when a Rare Pokemon spawns")
       
-    @raredex.command(slash_command=True)
+    @raredex.command()
     async def enable(self, ctx):
       guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
       if guild["sh_channels"] and ctx.channel.id not in guild["sh_channels"]:
