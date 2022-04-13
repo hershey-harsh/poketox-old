@@ -25,7 +25,7 @@ class Bot(commands.Bot, events.EventsMixin):
         super().__init__(
             **kwargs,
             command_prefix=[config.PREFIX, "A!"], self_bot=False, slash_commands=True, intents=discord.Intents.all(),
-            allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, replied_user=False),
+            allowed_mentions=discord.AllowedMentions(everyone=False, roles=True, replied_user=False),
             case_insensitive=True,
         )
       
