@@ -15,9 +15,12 @@ import random
 async def collectping(self, ctx, species: SpeciesConverter):
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
         if guild.ping_channels and ctx.channel.id not in guild.ping_channels:
-            return await ctx.send(
+            stuff = await ctx.send(
                 f"The server admin has not whitelisted this channel! To add a channel to the whitelist, run `{ctx.prefix}whitelist <channels>`. To check whitelisted channels, run `{ctx.prefix}config`."
             )
+            await asyncio.sleep(3)
+            await stuff.delete()
+            return
 
         users = self.bot.mongo.db.collector.find(
             {str(species.id): True, str(ctx.guild.id): True}
