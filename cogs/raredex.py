@@ -31,6 +31,7 @@ class raredex(commands.Cog):
       embed.add_field(name="Setup | Setup Rare Dex in your server", value=f"```\n{ctx.prefix}raredex setup```")
       embed.add_field(name="Enable | Enables pings for Rare Dex", value=f"```diff\n+ {ctx.prefix}!raredex enable```")
       embed.add_field(name="Disable | Disable pings for Rare Dex", value=f"```diff\n- {ctx.prefix}raredex disable```")
+      await ctx.send(embed=embed)
     
     @commands.has_permissions(manage_messages=True)
     @raredex.command()
