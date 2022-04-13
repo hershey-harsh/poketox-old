@@ -182,7 +182,7 @@ class Pokedex(commands.Cog):
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
 
-          await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, self.bot))
+          await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
         
           if pokemon in rare_pokes:
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
