@@ -63,6 +63,7 @@ class Guild(Document):
 
     ping_channels = fields.ListField(fields.IntegerField, default=list)
     prefix = fields.StringField(default=config.DEFAULT_PREFIX)
+    rareping = fields.StringField()
     sh_channels = fields.ListField(fields.IntegerField, default=list)
 
 class Shtimer(Document):
