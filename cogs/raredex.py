@@ -28,7 +28,7 @@ class raredex(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def raredex(self, ctx):
       embed=discord.Embed(title="Rare Dex", color=0x36393F)
-      embed.add_field(name="Setup | Setup Rare Dex in your server", value=f"```\n{ctx.prefix}raredex setup```", inline=False)
+      embed.add_field(name="Setup | Setup Rare Dex in your server", value=f"```\n{ctx.prefix}raredex setup <roleid>```", inline=False)
       embed.add_field(name="Enable | Enables pings for Rare Dex", value=f"```diff\n+ {ctx.prefix}!raredex enable```", inline=False)
       embed.add_field(name="Disable | Disable pings for Rare Dex", value=f"```diff\n- {ctx.prefix}raredex disable```")
       await ctx.send(embed=embed)
