@@ -10,16 +10,26 @@ import json
 import asyncio
 import datetime
 from name import solve
+import discord
+from discord.ext import commands, menus
+from helpers.converters import FetchUserConverter, SpeciesConverter
+from helpers.pagination import AsyncListPageSource
+from helpers import checks
+import asyncio
+from replit import db
+import discord,random,os
+from discord.ext import commands
+
 
 class raredex(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+   
     @commands.command()
-    @commands.has_permissions(manage_messages=True)
     async def raredex(self, ctx):
       return await ctx.send(f"Please run f`{ctx.prefix}raredex setup <roleid>`")
     
+    @commands.has_permissions(manage_messages=True)
     @raredex.command(slash_command=True)
     async def setup(self, ctx, roleid):
       if len(roleid) != 18:
