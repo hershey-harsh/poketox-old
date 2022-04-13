@@ -25,7 +25,7 @@ class raredex(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
    
-    @commands.group(pass_context=True)
+    @commands.group(invoke_without_command=True)
     async def raredex(self, ctx):
       return await ctx.send(f"Please run f`{ctx.prefix}raredex setup <roleid>`")
     
