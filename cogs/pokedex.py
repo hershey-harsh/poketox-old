@@ -173,7 +173,7 @@ class Pokedex(commands.Cog):
           ctx = await self.bot.get_context(message)
           species = self.bot.data.species_by_name(pokemon)
       
-          embed1=discord.Embed(title=pokemon, description="Need help? Join [Support Server]" ,color=0x2F3136)
+          embed1=discord.Embed(title=pokemon, description="Need help? Join [Support Server](https://discord.gg/mhcjdJkxn6)" ,color=0x2F3136)
 
           await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, self.bot))
         
