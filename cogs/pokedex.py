@@ -10,6 +10,21 @@ from name import solve
 import config
 import re
 
+import json
+import requests
+
+async def get_stats_embed(pokemon):
+
+        with open('data/stats.json') as f:
+          pokes = json.load(f)
+        name = pokes[pokemon.lower()]
+
+        embd=discord.Embed(title=f"{pokemon.capitalize()}'s Stats", description="The more **HP, Defense, Speed Defense, Speed** the better stats.", color=0x2F3136)
+
+        embd.add_field(name="Stats", value=f"```{name}```", inline=False)
+
+        return embd
+
 with open("pokemon.txt","r",encoding="utf8") as file:
     pokemon_list_string = file.read()
     
@@ -39,22 +54,15 @@ def hint_solve(message):
 
 
 class Confirm(discord.ui.View):
-    def __init__(self, url, species, bot):
+    def __init__(self, url, species, name_poke, bot):
         super().__init__()
         self.value = None
         self.url = url
         self.species = species
         self.bot = bot
+        self.name_poke = name_poke
 
-        url = f"https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168"
-
-        self.add_item(discord.ui.Button(label="Bot Invite", url=url))
-
-        url = "https://discord.gg/mhcjdJkxn6"
-
-        self.add_item(discord.ui.Button(label="Support Server", url=str(url)))
-
-    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.gray)
+    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blue)
     async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
 
         species = self.species
@@ -118,17 +126,11 @@ class Confirm(discord.ui.View):
         embed.add_field(name="Types", value="\n".join(species.types))
 
         await interaction.response.send_message(embed=embed,ephemeral=True)
-
-    @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.gray)
-    async def confirm(self, button: discord.ui.Button, interaction: discord.Interaction):
-        await interaction.response.send_message("Thanks for contributing to the bot! We reported the incorrect prediction to the Owner!", ephemeral=True)
-        data = {"content" : f'Reported by: **{interaction.user.name}** *({interaction.user.id})*{self.url}',"username" : "Incorrect Prediction"}
-
-        url = "https://discord.com/api/webhooks/936421747102744666/1UUkTqapNUlsYTZqKkR_s_EL4IwniPL4w9VKlL_QfMh8FV9zwpm0bkUkVsXA3est57T1"
-
-        requests.post(url, json = data)
-        self.value = True
-        self.stop()
+        
+    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blue)
+    async def stats(self, button: discord.ui.Button, interaction: discord.Interaction):
+        reply = await get_stats_embed(self.name_poke)
+        await interaction.response.send_message(embed=reply,ephemeral=True)
 
 import requests
 import json
@@ -175,7 +177,7 @@ class Pokedex(commands.Cog):
         
           if species is None:
             return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
-          embed1=discord.Embed(title=pokemon, description="Need help? Join [Support Server](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
+          embed1=discord.Embed(title=pokemon, description="Need help? Join our [Support Server](https://discord.gg/mhcjdJkxn6) \nWant my invite link? Invite the bot [here](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
@@ -249,8 +251,6 @@ class Pokedex(commands.Cog):
                 await self.identify(message.embeds[0].image.url, message, "Unlimited")
             else:
                 embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(unlimited)}` seconds left till Cooldown expires", color=0x2f3136)
-                embed.add_field(name="Tired of cooldowns?", value="Your current plan is **Unlimited**, you can upgrade your plan at https://poketox.me/pricing", inline=False)
-                embed.set_footer(text="Did you know if your server has over 10k members you get free Premium! DM Future#0811 to claim your free premium")
                 await message.channel.send(embed=embed)
            
                 
