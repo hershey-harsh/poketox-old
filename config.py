@@ -45,7 +45,7 @@ TIER_LINK = {
 }
 
 #772937584884056135 | Dank City | Premium Lifetime
-#848582111577505802 | Pichus Playground | Unlimited 30 Days
+#848582111577505802 | Pichus Playground | Unlimited 30 Days | May 13th
 
 basic_premium=[]
 premium=[772937584884056135]
