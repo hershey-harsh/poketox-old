@@ -181,9 +181,6 @@ class Pokedex(commands.Cog):
             return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
 
-          if species.description:
-              embed1.add_field(name="Description",value= species.description.replace("\n", " "),inline=False)
-
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
 
