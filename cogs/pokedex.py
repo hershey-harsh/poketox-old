@@ -12,6 +12,9 @@ import re
 
 with open("pokemon.txt","r",encoding="utf8") as file:
     pokemon_list_string = file.read()
+    
+with open("rare.txt","r",encoding="utf8") as file:
+    rare_pokes = file.read()
 
 whitelist = [859326781927194674, 772937584884056135]
 
@@ -161,8 +164,9 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def identify(self, img_url, message, plan):
+          print(rare_pokes)
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
-
+          
           aaa = await message.channel.send(embed=embed)
         
           pokemon = solve(img_url)
@@ -185,6 +189,16 @@ class Pokedex(commands.Cog):
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
 
           await aaa.edit(embed=embed1)
+        
+          if pokemon in rare_pokes:
+                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'<@&{roleid}>')
+                except:
+                    pass
+            
             
           try:
             await collectors.collectping(self, ctx, species)
