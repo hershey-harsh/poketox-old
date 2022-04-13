@@ -30,7 +30,7 @@ class raredex(commands.Cog):
       return await ctx.send(f"Please run f`{ctx.prefix}raredex setup <roleid>`")
     
     @commands.has_permissions(manage_messages=True)
-    @raredex.command(invoke_without_command=True, case_insensitive=True, slash_command=True)
+    @raredex.command(invoke_without_command=False, case_insensitive=True, slash_command=True)
     async def setup(self, ctx, roleid):
       if len(roleid) != 18:
         return await ctx.send("Please provide a valid Role ID")
@@ -44,12 +44,32 @@ class raredex(commands.Cog):
     @raredex.command()
     async def enable(self, ctx):
       guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-      if guild["sh_channels"] and ctx.channel.id not in guild["sh_channels"]:
+      try:
+            roleid = guild["rareping"]
+      except:
+            roleid = None
+            
+      if roleid == None:
         return await ctx.send(f"Ask an admin to run `{ctx.prefix}raredex setup <roleid>` since there is no Rare Ping role setup")
+      
       roleid = guild["rareping"]
       role = ctx.guild.get_role(int(roleid))
       await ctx.author.add_roles(role)
+    
+    @raredex.command()
+    async def disable(self, ctx):
+      guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+      try:
+            roleid = guild["rareping"]
+      except:
+            roleid = None
+            
+      if roleid == None:
+        return await ctx.send(f"Ask an admin to run `{ctx.prefix}raredex setup <roleid>` since there is no Rare Ping role setup")
       
+      roleid = guild["rareping"]
+      role = ctx.guild.get_role(int(roleid))
+      await ctx.author.remove_roles(role)  
 
 def setup(bot):
     print("Loaded Rare Dex")
