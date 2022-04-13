@@ -27,7 +27,10 @@ class raredex(commands.Cog):
    
     @commands.group(invoke_without_command=True)
     async def raredex(self, ctx):
-      return await ctx.send(f"Please run f`{ctx.prefix}raredex setup <roleid>`")
+      embed=discord.Embed(title="Rare Dex", description="```diff", color=0x36393F)
+      embed.add_field(name="Setup | Setup Rare Dex in your server", value=f"```\n{ctx.prefix}raredex setup```")
+      embed.add_field(name="Enable | Enables pings for Rare Dex", value=f"```diff\n+ {ctx.prefix}!raredex enable```")
+      embed.add_field(name="Disable | Disable pings for Rare Dex", value=f"```diff\n- {ctx.prefix}raredex disable```")
     
     @commands.has_permissions(manage_messages=True)
     @raredex.command()
@@ -67,15 +70,19 @@ class raredex(commands.Cog):
       except:
             roleid = None
 
-            
+         
       if roleid == None:
         return await ctx.send(f"Ask an admin to run `{ctx.prefix}raredex setup <roleid>` since there is no Rare Ping role setup")
       
       roleid = guild["rareping"]
       role = ctx.guild.get_role(int(roleid))
-      await ctx.author.remove_roles(role)  
-      embed=discord.Embed(title="Rare Dex", description="You **will not** get pinged whenever a Rare Pokemon spawns", color=0x36393F)
-      await ctx.send(embed=embed)
+      try:
+        await ctx.author.remove_roles(role)  
+        embed=discord.Embed(title="Rare Dex", description="You **will not** get pinged whenever a Rare Pokemon spawns", color=0x36393F)
+        await ctx.send(embed=embed)
+      except:
+        embed=discord.Embed(title="Rare Dex", description=f"You already have <@&{roleid}>", color=0x36393F)
+        await ctx.send(embed=embed)
 
 def setup(bot):
     print("Loaded Rare Dex")
