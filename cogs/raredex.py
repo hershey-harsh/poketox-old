@@ -30,7 +30,7 @@ class raredex(commands.Cog):
       return await ctx.send(f"Please run f`{ctx.prefix}raredex setup <roleid>`")
     
     @commands.has_permissions(manage_messages=True)
-    @raredex.command(invoke_without_command=True)
+    @raredex.command(invoke_without_command=True, pass_context=True)
     async def setup(self, ctx, roleid):
       if len(roleid) != 18:
         return await ctx.send("Please provide a valid Role ID")
