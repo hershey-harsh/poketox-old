@@ -52,6 +52,84 @@ def hint_solve(message):
     solution = re.findall('^'+hint_replaced+'$',pokemon_list_string, re.MULTILINE)
     return solution
 
+class Confirmm(discord.ui.View):
+    def __init__(self, url, species, name_poke, bot):
+        super().__init__()
+        self.value = None
+        self.url = url
+        self.species = species
+        self.bot = bot
+        self.name_poke = name_poke
+
+    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple)
+    async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
+
+        species = self.species
+      
+        if species.isdigit():
+            species = self.bot.data.species_by_number(int(species))
+        else:
+            if species.lower().startswith("shiny "):
+                shiny = True
+                species = species[6:]
+
+            species = self.bot.data.species_by_name(species)
+
+        embed = discord.Embed(color=0x2F3136)
+        embed.title = f"#{species.dex_number} — {species}"
+
+        if species.description:
+            embed.description = species.description.replace("\n", " ")
+
+        # Pokemon Rarity
+        rarity = []
+        if species.mythical:
+            rarity.append("Mythical")
+        if species.legendary:
+            rarity.append("Legendary")
+        if species.ultra_beast:
+            rarity.append("Ultra Beast")
+        if species.event:
+            rarity.append("Event")
+
+        if rarity:
+            rarity = ", ".join(rarity)
+            embed.add_field(
+                name="Rarity",
+                value=rarity,
+                inline=False,
+            )
+
+        if species.evolution_text:
+            embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
+
+        if 1 == 2:
+            print("idk")
+        else:
+            embed.set_thumbnail(url=species.image_url)
+
+        base_stats = (
+            f"**HP:** {species.base_stats.hp}",
+            f"**Attack:** {species.base_stats.atk}",
+            f"**Defense:** {species.base_stats.defn}",
+            f"**Sp. Atk:** {species.base_stats.satk}",
+            f"**Sp. Def:** {species.base_stats.sdef}",
+            f"**Speed:** {species.base_stats.spd}",
+        )
+
+        embed.add_field(
+            name="Names",
+            value="\n".join(f"{x} {y}" for x, y in species.names),
+        )
+        embed.add_field(name="Base Stats", value="\n".join(base_stats))
+        embed.add_field(name="Types", value="\n".join(species.types))
+
+        await interaction.response.send_message(embed=embed,ephemeral=True)
+        
+    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blurple, disabled=True)
+    async def stats(self, button: discord.ui.Button, interaction: discord.Interaction):
+        reply = await get_stats_embed(self.name_poke)
+        await interaction.response.send_message(embed=reply,ephemeral=True)
 
 class Confirm(discord.ui.View):
     def __init__(self, url, species, name_poke, bot):
@@ -127,7 +205,7 @@ class Confirm(discord.ui.View):
 
         await interaction.response.send_message(embed=embed,ephemeral=True)
         
-    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blurple)
+    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blurple, disabled=True)
     async def stats(self, button: discord.ui.Button, interaction: discord.Interaction):
         reply = await get_stats_embed(self.name_poke)
         await interaction.response.send_message(embed=reply,ephemeral=True)
@@ -181,8 +259,10 @@ class Pokedex(commands.Cog):
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
-
-          await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+        
+          with open('data/stats.json') as f:
+                pokes = json.load(f)
+                
         
           if pokemon in rare_pokes:
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
@@ -193,12 +273,16 @@ class Pokedex(commands.Cog):
                 except:
                     pass
             
+                if pokemon in pokes:
+                        await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+                else:
+                        await aaa.edit(embed=embed1, view=Confirmm(img_url, pokemon, pokemon, self.bot))
             
-          try:
-            await collectors.collectping(self, ctx, species)
-            await collectors.shinyping(self, ctx, species)
-          except:
-            pass
+                try:
+                        await collectors.collectping(self, ctx, species)
+                        await collectors.shinyping(self, ctx, species)
+                except:
+                        pass
   
   @commands.Cog.listener()
   async def on_message(self, message):
