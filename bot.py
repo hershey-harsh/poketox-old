@@ -16,6 +16,7 @@ COGS = [
     "weakness",
     "dex",
     "bot",
+    "raredex",
 ]
 
 
