@@ -62,7 +62,7 @@ class Confirm(discord.ui.View):
         self.bot = bot
         self.name_poke = name_poke
 
-    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blue)
+    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple)
     async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
 
         species = self.species
@@ -127,7 +127,7 @@ class Confirm(discord.ui.View):
 
         await interaction.response.send_message(embed=embed,ephemeral=True)
         
-    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blue)
+    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blurple)
     async def stats(self, button: discord.ui.Button, interaction: discord.Interaction):
         reply = await get_stats_embed(self.name_poke)
         await interaction.response.send_message(embed=reply,ephemeral=True)
