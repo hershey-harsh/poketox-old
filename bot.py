@@ -17,6 +17,7 @@ COGS = [
     "dex",
     "bot",
     "raredex",
+    "help"
 ]
 
 
