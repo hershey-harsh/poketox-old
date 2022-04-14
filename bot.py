@@ -17,6 +17,7 @@ COGS = [
     "dex",
     "bot",
     "raredex",
+    "help"
 ]
 
 
@@ -44,5 +45,5 @@ class Bot(commands.Bot, events.EventsMixin):
 
 if __name__ == "__main__":
     bot = Bot()
-    bot.remove_command('help')
+    bot.remove_command("help")
     bot.run(config.BOT_TOKEN)
