@@ -7,9 +7,9 @@ class Dropdown(discord.ui.Select):
 
         # Set the options that will be presented inside the dropdown
         options = [
-            discord.SelectOption(label='Something', description='Your favourite colour is red', emoji='🟥'),
-            discord.SelectOption(label='Collectors', description='Your favourite colour is green', emoji='<:pokeball:936773252913700894>'),
-            discord.SelectOption(label='Shiny Hunt', description='Your favourite colour is blue', emoji='✨'),
+            discord.SelectOption(label='Miscellaneous', description='View Pokétwo Miscellaneous commands', emoji='<:poketwo:964311966384554025>'),
+            discord.SelectOption(label='Collectors', description='View collectors commands', emoji='<:pokeball:936773252913700894>'),
+            discord.SelectOption(label='Shiny Hunt', description='View Shiny Hunt commands', emoji='✨'),
         ]
 
         # The placeholder is what will be shown when no option is chosen
