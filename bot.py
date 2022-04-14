@@ -32,6 +32,7 @@ class Bot(commands.Bot, events.EventsMixin):
       
         self.config = config
         os.system("clear")
+        self.remove_command("help")
         for i in COGS:
             self.load_extension(f"cogs.{i}")
         
@@ -45,5 +46,4 @@ class Bot(commands.Bot, events.EventsMixin):
 
 if __name__ == "__main__":
     bot = Bot()
-    bot.remove_command("help")
     bot.run(config.BOT_TOKEN)
