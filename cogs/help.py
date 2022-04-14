@@ -36,7 +36,7 @@ class Help(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.group(invoke_without_command=True)
+  @commands.group(invoke_without_command=True, ignore_extra=False)
   async def help(self, ctx):
     await ctx.send("Hey", view=DropdownView())
     
