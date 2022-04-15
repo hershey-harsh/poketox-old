@@ -73,7 +73,7 @@ class Help(commands.Cog):
   
   @help.command()
   async def raredex(self, ctx):
-    embed=discord.Embed(title="Rare Dex", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x36393F)
+    embed=discord.Embed(title="Rare Dex", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
     embed.add_field(name="Stats | Shows stats needed for an duelish pokémon", value=f"```\n{ctx.prefix}stats <pokémon>```", inline=False)
     await ctx.send(embed=embed)
     
