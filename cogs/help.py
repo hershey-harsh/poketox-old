@@ -43,7 +43,7 @@ class Dropdown(discord.ui.Select):
             
         if self.values[0] == "Collectors":
             embed=discord.Embed(title="Collecting", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x2F3136)
-            embed.add_field(name="Collect", value=f"`{self.ctx.prefix}collectlist <pokémon>`", inline=True)
+            embed.add_field(name="Collect", value=f"`{self.ctx.prefix}collectlist add <pokémon>`", inline=True)
             embed.add_field(name="Clear", value=f"`{self.ctx.prefix}collectlist clear`", inline=True)
             embed.add_field(name="Remove", value=f"`{self.ctx.prefix}collectlist remove <pokémon>`", inline=True)
             embed.add_field(name="View", value=f"`{self.ctx.prefix}collectlist view [user]`", inline=True)
@@ -62,7 +62,7 @@ class Help(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.group(invoke_without_command=True, ignore_extra=False)
+  @commands.group(invoke_without_command=True, ignore_extra=False, brief="Shows the help page")
   async def help(self, ctx):
     embed=discord.Embed(title="Pokétox", description="Use the menu below to see how to use commands! Checkout Pokétox [Terms of Service](http://poketox.me/tos)", color=0x2F3136)
     embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png")
@@ -71,10 +71,61 @@ class Help(commands.Cog):
     embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/mhcjdJkxn6)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
     await ctx.send(embed=embed, view=DropdownView(ctx))
   
-  @help.command()
-  async def raredex(self, ctx):
-    embed=discord.Embed(title="Rare Dex", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
-    embed.add_field(name="Stats | Shows stats needed for an duelish pokémon", value=f"```\n{ctx.prefix}stats <pokémon>```", inline=False)
+  @help.command(brief="Shows the help page")
+  async def stats(self, ctx):
+    embed=discord.Embed(title="Stats", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Usage & Description", value=f"Shows Statistics needed for an duelish pokémon | 3 seconds cooldown\n```\n{ctx.prefix}stats <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def weakness(self, ctx):
+    embed=discord.Embed(title="Weakness", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Usage & Description", value=f"Shows weakness for a pokémon | 3 seconds cooldown\n```\n{ctx.prefix}weakness <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def nature(self, ctx):
+    embed=discord.Embed(title="Nature", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Usage & Description", value=f"Shows nature for a pokémon | 3 seconds cooldown\n```\n{ctx.prefix}nature <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def moveset(self, ctx):
+    embed=discord.Embed(title="Moveset", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Usage & Description", value=f"Shows moves for a pokémon | 3 seconds cooldown\n```\n{ctx.prefix}moveset <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def identify(self, ctx):
+    embed=discord.Embed(title="Identify", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Usage & Description", value=f"Shows the pokémon name using an image | 30 seconds cooldown\n```\n{ctx.prefix}identify <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def dex(self, ctx):
+    embed=discord.Embed(title="Moveset", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Usage & Description", value=f"Shows pokédex information | 3 seconds cooldown\n```\n{ctx.prefix}dex <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def collectlist(self, ctx):
+    embed=discord.Embed(title="Collectlist", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Alias", value=f"{ctx.prefix}cl", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Adds a pokémon to your collecting list | 3 seconds cooldown\n```\n{ctx.prefix}collectlist add <pokémon>```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Clear your collecting list | 3 seconds cooldown\n```\n{ctx.prefix}collectlist clear```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Removes a pokémon from your collecting list | 3 seconds cooldown\n```\n{ctx.prefix}collectlist remove <pokémon>```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Allows members to view their collecting list | 3 seconds cooldown\n```\n{ctx.prefix}collectlist view [member]```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Lists the collectors of pokémon | 3 seconds cooldown\n```\n{ctx.prefix}collectlist globalsearch <pokémon>```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Lists the collectors of pokémon in the server | 3 seconds cooldown\n```\n{ctx.prefix}collectlist search <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
+    
+  @help.command(brief="Shows the help page")
+  async def shinyhunt(self, ctx):
+    embed=discord.Embed(title="Collectlist", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Alias", value=f"{ctx.prefix}sh", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Add pokémon to shiny hunt | 3 seconds cooldown\n```\n{ctx.prefix}shinyhunt <pokémon>```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Clear your shiny hunt | 3 seconds cooldown\n```\n{ctx.prefix}shinyhunt clear```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Removes a pokémon from your collecting list | 3 seconds cooldown\n```\n{ctx.prefix}shinyhunt view [user]```", inline=False)
     await ctx.send(embed=embed)
     
 def setup(bot):
