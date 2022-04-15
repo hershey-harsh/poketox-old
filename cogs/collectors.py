@@ -52,7 +52,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             await mess.delete()
             return
 
-        users = self.bot.mongo.db.collector.find(
+        users = self.bot.mongo.db.shinyhunt.find(
             {str(ctx.guild.id): True, 'shinyhunt': species.id}
         )
 
