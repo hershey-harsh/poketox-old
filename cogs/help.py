@@ -31,7 +31,7 @@ class Dropdown(discord.ui.Select):
             embed.add_field(name="Moveset", value=f"`{self.ctx.prefix}moveset <pokémon>`", inline=True)
             embed.add_field(name="Identify", value=f"`{self.ctx.prefix}identify <pokémon_url>`", inline=True)
             embed.add_field(name="Dex", value=f"`{self.ctx.prefix}dex <pokémon>`", inline=True)
-            await interaction.response.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed, ephemeral=True)
             
         if self.values[0] == "Shiny Hunt":
             embed=discord.Embed(title="Shiny Hunt", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x2F3136)
@@ -39,7 +39,7 @@ class Dropdown(discord.ui.Select):
             embed.add_field(name="Clear", value=f"`{self.ctx.prefix}shinyhunt clear`", inline=True)
             embed.add_field(name="View", value=f"`{self.ctx.prefix}shinyhunt view [user]`", inline=True)
             embed.set_footer(text=f"Must run {self.ctx.prefix}pings enable [serverid] to get pinged")
-            await interaction.response.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed, ephemeral=True)
             
         if self.values[0] == "Collectors":
             embed=discord.Embed(title="Collecting", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x2F3136)
@@ -48,7 +48,7 @@ class Dropdown(discord.ui.Select):
             embed.add_field(name="Remove", value=f"`{self.ctx.prefix}collectlist remove <pokémon>`", inline=True)
             embed.add_field(name="View", value=f"`{self.ctx.prefix}collectlist view [user]`", inline=True)
             embed.set_footer(text=f"Must run {self.ctx.prefix}pings enable [serverid] to get pinged")
-            await interaction.response.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed, ephemeral=True)
 
 class DropdownView(discord.ui.View):
     def __init__(self, ctx):
@@ -70,6 +70,12 @@ class Help(commands.Cog):
     embed.add_field(name="<:developer:964340773367726101> Developer", value="[Future#0811](https://discord.com/users/790788488983085056)", inline=True)
     embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/mhcjdJkxn6)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
     await ctx.send(embed=embed, view=DropdownView(ctx))
+  
+  @help.command()
+  async def help(self, ctx):
+    embed=discord.Embed(title="Rare Dex", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x36393F)
+    embed.add_field(name="Stats | Shows stats needed for an duelish pokémon", value=f"```\n{ctx.prefix}stats <pokémon>```", inline=False)
+    await ctx.send(embed=embed)
     
 def setup(bot):
     print("Loaded Help")
