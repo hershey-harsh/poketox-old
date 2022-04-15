@@ -13,33 +13,7 @@ class Shinyhunt(commands.Cog):
         self.bot = bot
       
     @commands.group(aliases=("sh",),invoke_without_command=True)
-    async def shinyhunt(self, ctx):
-        """Check the pokémon you are shiny hunting"""
-
-        user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
-
-        if user == None or user.get('shinyhunt', None) == None:
-            await ctx.send(f"You are not shiny hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.")
-        else:
-            await ctx.send(
-                f"You are shiny hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}"
-            )
-
-    @shinyhunt.command()
-    async def view(self, ctx):
-        """Check the pokémon you are shiny hunting"""
-
-        user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
-
-        if user == None or user.get('shinyhunt', None) == None:
-            await ctx.send(f"You are not shiny hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.")
-        else:
-            await ctx.send(
-                f"You are shiny hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}"
-            )
-
-    @shinyhunt.command()
-    async def add(self, ctx, species: SpeciesConverter):
+    async def shinyhunt(self, ctx, species: SpeciesConverter):
         """Add pokémon to shiny hunt"""
 
         user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
@@ -67,7 +41,18 @@ class Shinyhunt(commands.Cog):
                 upsert=True,
             )
 
+    @shinyhunt.command()
+    async def view(self, ctx):
+        """Check the pokémon you are shiny hunting"""
 
+        user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
+
+        if user == None or user.get('shinyhunt', None) == None:
+            await ctx.send(f"You are not shiny hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.")
+        else:
+            await ctx.send(
+                f"You are shiny hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}"
+            )
     
     @shinyhunt.command()
     async def clear(self, ctx):
