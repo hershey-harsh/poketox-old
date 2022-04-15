@@ -22,7 +22,15 @@ class Dropdown(discord.ui.Select):
         # the user's favourite colour or choice. The self object refers to the
         # Select object, and the values attribute gets a list of the user's
         # selected options. We only want the first one.
-        await interaction.response.send_message(f'Your favourite colour is {self.values[0]}')
+        if self.values[0] == "Miscellaneous":
+            embed=discord.Embed(title="Miscellaneous", description=f"You can do `{ctx.prefix}help <command>` to get more information about the command")
+            embed.add_field(name="Stats", value=f"`{ctx.prefix}stats <pokémon>`", inline=True)
+            embed.add_field(name="Weakness", value=f"`{ctx.prefix}weakness <pokémon>`", inline=True)
+            embed.add_field(name="Nature", value=f"`{ctx.prefix}nature <pokémon>`", inline=True)
+            embed.add_field(name="Moveset", value=f"`{ctx.prefix}moveset <pokémon>`", inline=True)
+            embed.add_field(name="Identify", value=f"`{ctx.prefix}identify <pokémon_url>`", inline=True)
+            embed.add_field(name="Dex", value=f"`{ctx.prefix}dex <pokémon>`", inline=True)
+            await interaction.response.send_message(embed=embed)
 
 
 class DropdownView(discord.ui.View):
