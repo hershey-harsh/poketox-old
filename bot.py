@@ -1,7 +1,7 @@
 import os
 import discord
 from discord.ext import commands, events
-from discord.ext.events import member_kick
+from discord.ext.events import memTber_kick
 import datetime
 import config
 
@@ -26,7 +26,7 @@ class Bot(commands.Bot, events.EventsMixin):
     def __init__(self, **kwargs):
         super().__init__(
             **kwargs,
-            command_prefix=[config.PREFIX, "A!"], self_bot=False, slash_commands=True, intents=discord.Intents.all(),
+            command_prefix=[config.PREFIX, "A!"], self_bot=False, owner_id = 790788488983085056, slash_commands=True, intents=discord.Intents.all(),
             allowed_mentions=discord.AllowedMentions(everyone=False, roles=True, replied_user=False),
             case_insensitive=True,
         )
