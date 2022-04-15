@@ -32,6 +32,13 @@ class Dropdown(discord.ui.Select):
             embed.add_field(name="Identify", value=f"`{self.ctx.prefix}identify <pokémon_url>`", inline=True)
             embed.add_field(name="Dex", value=f"`{self.ctx.prefix}dex <pokémon>`", inline=True)
             await interaction.response.send_message(embed=embed)
+            
+        if self.values[0] == "Shiny Hunt":
+            embed=discord.Embed(title="Shiny Hunt", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {ctx.prefix}help [command | category]```")
+            embed.add_field(name="Shinyhunt", value=f"`{ctx.prefix}shinyhunt <pokémon>`", inline=True)
+            embed.add_field(name="Clear", value=f"`{ctx.prefix}shinyhunt clear`", inline=True)
+            embed.add_field(name="View", value=f"`{ctx.prefix}shinyhunt view [user]`", inline=True)
+            await interaction.response.send_message(embed=embed)
 
 
 class DropdownView(discord.ui.View):
