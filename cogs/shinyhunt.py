@@ -11,20 +11,12 @@ class Shinyhunt(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        
-    @commands.Cog.listener()
-    async def on_message(self, message):
-      if message.author.id in allowed and message.content in names and message.channel.id != 921172317143466004:
-        species = message.content
-        
-        namething = await message.channel.send("-sp " + species)
-        await namething.delete()
       
     @commands.group(aliases=("sh",),invoke_without_command=True)
     async def shinyhunt(self, ctx):
         """Check the pokémon you are shiny hunting"""
 
-        user = await self.bot.mongo.db.collector.find_one({"_id": ctx.author.id})
+        user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
 
         if user == None or user.get('shinyhunt', None) == None:
             await ctx.send(f"You are not shiny hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.")
@@ -37,7 +29,7 @@ class Shinyhunt(commands.Cog):
     async def view(self, ctx):
         """Check the pokémon you are shiny hunting"""
 
-        user = await self.bot.mongo.db.collector.find_one({"_id": ctx.author.id})
+        user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
 
         if user == None or user.get('shinyhunt', None) == None:
             await ctx.send(f"You are not shiny hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.")
@@ -50,10 +42,10 @@ class Shinyhunt(commands.Cog):
     async def add(self, ctx, species: SpeciesConverter):
         """Add pokémon to shiny hunt"""
 
-        user = await self.bot.mongo.db.collector.find_one({"_id": ctx.author.id})
+        user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
 
         if user == None:
-            await self.bot.mongo.db.collector.update_one(
+            await self.bot.mongo.db.shinyhunt.update_one(
                 {"_id": ctx.author.id},
                 {"$set": {'shinyhunt': species.id}},
                 upsert=True,
@@ -69,7 +61,7 @@ class Shinyhunt(commands.Cog):
                 await ctx.send(
                     f"Updated your shiny hunt to {species} from {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}. Run `{ctx.prefix}clearhunt` to clear your shiny hunt!"
                 )
-            await self.bot.mongo.db.collector.update_one(
+            await self.bot.mongo.db.shinyhunt.update_one(
                 {"_id": ctx.author.id},
                 {"$set": {'shinyhunt': species.id}},
                 upsert=True,
@@ -81,7 +73,7 @@ class Shinyhunt(commands.Cog):
     async def clear(self, ctx):
         """Clear your shiny hunt"""
 
-        await self.bot.mongo.db.collector.update_one(
+        await self.bot.mongo.db.shinyhunt.update_one(
             {"_id": ctx.author.id},
             {"$set": {'shinyhunt': None}},
             upsert=True
