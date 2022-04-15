@@ -3,7 +3,8 @@ from discord.ext import commands, menus
 import typing
 
 class Dropdown(discord.ui.Select):
-    def __init__(self):
+    def __init__(self, ctx):
+        self.ctx = ctx
 
         # Set the options that will be presented inside the dropdown
         options = [
@@ -23,22 +24,23 @@ class Dropdown(discord.ui.Select):
         # Select object, and the values attribute gets a list of the user's
         # selected options. We only want the first one.
         if self.values[0] == "Miscellaneous":
-            embed=discord.Embed(title="Miscellaneous", description=f"You can do `{ctx.prefix}help <command>` to get more information about the command")
-            embed.add_field(name="Stats", value=f"`{ctx.prefix}stats <pokémon>`", inline=True)
-            embed.add_field(name="Weakness", value=f"`{ctx.prefix}weakness <pokémon>`", inline=True)
-            embed.add_field(name="Nature", value=f"`{ctx.prefix}nature <pokémon>`", inline=True)
-            embed.add_field(name="Moveset", value=f"`{ctx.prefix}moveset <pokémon>`", inline=True)
-            embed.add_field(name="Identify", value=f"`{ctx.prefix}identify <pokémon_url>`", inline=True)
-            embed.add_field(name="Dex", value=f"`{ctx.prefix}dex <pokémon>`", inline=True)
+            embed=discord.Embed(title="Miscellaneous", description=f"You can do `{self.ctx.prefix}help <command>` to get more information about the command", color=0x2F3136)
+            embed.add_field(name="Stats", value=f"`{self.ctx.prefix}stats <pokémon>`", inline=True)
+            embed.add_field(name="Weakness", value=f"`{self.ctx.prefix}weakness <pokémon>`", inline=True)
+            embed.add_field(name="Nature", value=f"`{self.ctx.prefix}nature <pokémon>`", inline=True)
+            embed.add_field(name="Moveset", value=f"`{self.ctx.prefix}moveset <pokémon>`", inline=True)
+            embed.add_field(name="Identify", value=f"`{self.ctx.prefix}identify <pokémon_url>`", inline=True)
+            embed.add_field(name="Dex", value=f"`{self.ctx.prefix}dex <pokémon>`", inline=True)
             await interaction.response.send_message(embed=embed)
 
 
 class DropdownView(discord.ui.View):
-    def __init__(self):
+    def __init__(self, ctx):
         super().__init__()
+        self.ctx = ctx
 
         # Adds the dropdown to our view object.
-        self.add_item(Dropdown())
+        self.add_item(Dropdown(self.ctx))
         
 class Help(commands.Cog):
   def __init__(self, bot):
@@ -46,7 +48,7 @@ class Help(commands.Cog):
 
   @commands.group(invoke_without_command=True, ignore_extra=False)
   async def help(self, ctx):
-    await ctx.send("Hey", view=DropdownView())
+    await ctx.send("Hey", view=DropdownView(ctx))
     
 def setup(bot):
     print("Loaded Help")
