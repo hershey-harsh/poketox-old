@@ -10,7 +10,7 @@ def is_admin():
 def is_banker():
     async def predicate(ctx):
         try:
-            is_banker = ctx.guild.get_role(819688054276751381) in ctx.author.roles
+            is_banker = ctx.guild.get_role(929227238166114306) in ctx.author.roles
         except AttributeError:
             return False
 
