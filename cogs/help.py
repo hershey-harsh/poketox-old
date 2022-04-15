@@ -24,7 +24,7 @@ class Dropdown(discord.ui.Select):
         # Select object, and the values attribute gets a list of the user's
         # selected options. We only want the first one.
         if self.values[0] == "Miscellaneous":
-            embed=discord.Embed(title="Miscellaneous", description=f"You can do `{self.ctx.prefix}help <command>` to get more information about the command", color=0x2F3136)
+            embed=discord.Embed(title="Miscellaneous", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x2F3136)
             embed.add_field(name="Stats", value=f"`{self.ctx.prefix}stats <pokémon>`", inline=True)
             embed.add_field(name="Weakness", value=f"`{self.ctx.prefix}weakness <pokémon>`", inline=True)
             embed.add_field(name="Nature", value=f"`{self.ctx.prefix}nature <pokémon>`", inline=True)
@@ -34,12 +34,21 @@ class Dropdown(discord.ui.Select):
             await interaction.response.send_message(embed=embed)
             
         if self.values[0] == "Shiny Hunt":
-            embed=discord.Embed(title="Shiny Hunt", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```")
+            embed=discord.Embed(title="Shiny Hunt", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x2F3136)
             embed.add_field(name="Shinyhunt", value=f"`{self.ctx.prefix}shinyhunt <pokémon>`", inline=True)
             embed.add_field(name="Clear", value=f"`{self.ctx.prefix}shinyhunt clear`", inline=True)
             embed.add_field(name="View", value=f"`{self.ctx.prefix}shinyhunt view [user]`", inline=True)
+            embed.set_footer(text=f"Must run {self.ctx.prefix}pings enable [serverid] to get pinged")
             await interaction.response.send_message(embed=embed)
-
+            
+        if self.values[0] == "Collectors":
+            embed=discord.Embed(title="Collecting", description=f"```diff\n- [] = optional argument\n- <> required argument\n+ Type {self.ctx.prefix}help [command | category]```", color=0x2F3136)
+            embed.add_field(name="Collect", value=f"`{self.ctx.prefix}collectlist <pokémon | region>`", inline=True)
+            embed.add_field(name="Clear", value=f"`{self.ctx.prefix}collectlist clear`", inline=True)
+            embed.add_field(name="Remove", value=f"`{self.ctx.prefix}collectlist remove <pokémon | region>`", inline=True)
+            embed.add_field(name="View", value=f"`{self.ctx.prefix}collectlist view [user]`", inline=True)
+            embed.set_footer(text=f"Must run {self.ctx.prefix}pings enable [serverid] to get pinged")
+            await interaction.response.send_message(embed=embed)
 
 class DropdownView(discord.ui.View):
     def __init__(self, ctx):
