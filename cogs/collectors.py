@@ -76,7 +76,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
                 await asyncio.sleep(int(server_timer))
                 embed=discord.Embed(description="Post-Tag timer has expired for {pokemon}. You may catch it now", color=0x2F3136)
                 await ctx.send(embed=embed)
-            else:
+            except:
                 pass
             
         else:
