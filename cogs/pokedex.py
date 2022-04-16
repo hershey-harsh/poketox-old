@@ -246,6 +246,17 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def identify(self, img_url, message, plan):
+          guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+          try:
+                name_mode = guild["name"]  
+          except:
+                name_mode = "on"
+        
+          if name_mode == "off":
+                        await collectors.collectping(self, ctx, species)
+                        await collectors.shinyping(self, ctx, species)
+                        return
+                
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
           
           aaa = await message.channel.send(embed=embed)
@@ -343,7 +354,22 @@ class Pokedex(commands.Cog):
                         await collectors.shinyping(self, ctx, species)
                 except:
                         pass
-  
+      
+
+  @commands.group(invoke_without_command=True)
+  async def toggle(self, ctx):
+        return None
+
+  @commands.has_permissions(manage_messages=True)
+  @toggle.command()
+  async def name(self, ctx, optionn):
+        if name == off:      
+                await self.bot.mongo.update_guild(
+                        ctx.guild, {"$set": {"name": "off"}}
+                )
+                
+                await ctx.send("Naming is turned off")
+        
   @commands.Cog.listener()
   async def on_message(self, message):
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
@@ -355,9 +381,6 @@ class Pokedex(commands.Cog):
         
     if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title and message.author.id == 716390085896962058:
-        if message.guild.id in no_spawn:
-                await self.ping(message.embeds[0].image.url, message)
-                return
         
         free = self.get_ratelimit(message)
         basic = self.get_ratelimit_basic(message)
