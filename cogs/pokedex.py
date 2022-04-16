@@ -311,6 +311,9 @@ class Pokedex(commands.Cog):
       
           ctx = await self.bot.get_context(message)
           species = self.bot.data.species_by_name(pokemon)
+                
+          with open('data/stats.json') as f:
+                pokes = json.load(f)
 
           if pokemon in rare_pokes:
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
