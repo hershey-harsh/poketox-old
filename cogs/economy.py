@@ -86,7 +86,7 @@ class Minigame(commands.Cog):
             )
         except:
             embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
-            return await ctx.reply(embed=embed)
+            return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
@@ -116,7 +116,7 @@ class Minigame(commands.Cog):
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
 
-        if is_practice == "practice":
+        if practice == "practice":
             amount = 0
         else:
             amount = random.randint(30, 40)
@@ -146,7 +146,7 @@ class Minigame(commands.Cog):
             )
         except:
             embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x36393F)
-            return await ctx.reply(embed=embed)
+            return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
@@ -175,7 +175,7 @@ class Minigame(commands.Cog):
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
 
-        if is_practice == "practice":
+        if practice == "practice":
             amount = 0
         else:
             amount = random.randint(50, 100)
@@ -210,7 +210,7 @@ class Minigame(commands.Cog):
             )
         except:
             embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x36393F)
-            return await ctx.reply(embed=embed)
+            return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
