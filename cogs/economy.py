@@ -39,17 +39,21 @@ class Minigame(commands.Cog):
         member = await self.bot.mongo.fetch_member_info(ctx.author)
         amount = member.balance
 
-        embed = discord.Embed(color=0xEB4634)
-        embed.title = f"{ctx.author.display_name}'s balance"
+        embed = discord.Embed(color=0x36393F)
+        embed.title = f"Balance"
         embed.add_field(name="Tokens", value=f"{amount:,}")
 
         return await ctx.send(embed=embed)        
-  
+    
+    @commands.group(invoke_without_command=True)
+    async def spawn(self, ctx):
+        return None
+        
     @checks.has_started()
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    @commands.command()
-    async def spawn(self, ctx, practice="n"):
+    @spawn.command(invoke_without_command=True)
+    async def easy(self, ctx, practice="n"):
         if ctx.guild.id != 815598238820335668 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
@@ -64,11 +68,11 @@ class Minigame(commands.Cog):
 
         species = self.bot.data.random_spawn()
         embed = discord.Embed(
-            title=f"Unscramble this pokemon for {amount} tokens",
-            description=f"{helper.scramble(species.name)}",
-            color=0xEB4634,
+            title=f"Spawn",
+            description=f"Hint: The first letter is **{species.name[0]}**. Unscramble this pokemon for **{amount}** tokens **{helper.scramble(species.name)}**",
+            color=0x36393F,
         )
-        await ctx.send(content=f"> <@!{ctx.author.id}>", embed=embed)
+        await ctx.reply(content=f"> <@!{ctx.author.id}>", embed=embed)
 
         def check_winner(message):
             return (
@@ -81,15 +85,15 @@ class Minigame(commands.Cog):
                 "message", timeout=30, check=lambda m: check_winner(m)
             )
         except:
-            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`", color=0x36393F)
-            return await message.reply(embed=embed)
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
+            return await ctx.reply(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
             not in species.correct_guesses
         ):
-            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`", color=0x36393F)
-            return message.reply(embed=embed)
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
+            return message.channel.send(embed=embed)
 
         embed = discord.Embed(
             title=f"Correct",
@@ -101,6 +105,131 @@ class Minigame(commands.Cog):
             {"$inc": {"balance": amount}},
         )
         return await message.reply(embed=embed)
+    
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @spawn.command()
+    async def medium(self, ctx, is_practice="n"):
+        if ctx.guild.id != 815598238820335668 and practice != "practice":
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
+            return await ctx.send(embed=embed)
+
+        if is_practice == "practice":
+            amount = 0
+        else:
+            amount = random.randint(30, 40)
+
+        species = self.bot.data.random_spawn()
+
+        gamemode = 1
+
+        elif gamemode == 1:
+            embed = discord.Embed(
+                title=f"Spawn | Medium",
+                description=f"Hint: The first letter is **{species.name[0]}**. Guess this pokemon for {amount} tokens\n{helper.homoglyph_convert(species.name, species.description)}",
+                color=0x36393F,
+            )
+
+        await ctx.send(content=f"> <@!{ctx.author.id}>", embed=embed)
+        
+        def check_winner(message):
+            return (
+                ctx.author.id == message.author.id
+                and message.channel.id == ctx.channel.id
+            )
+
+        try:
+            message = await self.bot.wait_for(
+                "message", timeout=30, check=lambda m: check_winner(m)
+            )
+        except:
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x36393F)
+            return await ctx.reply(embed=embed)
+
+        if (
+            models.deaccent(message.content.lower().replace("′", "'"))
+            not in species.correct_guesses
+        ):
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x36393F)
+            return message.channel.send(embed=embed)
+        embed = discord.Embed(
+            title=f"Correct",
+            description=f"You have been awarded **{amount}**",
+            color=0x36393F,
+        )
+        await self.bot.mongo.update_member(
+            ctx.author,
+            {"$inc": {"balance": amount}},
+        )
+        return await message.reply(embed=embed)
+    
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @spawn.command()
+    async def hard(self, ctx, is_practice="n"):
+        if ctx.guild.id != 815598238820335668 and practice != "practice":
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
+            return await ctx.send(embed=embed)
+
+        if is_practice == "practice":
+            amount = 0
+        else:
+            amount = random.randint(50, 100)
+
+        species = self.bot.data.random_spawn()
+
+        gamemode = 1
+
+        if gamemode == 1:
+            embed = discord.Embed(
+                title=f"Spawn | Hard",
+                description=f"Guess this pokemon for {amount} tokens",
+                color=0x36393F,
+            )
+            embed.add_field(
+                name="Appearance",
+                value=f"Height: {species.height} m\nWeight: {species.weight} kg",
+            )
+            embed.add_field(name="Types", value="\n".join(species.types))
+
+        await ctx.send(content=f"> <@!{ctx.author.id}>", embed=embed)
+        
+        def check_winner(message):
+            return (
+                ctx.author.id == message.author.id
+                and message.channel.id == ctx.channel.id
+            )
+
+        try:
+            message = await self.bot.wait_for(
+                "message", timeout=30, check=lambda m: check_winner(m)
+            )
+        except:
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x36393F)
+            return await ctx.reply(embed=embed)
+
+        if (
+            models.deaccent(message.content.lower().replace("′", "'"))
+            not in species.correct_guesses
+        ):
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x36393F)
+            return message.channel.send(embed=embed)
+
+        embed = discord.Embed(
+            title=f"Correct",
+            description=f"You have been awarded **{amount}**",
+            color=0x36393F,
+        )
+        await self.bot.mongo.update_member(
+            ctx.author,
+            {"$inc": {"balance": amount}},
+        )
+        return await message.reply(embed=embed)
+
       
 import discord
 from discord.ext import commands
