@@ -105,13 +105,6 @@ class Collectors(commands.Cog):
             if x != "_id":
                 if self.bot.data.species_by_number(int(x)):
                     yield self.bot.data.species_by_number(int(x))
-                   
-
-    @commands.guild.only()
-    @commands.has_permissions(manage_messages=True)
-    @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
-    async def timer(self, ctx, seconds):
-        return None
         
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
