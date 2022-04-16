@@ -330,7 +330,8 @@ class Pokedex(commands.Cog):
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
   async def on_message(self, message):
-    if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
+    poketwo = [716390085896962058, 235148962103951360]
+    if message.author.id in poketwo and "The pokémon is" in message.content:
         solution = hint_solve(message.content)
    
         embed = discord.Embed(color=0x2F3136)
