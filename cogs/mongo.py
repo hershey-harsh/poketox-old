@@ -65,6 +65,7 @@ class Guild(Document):
     prefix = fields.StringField(default=config.DEFAULT_PREFIX)
     rareping = fields.StringField()
     sh_channels = fields.ListField(fields.IntegerField, default=list)
+    name = fields.StringField()
 
 class Shtimer(Document):
     class Meta:
