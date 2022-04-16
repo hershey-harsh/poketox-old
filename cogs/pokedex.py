@@ -257,7 +257,7 @@ class Pokedex(commands.Cog):
           if allow_mode == "Off":
                 pokemon = solve(img_url)
                 species = self.bot.data.species_by_name(pokemon)
-                ctx = await bot.get_context(message)
+                ctx = await self.bot.get_context(message)
                 await collectors.collectping(self, ctx, species)
                 await collectors.shinyping(self, ctx, species)
                 
