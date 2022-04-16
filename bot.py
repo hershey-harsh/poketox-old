@@ -1,7 +1,7 @@
 import os
 import discord
 from discord.ext import commands, events
-from discord.ext.events import memTber_kick
+from discord.ext.events import member_kick
 import datetime
 import config
 
