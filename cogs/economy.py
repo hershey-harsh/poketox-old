@@ -51,7 +51,7 @@ class Minigame(commands.Cog):
     @commands.command()
     async def spawn(self, ctx, practice="n"):
         if ctx.guild.id != 815598238820335668 and practice != "practice":
-            embed=discord.Embed(title="Wrong Server", description="Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`")
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
 
@@ -81,22 +81,21 @@ class Minigame(commands.Cog):
                 "message", timeout=30, check=lambda m: check_winner(m)
             )
         except:
-            return await ctx.send(
-                f"Challenge skipped. The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`"
-            )
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`", color=0x36393F)
+            return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
             not in species.correct_guesses
         ):
             return await message.channel.send(
-                f"Challenge skipped. The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`"
-            )
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`", color=0x36393F)
+            return await ctx.send(embed=embed)
 
         embed = discord.Embed(
-            title=f"{species.name} was correct!",
-            description=f"You won **{amount}** tokens!",
-            color=0xEB4634,
+            title=f"Correct",
+            description=f"You have been awarded **{amount}**",
+            color=0x36393F,
         )
         await self.bot.mongo.update_member(
             ctx.author,
