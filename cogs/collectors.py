@@ -61,6 +61,17 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             await ctx.send(
                 f"**Pinging {species} Shiny Hunters** \n \n" + " ".join(shinyhunt_pings)
             )
+        
+            try:
+                server_timer = guild[str(ctx.channel.id)]
+            except:
+                server_timer = "None"
+                
+            if server_timer == "None":
+                return
+               
+            await asyncio.sleep(int(server_timer))
+            await ctx.channel.send("SH Timer has expired")
             
         else:
             mess = await ctx.send(
@@ -90,7 +101,38 @@ class Collectors(commands.Cog):
                     yield self.bot.data.species_by_number(int(x))
                    
 
-
+    @commands.guild.only()
+    @commands.has_permissions(manage_messages=True)
+    @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
+    async def timer(self, ctx, seconds)
+        
+        if int(seconds) <= 0:
+          return await ctx.send("Please specify a valid amount of time.")
+        
+        await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {"sh_timer": str(seconds)}}
+        )
+        
+        embed=discord.Embed(title="Server Timer", description=f"The Shinyhunt / Collectlist timer has been set to `{seconds}` seconds")
+        await ctx.send(embed=embed)
+    
+        
+        
+    @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
+    @timer.command() 
+    async def channel(self, ctx, seconds)
+        
+        if int(seconds) <= 0:
+          return await ctx.send("Please specify a valid amount of time.")
+        
+        await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {str(ctx.channel.id): str(seconds)}}
+        )
+        
+        embed=discord.Embed(title="Server Timer", description=f"The Shinyhunt / Collectlist timer has been set to `{seconds}` seconds")
+        await ctx.send(embed=embed)
+        
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
@@ -180,24 +222,6 @@ class Collectors(commands.Cog):
             await pages.start(ctx)
         except IndexError:
             await ctx.send("No pokémon or regions found.")
-
-
-    @commands.guild_only()
-    @commands.has_permissions(manage_messages=True)
-    @commands.command(slash_command=True)
-    async def timer(self, ctx, seconds):
-      """Set a Post-Tag Timer for Collecting List and Shiny Hunt Tag"""
-      if int(seconds) <= 0:
-          return await ctx.send("Please specify a valid amount of time.")
-
-      db[ctx.guild.id] = str(seconds)
-
-      embed=discord.Embed(description=f"Shiny Hunt Timer has been set to {seconds}", color=0x36393F)
-
-      await ctx.send(embed=embed)
-      me = await ctx.send(f"a!timer {seconds}")
-      await me.delete()
-     
 
     @commands.command(slash_command=True)
     async def enable(self, ctx, guildid=None):
