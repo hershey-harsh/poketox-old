@@ -125,7 +125,7 @@ class Minigame(commands.Cog):
 
         gamemode = 1
 
-        elif gamemode == 1:
+        if gamemode == 1:
             embed = discord.Embed(
                 title=f"Spawn | Medium",
                 description=f"Hint: The first letter is **{species.name[0]}**. Guess this pokemon for {amount} tokens\n{helper.homoglyph_convert(species.name, species.description)}",
