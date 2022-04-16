@@ -246,6 +246,7 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def identify(self, img_url, message, plan):
+          ctx = await self.bot.get_context(message)
           guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
           try:
                 name_mode = guild["name"]  
@@ -263,7 +264,6 @@ class Pokedex(commands.Cog):
         
           pokemon = solve(img_url)
       
-          ctx = await self.bot.get_context(message)
           species = self.bot.data.species_by_name(pokemon)
         
           if species is None:
@@ -315,45 +315,7 @@ class Pokedex(commands.Cog):
                         await collectors.shinyping(self, ctx, species)
                 except:
                         pass
-                
-  async def ping(self, img_url, message):
-        
-          pokemon = solve(img_url)
-      
-          ctx = await self.bot.get_context(message)
-          species = self.bot.data.species_by_name(pokemon)
-                
-          with open('data/stats.json') as f:
-                pokes = json.load(f)
-
-          if pokemon in rare_pokes:
-                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-
-                try:
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'<@&{roleid}>')
-                except:
-                    pass
-            
-                try:
-                        await collectors.collectping(self, ctx, species)
-                        await collectors.shinyping(self, ctx, species)
-                except:
-                        pass
-                
-          else:
-
-                try:
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'<@&{roleid}>')
-                except:
-                    pass
-            
-                try:
-                        await collectors.collectping(self, ctx, species)
-                        await collectors.shinyping(self, ctx, species)
-                except:
-                        pass
+               
       
 
   @commands.group(invoke_without_command=True)
@@ -363,7 +325,7 @@ class Pokedex(commands.Cog):
   @commands.has_permissions(manage_messages=True)
   @toggle.command()
   async def name(self, ctx, optionn):
-        if name == off:      
+        if optionn == off:      
                 await self.bot.mongo.update_guild(
                         ctx.guild, {"$set": {"name": "off"}}
                 )
