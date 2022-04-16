@@ -8,6 +8,8 @@ from replit import db
 import discord,random,os
 from discord.ext import commands
 
+db.db_url = "https://kv.replit.com/v0/eyJhbGciOiJIUzUxMiIsImlzcyI6ImNvbm1hbiIsImtpZCI6InByb2Q6MSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb25tYW4iLCJleHAiOjE2NTAyMzY2MjQsImlhdCI6MTY1MDEyNTAyNCwiZGF0YWJhc2VfaWQiOiJkZmJiNDkyNC04Njk0LTQ4NWEtYTU4Yi0yOGZiODc0MTYyOGMifQ.LpJuInhiiv7eH2FOhruqVKHM3rEq-g_8xzVsS44FBnsGHmZrB0qvWP1n032fsGosT6lHD85QovJudqEgq7w-sA"
+
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779, 790788488983085056, 950522564751544330]
 
 import random
@@ -63,7 +65,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             )
         
             try:
-                server_timer = guild[str(ctx.channel.id)]
+                server_timer = db[str(ctx.channel.id)]
             except:
                 server_timer = "None"
                 
@@ -71,7 +73,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
                 return
                
             await asyncio.sleep(int(server_timer))
-            await ctx.channel.send("SH Timer has expired")
+            await ctx.channel.send(f"{server_timer} has expired now, you may catch the Pokemon")
             
         else:
             mess = await ctx.send(
@@ -104,31 +106,20 @@ class Collectors(commands.Cog):
     @commands.guild.only()
     @commands.has_permissions(manage_messages=True)
     @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
-    async def timer(self, ctx, seconds)
-        
-        if int(seconds) <= 0:
-          return await ctx.send("Please specify a valid amount of time.")
-        
-        await self.bot.mongo.update_guild(
-            ctx.guild, {"$set": {"sh_timer": str(seconds)}}
-        )
-        
-        embed=discord.Embed(title="Server Timer", description=f"The Shinyhunt / Collectlist timer has been set to `{seconds}` seconds")
-        await ctx.send(embed=embed)
+    async def timer(self, ctx, seconds):
+        return None
     
         
         
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @timer.command() 
-    async def channel(self, ctx, seconds)
+    async def channel(self, ctx, seconds):
         
         if int(seconds) <= 0:
           return await ctx.send("Please specify a valid amount of time.")
         
-        await self.bot.mongo.update_guild(
-            ctx.guild, {"$set": {str(ctx.channel.id): str(seconds)}}
-        )
+        db[str(ctx.channel.id)] = str(seconds)
         
         embed=discord.Embed(title="Server Timer", description=f"The Shinyhunt / Collectlist timer has been set to `{seconds}` seconds")
         await ctx.send(embed=embed)
