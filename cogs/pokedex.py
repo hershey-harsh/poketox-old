@@ -299,10 +299,10 @@ class Pokedex(commands.Cog):
                     pass
                 
   @commands.group(invoke_without_command=True)
-  async def toggle(self, ctx):
+  async def spawn(self, ctx):
                 return None
         
-  @toggle.command()
+  @spawn.command()
   async def enable(self, ctx):
         mode = "On"
         
@@ -312,8 +312,8 @@ class Pokedex(commands.Cog):
         
         embed=discord.Embed(title="Spawn", description="I will start identifying spawn images", color=0x36393F)
         await ctx.send(embed=embed)
-        
-  @toggle.command()
+  @commands.has_permissions(manage_messages=True)     
+  @spawn.command()
   async def disable(self, ctx):
         mode = "Off"
         
@@ -323,7 +323,7 @@ class Pokedex(commands.Cog):
         
         embed=discord.Embed(title="Spawn", description="I will stop identifying spawn images", color=0x36393F)
         await ctx.send(embed=embed)
-               
+  @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
   async def on_message(self, message):
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
