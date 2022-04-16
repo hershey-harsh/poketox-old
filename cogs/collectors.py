@@ -102,6 +102,7 @@ class Collectors(commands.Cog):
         await self.bot.mongo.update_guild(
             ctx.guild, {"$set": {"ping_channels": [x.id for x in channels]}}
         )
+        
         await ctx.send("Now whitelisting collect pings in " + ", ".join(x.mention for x in channels))
 
     @commands.guild_only()
@@ -110,11 +111,11 @@ class Collectors(commands.Cog):
     async def shiny(self, ctx, channels: commands.Greedy[discord.TextChannel]):
       """Whitelist Shiny Hunt in certain channels"""
 
-      await ctx.send("Now whitelisting Shiny pings in " + ", ".join(x.mention for x in channels))   
-
       await self.bot.mongo.update_guild(
             ctx.guild, {"$set": {"sh_channels": [x.id for x in channels]}}
         )
+
+      await ctx.send("Now whitelisting Shiny pings in " + ", ".join(x.mention for x in channels))   
 
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
