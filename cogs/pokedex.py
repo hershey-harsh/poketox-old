@@ -299,7 +299,7 @@ class Pokedex(commands.Cog):
                     pass
                 
   @commands.group(invoke_without_command=True)
-  async def spawn(self, ctx):
+  async def toggle(self, ctx):
                 return None
         
   @toggle.command()
