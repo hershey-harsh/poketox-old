@@ -338,8 +338,8 @@ class Pokedex(commands.Cog):
         embed.title = f"{solution}"
         await message.channel.send(embed=embed)
         
-    if message.embeds and message.author.id == 716390085896962058:
-      if "wild" in message.embeds[0].title and message.author.id in poketwo:
+    if message.embeds and message.author.id in poketwo:
+      if "wild" in message.embeds[0].title:
         
         free = self.get_ratelimit(message)
         basic = self.get_ratelimit_basic(message)
