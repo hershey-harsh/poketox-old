@@ -306,9 +306,6 @@ class Pokedex(commands.Cog):
                         pass
                 
   async def ping(self, img_url, message):
-          embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
-          
-          aaa = await message.channel.send(embed=embed)
         
           pokemon = solve(img_url)
       
