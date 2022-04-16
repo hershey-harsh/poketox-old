@@ -93,7 +93,7 @@ class Minigame(commands.Cog):
             not in species.correct_guesses
         ):
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
-            return message.channel.send(embed=embed)
+            return await message.channel.send(embed=embed)
 
         embed = discord.Embed(
             title=f"Correct",
@@ -110,7 +110,7 @@ class Minigame(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.user)
     @spawn.command()
-    async def medium(self, ctx, is_practice="n"):
+    async def medium(self, ctx, practice="n"):
         if ctx.guild.id != 815598238820335668 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
@@ -153,7 +153,7 @@ class Minigame(commands.Cog):
             not in species.correct_guesses
         ):
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x36393F)
-            return message.channel.send(embed=embed)
+            return await message.channel.send(embed=embed)
         embed = discord.Embed(
             title=f"Correct",
             description=f"You have been awarded **{amount}**",
@@ -169,7 +169,7 @@ class Minigame(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.user)
     @spawn.command()
-    async def hard(self, ctx, is_practice="n"):
+    async def hard(self, ctx, practice="n"):
         if ctx.guild.id != 815598238820335668 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
@@ -217,7 +217,7 @@ class Minigame(commands.Cog):
             not in species.correct_guesses
         ):
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x36393F)
-            return message.channel.send(embed=embed)
+            return await message.channel.send(embed=embed)
 
         embed = discord.Embed(
             title=f"Correct",
