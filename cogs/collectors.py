@@ -167,15 +167,8 @@ class Collectors(commands.Cog):
             ctx.guild, {"$set": {"ping_channels": [x.id for x in channels]}}
         )
         await ctx.send("Now whitelisting collect pings in " + ", ".join(x.mention for x in channels))
-
-    @commands.Cog.listener()
-    async def on_message(self, message):
-      if message.author.id in allowed and message.content in names and message.channel.id != 921510872407482450:
-        species = message.content
         
-        namething = await message.channel.send("-cp " + species)
-        await namething.delete()
-
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.group(aliases=("cl",), invoke_without_command=True, slash_command=True)
     async def collectlist(self, ctx, *, member: discord.Member = None):
         if member is None:
@@ -196,6 +189,7 @@ class Collectors(commands.Cog):
         except IndexError:
             await ctx.send("No pokémon or regions found.")
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(slash_command=True)
     async def enable(self, ctx, guildid=None):
         """Adds a server to your pinging list"""
@@ -224,6 +218,7 @@ class Collectors(commands.Cog):
             embed.set_footer(text=x)
             await ctx.send(embed=embed)
     
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(slash_command=True)
     async def disable(self, ctx):
         """Adds a server to your pinging list"""
@@ -242,6 +237,7 @@ class Collectors(commands.Cog):
             embed.set_footer(text="Tip: You can always turn this feature on with a!enable")
             await ctx.send(embed=embed)
     
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(slash_command=True)
     async def serverlist(self, ctx):
         """Adds a server to your pinging list"""
@@ -274,6 +270,7 @@ class Collectors(commands.Cog):
             embed=discord.Embed(title="Collector Server List", description="None", color=0x36393F)
             await ctx.send(embed=embed)
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
 
@@ -299,7 +296,7 @@ class Collectors(commands.Cog):
         except IndexError:
             await ctx.send("No pokémon or regions found.")
 
-  
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def add(self, ctx, *, species: SpeciesConverter):
         """Adds a pokémon species or region to your collecting list"""
@@ -321,6 +318,7 @@ class Collectors(commands.Cog):
             embed2.set_footer(text=x)
             return await ctx.send(embed=embed2)
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def remove(self, ctx, *, species: SpeciesConverter):
         """Remove a pokémon species or region from your collecting list"""
@@ -342,6 +340,7 @@ class Collectors(commands.Cog):
 
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(aliases = ["fr"], slash_command=True)
     async def forceremove(self, ctx, *, user: FetchUserConverter):
         """Allows moderators to remove a player from pinging list"""
@@ -356,7 +355,7 @@ class Collectors(commands.Cog):
             return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** pinging list.")
         else:
             return await ctx.send(f"**{user}** is not on the **{ctx.guild}** pinging list!")
-
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def clear(self, ctx):
         """Clear your collecting list."""
@@ -364,6 +363,7 @@ class Collectors(commands.Cog):
         await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
         await ctx.send("Cleared your collecting list.")
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def globalsearch(self, ctx, *, species: SpeciesConverter):
         """Lists the collectors of a pokémon species or regions"""
@@ -380,6 +380,7 @@ class Collectors(commands.Cog):
         
         await pages.start(ctx)
     
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def search(self, ctx, *, species: SpeciesConverter):
         """Lists the collectors of a pokémon species or regions in the server"""
@@ -444,6 +445,7 @@ class Collectors(commands.Cog):
     
         return embed
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(aliases = ["config"], slash_command=True)
     async def configuration(self, ctx: commands.Context):
         
