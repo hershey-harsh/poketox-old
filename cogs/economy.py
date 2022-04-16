@@ -82,15 +82,14 @@ class Minigame(commands.Cog):
             )
         except:
             embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`", color=0x36393F)
-            return await ctx.send(embed=embed)
+            return await message.reply(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
             not in species.correct_guesses
         ):
-            return await message.channel.send(
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn`", color=0x36393F)
-            return await ctx.send(embed=embed)
+            return message.reply(embed=embed)
 
         embed = discord.Embed(
             title=f"Correct",
