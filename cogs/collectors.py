@@ -35,7 +35,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
             )
         else:
             mess = await ctx.send(
-                f"No one is collecting {species}! \n \n**Tip:** You can run `{ctx.prefix}collect enable` or `{ctx.prefix}collect disable` to disable or enable collect pings on a server! By default, this option will be off."
+                f"No one is collecting {species}"
             )
            
 async def shinyping(self, ctx, species: SpeciesConverter):
@@ -64,7 +64,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             
         else:
             mess = await ctx.send(
-                f"No one is shiny hunting {species}! \n \n**Tip:** You can run `{ctx.prefix}collect enable` or `{ctx.prefix}collect disable` to disable or enable collect and shinyhunt pings on a server! By default, this option will be off."
+                f"No one is shiny hunting {species}!"
             )
 
 q = ["Pokétox is made by Future#9409", "Like the bot? Type a!invite", "Want to help? DM Future#0005", "Join the offical server! https://discord.gg/futureworld"]
