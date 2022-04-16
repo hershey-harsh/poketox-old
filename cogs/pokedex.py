@@ -13,6 +13,8 @@ import re
 import json
 import requests
 
+no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
+
 async def get_stats_embed(pokemon):
 
         with open('data/stats.json') as f:
@@ -302,6 +304,55 @@ class Pokedex(commands.Cog):
                         await collectors.shinyping(self, ctx, species)
                 except:
                         pass
+                
+  async def ping(self, img_url, message):
+          embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
+          
+          aaa = await message.channel.send(embed=embed)
+        
+          pokemon = solve(img_url)
+      
+          ctx = await self.bot.get_context(message)
+          species = self.bot.data.species_by_name(pokemon)
+
+          if pokemon in rare_pokes:
+                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'<@&{roleid}>')
+                except:
+                    pass
+            
+                if pokemon in pokes:
+                        await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+                else:
+                        await aaa.edit(embed=embed1, view=Confirmm(img_url, pokemon, pokemon, self.bot))
+            
+                try:
+                        await collectors.collectping(self, ctx, species)
+                        await collectors.shinyping(self, ctx, species)
+                except:
+                        pass
+                
+          else:
+
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'<@&{roleid}>')
+                except:
+                    pass
+            
+                if pokemon in pokes:
+                        await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+                else:
+                        await aaa.edit(embed=embed1, view=Confirmm(img_url, pokemon, pokemon, self.bot))
+            
+                try:
+                        await collectors.collectping(self, ctx, species)
+                        await collectors.shinyping(self, ctx, species)
+                except:
+                        pass
   
   @commands.Cog.listener()
   async def on_message(self, message):
@@ -314,6 +365,9 @@ class Pokedex(commands.Cog):
         
     if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title and message.author.id == 716390085896962058:
+        if message.guild.id in no_spawn:
+                await self.ping(message.embeds[0].image.url, message)
+                return
         
         free = self.get_ratelimit(message)
         basic = self.get_ratelimit_basic(message)
