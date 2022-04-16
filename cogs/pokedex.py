@@ -246,7 +246,23 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def identify(self, img_url, message, plan):
+          ctx = await bot.get_context(message)
+          guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+          
+          try:
+                allow_mode = guild["name"]
+          except: 
+                allow_mode = "On"
                 
+          if allow_mode == "Off":
+                pokemon = solve(img_url)
+                species = self.bot.data.species_by_name(pokemon)
+                ctx = await bot.get_context(message)
+                await collectors.collectping(self, ctx, species)
+                await collectors.shinyping(self, ctx, species)
+                
+                return
+        
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
           
           aaa = await message.channel.send(embed=embed)
@@ -262,50 +278,52 @@ class Pokedex(commands.Cog):
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
         
-          with open('data/stats.json') as f:
-                pokes = json.load(f)
+          await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
                 
+          try:
+                await collectors.collectping(self, ctx, species)
+                await collectors.shinyping(self, ctx, species)
+          except:
+                pass
         
           if pokemon in rare_pokes:
+                        
+                ctx = await bot.get_context(message)
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
 
                 try:
                     roleid = guild["rareping"]
                     await message.channel.send(f'<@&{roleid}>')
-                except:
-                    pass
-            
-                if pokemon in pokes:
-                        await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
-                else:
-                        await aaa.edit(embed=embed1, view=Confirmm(img_url, pokemon, pokemon, self.bot))
-            
-                try:
-                        await collectors.collectping(self, ctx, species)
-                        await collectors.shinyping(self, ctx, species)
-                except:
-                        pass
                 
-          else:
-
-                try:
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'<@&{roleid}>')
                 except:
                     pass
-            
-                if pokemon in pokes:
-                        await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
-                else:
-                        await aaa.edit(embed=embed1, view=Confirmm(img_url, pokemon, pokemon, self.bot))
-            
-                try:
-                        await collectors.collectping(self, ctx, species)
-                        await collectors.shinyping(self, ctx, species)
-                except:
-                        pass
-               
+                
+  @commands.group(invoke_without_command=True)
+  async def spawn(self, ctx):
+                return None
         
+  @toggle.command()
+  async def enable(self, ctx):
+        mode = "On"
+        
+        await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {"name": str(mode)}}
+        )
+        
+        embed=discord.Embed(title="Spawn", description="I will start identifying spawn images", color=0x36393F)
+        await ctx.send(embed=embed)
+        
+  @toggle.command()
+  async def disable(self, ctx):
+        mode = "Off"
+        
+        await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {"name": str(mode)}}
+        )
+        
+        embed=discord.Embed(title="Spawn", description="I will stop identifying spawn images", color=0x36393F)
+        await ctx.send(embed=embed)
+               
   @commands.Cog.listener()
   async def on_message(self, message):
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
