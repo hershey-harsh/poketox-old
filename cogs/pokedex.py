@@ -246,17 +246,6 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def identify(self, img_url, message, plan):
-          ctx = await self.bot.get_context(message)
-          guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-          try:
-                name_mode = guild["name"]  
-          except:
-                name_mode = "on"
-        
-          if name_mode == "off":
-                        await collectors.collectping(self, ctx, species)
-                        await collectors.shinyping(self, ctx, species)
-                        return
                 
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
           
@@ -316,21 +305,6 @@ class Pokedex(commands.Cog):
                 except:
                         pass
                
-      
-
-  @commands.group(invoke_without_command=True)
-  async def toggle(self, ctx):
-        return None
-
-  @commands.has_permissions(manage_messages=True)
-  @toggle.command()
-  async def name(self, ctx, optionn):
-        if optionn == off:      
-                await self.bot.mongo.update_guild(
-                        ctx.guild, {"$set": {"name": "off"}}
-                )
-                
-                await ctx.send("Naming is turned off")
         
   @commands.Cog.listener()
   async def on_message(self, message):
