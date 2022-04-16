@@ -331,7 +331,7 @@ class Pokedex(commands.Cog):
   @commands.Cog.listener()
   async def on_message(self, message):
     poketwo = [716390085896962058, 235148962103951360]
-    if message.author.id in poketwo and "The pokémon is" in message.content:
+    if message.author.id == 235148962103951360 and "The pokémon is" in message.content:
         solution = hint_solve(message.content)
    
         embed = discord.Embed(color=0x2F3136)
@@ -339,7 +339,7 @@ class Pokedex(commands.Cog):
         await message.channel.send(embed=embed)
         
     if message.embeds and message.author.id == 716390085896962058:
-      if "wild" in message.embeds[0].title and message.author.id == 716390085896962058:
+      if "wild" in message.embeds[0].title and message.author.id in poketwo:
         
         free = self.get_ratelimit(message)
         basic = self.get_ratelimit_basic(message)
