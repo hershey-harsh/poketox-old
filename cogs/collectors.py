@@ -202,7 +202,14 @@ class Collectors(commands.Cog):
         guildid = guildid
         if guildid == None:
           guildid = ctx.guild.id
+        
         result = await self.bot.mongo.db.collector.update_one(
+            {"_id": ctx.author.id},
+            {"$set": {str(ctx.guild.id): True}},
+            upsert=True,
+        )
+        
+        result = await self.bot.mongo.db.shinyhunt.update_one(
             {"_id": ctx.author.id},
             {"$set": {str(ctx.guild.id): True}},
             upsert=True,
