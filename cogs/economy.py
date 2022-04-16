@@ -50,12 +50,9 @@ class Minigame(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.command()
     async def spawn(self, ctx, practice="n"):
-        if ctx.guild.id != 818698098103681085 and practice != "practice":
-            embed = discord.Embed(
-                title=f"Wrong server!",
-                description=f"Please use the official P2HB server for spawns! If you would like to play without the awards outside the server, you can run `{ctx.prefix}spawn practice`. \n\nServer Link: http://join.p2hb.me/",
-                color=0xEB4634,
-            )
+        if ctx.guild.id != 815598238820335668 and practice != "practice":
+            embed=discord.Embed(title="Wrong Server", description="Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`")
+            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
 
         if practice == "practice":
