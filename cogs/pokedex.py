@@ -246,7 +246,7 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def identify(self, img_url, message, plan):
-          ctx = await bot.get_context(message)
+          ctx = await self.bot.get_context(message)
           guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
           
           try:
@@ -288,7 +288,7 @@ class Pokedex(commands.Cog):
         
           if pokemon in rare_pokes:
                         
-                ctx = await bot.get_context(message)
+                ctx = await self.bot.get_context(message)
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
 
                 try:
