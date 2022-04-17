@@ -227,6 +227,12 @@ class Collectors(commands.Cog):
             {"$unset": {str(ctx.guild.id): 1}},
             upsert=True,
         )
+        
+        result = await self.bot.mongo.db.shinyhunt.update_one(
+            {"_id": ctx.author.id},
+            {"$unset": {str(ctx.guild.id): 1}},
+            upsert=True,
+        )
 
         if result.upserted_id or result.modified_count > 0:
             embed=discord.Embed(title="Ping", description=f"You will not get pinged when your shiny hunt or what your collecting spawns in **{ctx.guild}**", color=0x36393F)
