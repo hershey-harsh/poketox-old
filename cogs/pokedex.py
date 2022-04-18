@@ -15,18 +15,6 @@ import requests
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
-async def get_stats_embed(pokemon):
-
-        with open('data/stats.json') as f:
-          pokes = json.load(f)
-        name = pokes[pokemon.lower()]
-
-        embd=discord.Embed(title=f"{pokemon.capitalize()}'s Stats", description="The more **HP, Defense, Speed Defense, Speed** the better stats.", color=0x2F3136)
-
-        embd.add_field(name="Stats", value=f"```{name}```", inline=False)
-
-        return embd
-
 with open("pokemon.txt","r",encoding="utf8") as file:
     pokemon_list_string = file.read()
     
@@ -62,11 +50,6 @@ class Confirm(discord.ui.View):
         self.species = species
         self.bot = bot
         self.name_poke = name_poke
-
-        self.add_item(discord.ui.Button(label="Bot Invite", url="https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168", emoji="❓", style=discord.ButtonStyle.blurple))
-      
-        self.value = True
-        self.stop()
         
     @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.red, emoji="<:notify:965755380812611614>")
     async def predi(self, button: discord.ui.Button, interaction: discord.Interaction):
