@@ -63,7 +63,7 @@ class Confirm(discord.ui.View):
         self.bot = bot
         self.name_poke = name_poke
 
-        self.add_item(discord.ui.Button(label="Bot Invite", url="https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168", emoji="❓", discord.ButtonStyle.blurple))
+        self.add_item(discord.ui.Button(label="Bot Invite", url="https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168", emoji="❓", style=discord.ButtonStyle.blurple))
       
         self.value = True
         self.stop()
