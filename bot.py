@@ -18,7 +18,8 @@ COGS = [
     "bot",
     "raredex",
     "help",
-    "economy"
+    "economy",
+    "comands"
 ]
 
 
