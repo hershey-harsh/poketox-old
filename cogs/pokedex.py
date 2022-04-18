@@ -54,85 +54,6 @@ def hint_solve(message):
     solution = re.findall('^'+hint_replaced+'$',pokemon_list_string, re.MULTILINE)
     return solution
 
-class Confirmm(discord.ui.View):
-    def __init__(self, url, species, name_poke, bot):
-        super().__init__()
-        self.value = None
-        self.url = url
-        self.species = species
-        self.bot = bot
-        self.name_poke = name_poke
-
-    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple)
-    async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
-
-        species = self.species
-      
-        if species.isdigit():
-            species = self.bot.data.species_by_number(int(species))
-        else:
-            if species.lower().startswith("shiny "):
-                shiny = True
-                species = species[6:]
-
-            species = self.bot.data.species_by_name(species)
-
-        embed = discord.Embed(color=0x2F3136)
-        embed.title = f"#{species.dex_number} — {species}"
-
-        if species.description:
-            embed.description = species.description.replace("\n", " ")
-
-        # Pokemon Rarity
-        rarity = []
-        if species.mythical:
-            rarity.append("Mythical")
-        if species.legendary:
-            rarity.append("Legendary")
-        if species.ultra_beast:
-            rarity.append("Ultra Beast")
-        if species.event:
-            rarity.append("Event")
-
-        if rarity:
-            rarity = ", ".join(rarity)
-            embed.add_field(
-                name="Rarity",
-                value=rarity,
-                inline=False,
-            )
-
-        if species.evolution_text:
-            embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
-
-        if 1 == 2:
-            print("idk")
-        else:
-            embed.set_thumbnail(url=species.image_url)
-
-        base_stats = (
-            f"**HP:** {species.base_stats.hp}",
-            f"**Attack:** {species.base_stats.atk}",
-            f"**Defense:** {species.base_stats.defn}",
-            f"**Sp. Atk:** {species.base_stats.satk}",
-            f"**Sp. Def:** {species.base_stats.sdef}",
-            f"**Speed:** {species.base_stats.spd}",
-        )
-
-        embed.add_field(
-            name="Names",
-            value="\n".join(f"{x} {y}" for x, y in species.names),
-        )
-        embed.add_field(name="Base Stats", value="\n".join(base_stats))
-        embed.add_field(name="Types", value="\n".join(species.types))
-
-        await interaction.response.send_message(embed=embed,ephemeral=True)
-        
-    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blurple, disabled=True)
-    async def stats(self, button: discord.ui.Button, interaction: discord.Interaction):
-        reply = await get_stats_embed(self.name_poke)
-        await interaction.response.send_message(embed=reply,ephemeral=True)
-
 class Confirm(discord.ui.View):
     def __init__(self, url, species, name_poke, bot):
         super().__init__()
@@ -142,7 +63,18 @@ class Confirm(discord.ui.View):
         self.bot = bot
         self.name_poke = name_poke
 
-    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple)
+        self.add_item(discord.ui.Button(label="Bot Invite", url="https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168", emoji="❓", discord.ButtonStyle.blurple))
+      
+        self.value = True
+        self.stop()
+        
+    @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.red, emoji="<:notify:965755380812611614>")
+    async def predi(self, button: discord.ui.Button, interaction: discord.Interaction):
+                embed=discord.Embed(title="Reported Image", description="Thanks for reporting the image!", color=0x2F3136)
+
+                await interaction.response.send_message(embed=embed,ephemeral=True)
+        
+    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple, emoji="<:pokedex:965752930789621810>")
     async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
 
         species = self.species
@@ -206,11 +138,6 @@ class Confirm(discord.ui.View):
         embed.add_field(name="Types", value="\n".join(species.types))
 
         await interaction.response.send_message(embed=embed,ephemeral=True)
-        
-    @discord.ui.button(label="Stats", style=discord.ButtonStyle.blurple, disabled=True)
-    async def stats(self, button: discord.ui.Button, interaction: discord.Interaction):
-        reply = await get_stats_embed(self.name_poke)
-        await interaction.response.send_message(embed=reply,ephemeral=True)
 
 import requests
 import json
@@ -283,7 +210,7 @@ class Pokedex(commands.Cog):
         
           if species is None:
             return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
-          embed1=discord.Embed(title=pokemon, description="Need help? Join our [Support Server](https://discord.gg/mhcjdJkxn6) \nWant my invite link? Invite the bot [here](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
+          embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
