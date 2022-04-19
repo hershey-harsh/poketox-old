@@ -52,7 +52,7 @@ class comands(commands.Cog):
         price = cost[-6:]#260000 | 32.26%
         iv = cost[:-8]
         
-        embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {price} is worth {iv}")
+        embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {price} is worth {iv}", color=0x2F3136)
         embed.set_thumbnail(url=species.image_url)
         await ctx.send(embed=embed)
         
