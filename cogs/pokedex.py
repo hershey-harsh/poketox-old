@@ -56,6 +56,12 @@ class Confirm(discord.ui.View):
                 embed=discord.Embed(title="Reported Image", description="Thanks for reporting the image!", color=0x2F3136)
 
                 await interaction.response.send_message(embed=embed,ephemeral=True)
+               
+                data = {"content" : f'Reported by: **{interaction.user.name}** *({interaction.user.id})* {self.url}',"username" : "Incorrect Prediction"}
+
+                url = "https://discord.com/api/webhooks/936421747102744666/1UUkTqapNUlsYTZqKkR_s_EL4IwniPL4w9VKlL_QfMh8FV9zwpm0bkUkVsXA3est57T1"
+
+                requests.post(url, json = data)
         
     @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple, emoji="<:pokedex:965752930789621810>")
     async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
