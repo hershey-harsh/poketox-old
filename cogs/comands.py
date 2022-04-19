@@ -39,8 +39,9 @@ class comands(commands.Cog):
         
     @commands.is_owner()
     @commands.command()
-    async def dm(ctx, user: discord.Member, *, message=None):
+    async def dm(ctx, user: discord.User, *, message=None):
         await user.send(message)
+        await ctx.send("Sent Message")
         
     @commands.command(brief="Price check pokémons")
     async def price(self, ctx, *, pokemon):
