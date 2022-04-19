@@ -86,7 +86,7 @@ class comands(commands.Cog):
             await ctx.send(embed=embed)
             
     @commands.command()
-    async def stats(self, ctx):
+    async def botstats(self, ctx):
         """Pokétox stats"""
 
         embed = discord.Embed(color=0x2F3136, title = f"Pokétox Statistics")
