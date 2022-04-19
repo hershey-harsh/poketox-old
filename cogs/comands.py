@@ -56,7 +56,7 @@ class comands(commands.Cog):
                 
                 embed=discord.Embed(title=f"Price of Shiny {species}", description=f"Shiny {species} is worth around {iv}", color=0x2F3136)
                 embed.set_thumbnail(url=species.shiny_image_url)
-                embed.set_footer(text="Note: These prices are based on auctions \nPrices may not be accurate")
+                embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
                 return await ctx.send(embed=embed)
         
             species = self.bot.data.species_by_name(pokemon)
@@ -67,12 +67,12 @@ class comands(commands.Cog):
         
             embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {price} is worth around {iv}", color=0x2F3136)
             embed.set_thumbnail(url=species.image_url)
-            embed.set_footer(text="Note: These prices are based on auctions \nPrices may not be accurate")
+            embed.set_footer(text="These prices are based on auctions \nNote: Prices may not be accurate")
             await ctx.send(embed=embed)
         
         except:
-            embed=discord.Embed(title=f"{pokemon.title()} not found\nWe are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons", color=0x2F3136)
-            embed.set_footer(text="Note: These prices are based on auctions \nPrices may not be accurate")
+            embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons', color=0x2F3136)
+            embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
             await ctx.send(embed=embed)
       
 def setup(bot):
