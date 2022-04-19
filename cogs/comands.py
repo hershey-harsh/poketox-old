@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import time
+import math
 import config
 
 import asyncio
