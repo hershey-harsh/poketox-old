@@ -84,6 +84,67 @@ class comands(commands.Cog):
             embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons', color=0x2F3136)
             embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
             await ctx.send(embed=embed)
+            
+    @commands.command()
+    async def stats(self, ctx):
+        """Pokétox stats"""
+
+        embed = discord.Embed(color=0x2F3136, title = f"Pokétox Statistics")
+        embed.add_field(
+            name = "Total servers", 
+            value = f"{len(self.bot.guilds)}", 
+            inline = False
+        )
+
+        total_members = 0
+        for guild in self.bot.guilds:
+            total_members += guild.member_count
+
+        embed.add_field(
+            name = "Total Members", 
+            value = f"{total_members}",
+            inline = False
+        )
+
+        embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
+        await ctx.send(embed = embed)
+        
+    @commands.command()
+    async def vote(self, ctx):
+        """Vote for the Pokétox"""
+
+        embed = discord.Embed(color=0x2F3136, title = f"Vote for the bot below")
+        embed.add_field(
+            name = "Vote for the bot", 
+            value = f"[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", 
+            inline = False
+        )
+        embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
+        await ctx.send(embed=embed)
+        
+    @commands.command(aliases=("sr",))
+    async def shinyrate(self, ctx, streak=1):
+        """Check the shinyrate for a specific shiny hunt streak"""
+        
+        wsc = 4096/(1+math.log(1+streak/30)): .3f
+        wsc = "{:,}".format(int(wsc))
+
+        embed = discord.Embed(color=0x2F3136, title = f"Shiny Rate", description=f"Shiny Rate for {streak} shiny hunt streak")
+        embed.add_field(
+            name = "Without shiny charm", 
+            value = f"1 in {wsc}", 
+            inline = False
+        )
+        
+        wsc = 3413.33/(1+math.log(1+streak/30)): .3f
+        wsc = "{:,}".format(int(wsc))
+        
+        embed.add_field(
+            name = "With shiny charm", 
+            value = f"1 in {wsc): .3f}",
+            inline = False
+        )
+        await ctx.send(embed = embed)
       
 def setup(bot):
     print("Loaded Commands")
