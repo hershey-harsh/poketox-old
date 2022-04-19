@@ -11,7 +11,6 @@ from discord.ext import commands
 seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
 seconds_120 = [937716757387444294]
 
-
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779, 790788488983085056, 950522564751544330]
 
 import random
@@ -304,15 +303,15 @@ class Collectors(commands.Cog):
         )
 
         if result.upserted_id or result.modified_count > 0:
-            embed1=discord.Embed(title="Collector", description=f"Added **{species}** to your collecting list.", color=0x36393F)
-            embed1.set_footer(text=x)
+            embed1=discord.Embed(title="Collector", description=f"Added **{species}** to your collecting list", color=0x36393F)
+            embed1.set_thumbnail(url=species.image_url)
 
             return await ctx.send(embed=embed1)
         else:
 
-            embed2=discord.Embed(title="Collector", description=f"**{species}** is already on your collecting list!", color=0x36393F)
-            embed2.set_footer(text=x)
-            return await ctx.send(embed=embed2)
+            embed2=discord.Embed(title="Collector", description=f"**{species}** is already on your collecting list", color=0x36393F)
+            embed2.set_thumbnail(url=species.image_url)
+            return await ctx.send(embed=embed2, ephemeral=True)
 
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
@@ -325,13 +324,13 @@ class Collectors(commands.Cog):
         )
 
         if result.modified_count > 0:
-            embed=discord.Embed(title="Collector", description=f"{species} has been removed from your collecting list.")
-            embed.set_footer(text=x)
+            embed=discord.Embed(title="Collector", description=f"{species} has been removed from your collecting list.", color=0x36393F)
+            embed.set_thumbnail(url=species.image_url)
             await ctx.send(embed=embed)
         else:
             embed=discord.Embed(title="Collector", description=f"**{species}** is not in your collecting list.", color=0x36393F)
-            embed.set_footer(text=x)
-            await ctx.send(embed=embed)
+            embed.set_thumbnail(url=species.image_url)
+            await ctx.send(embed=embed, ephemeral=True)
     
 
     @commands.guild_only()
@@ -369,6 +368,7 @@ class Collectors(commands.Cog):
             source=AsyncListPageSource(
                 users,
                 title=f"All {species} Collectors using the bot",
+                color=0x36393F,
                 format_item=lambda x: f"<@{x['_id']}>",
             )
         )
@@ -386,6 +386,7 @@ class Collectors(commands.Cog):
             source=AsyncListPageSource(
                 users,
                 title=f"{species} Collectors in this server",
+                color=0x36393F,
                 format_item=lambda x: f"<@{x['_id']}>",
             )
         )
@@ -396,9 +397,8 @@ class Collectors(commands.Cog):
             await ctx.send("No users found.")
 
     def make_config_embed(self, ctx, guild, commands={}):
-      try:
         embed = discord.Embed(color=0x36393F)
-        embed.title = f"{ctx.guild.name} Server Configuration"
+        embed.title = f"Server Configuration"
         embed.set_thumbnail(url=ctx.guild.icon.url)
 
         embed.add_field(
@@ -413,32 +413,6 @@ class Collectors(commands.Cog):
             inline=False,
         )
         
-        embed.add_field(
-            name=f"Shiny Hunt Timer", value=f"{db[str(ctx.guild.id)]} seconds" ,
-            inline=False,
-        )
-        return embed
-      except:
-        embed = discord.Embed(color=0x36393F)
-        embed.title = f"{ctx.guild.name} Server Configuration"
-        embed.set_thumbnail(url=ctx.guild.icon.url)
-        embed.add_field(
-            name=f"Collecting Channels {commands.get('whitelist_command', '')}",
-            value="\n".join(f"<#{x}>" for x in guild.ping_channels) or "All Channels",
-            inline=True,
-        )
-
-        embed.add_field(
-            name=f"Shiny Hunt Channels {commands.get('whitelist_command', '')}",
-            value="\n".join(f"<#{x}>" for x in guild.sh_channels) or "All Channels",
-            inline=False,
-        )
-
-        embed.add_field(
-            name=f"Shiny Hunt Timer", value=f"{db[str(ctx.guild.id)]} seconds" ,
-            inline=False,
-        )
-    
         return embed
 
     @commands.cooldown(1, 3, commands.BucketType.user)
