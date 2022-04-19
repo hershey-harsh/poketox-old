@@ -34,6 +34,28 @@ class comands(commands.Cog):
       embed.add_field(name="Suggestion", value=f'> "{args}"', inline=False)
       
       await chan.send(embed=embed) 
+        
+      embed=discord.Embed(title="Suggestion Sent", color=0x2F3136)
+        
+    @commands.command(brief="Price check pokémons")
+    async def price(self, ctx, *, pokemon):
+        with open('data/price.json') as f:
+            prices = json.load(f)
+        cost = prices[pokemon.capitalize()]
+        
+        if pokemon.lower().startswith("shiny "):
+                shiny = True
+                species = species[6:]
+
+        species = self.bot.data.species_by_name(pokemon)
+        
+        price = cost[-8:]#260000 | 32.26%
+        iv = cost[:-8]
+        
+        embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {iv} is worth {price}")
+        embed.set_thumbnail(url=species.image_url)
+        await ctx.send(embed=embed)
+        
       
 def setup(bot):
     print("Loaded Commands")
