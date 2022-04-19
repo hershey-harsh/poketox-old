@@ -48,7 +48,7 @@ class comands(commands.Cog):
                 
                 species = pokemon[6:]
                 
-                species = self.bot.data.species_by_name(pokemon)
+                species = self.bot.data.species_by_name(species)
                 
                 iv = cost[:-8]
                 
