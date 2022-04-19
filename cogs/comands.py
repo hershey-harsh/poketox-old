@@ -54,7 +54,7 @@ class comands(commands.Cog):
                 
                 iv = cost[:-8]
                 
-                iv = "{:,}".format(iv)
+                iv = "{:,}".format(int(iv))
                 
                 embed=discord.Embed(title=f"Price of Shiny {species}", description=f"Shiny {species} is worth around {iv}", color=0x2F3136)
                 embed.set_thumbnail(url=species.shiny_image_url)
@@ -67,7 +67,7 @@ class comands(commands.Cog):
             price = cost[-6:]#260000 | 32.26%
             iv = cost[:-8]
             
-            iv = "{:,}".format(iv)
+            iv = "{:,}".format(int(iv))
         
             embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {price} is worth around {iv}", color=0x2F3136)
             embed.set_thumbnail(url=species.image_url)
