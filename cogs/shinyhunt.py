@@ -66,9 +66,9 @@ class Shinyhunt(commands.Cog):
 
             await ctx.send(embed=embed, ephemeral=True)
         else:
-            await ctx.send(
-                f"You are shiny hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}"
-            )
+            embed=discord.Embed(title="Shiny Hunt", description=f"You are Shiny Hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
+            embed.set_thumbnail(url=species.image_url)
+            await ctx.send(embed=embed)
     
     @shinyhunt.command()
     async def clear(self, ctx):
@@ -79,7 +79,7 @@ class Shinyhunt(commands.Cog):
             {"$set": {'shinyhunt': None}},
             upsert=True
         )
-        embed=discord.Embed(title="Shiny Hunt", description="Cleared your Shiny HUnt", color=0x36393F)
+        embed=discord.Embed(title="Shiny Hunt", description="Cleared your Shiny Hunt", color=0x36393F)
 
         return await ctx.send(embed=embed)
 
