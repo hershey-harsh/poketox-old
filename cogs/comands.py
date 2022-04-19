@@ -126,7 +126,7 @@ class comands(commands.Cog):
     async def shinyrate(self, ctx, streak=1):
         """Check the shinyrate for a specific shiny hunt streak"""
         
-        wsc = 4096/(1+math.log(1+streak/30)): .3f
+        wsc = f'{4096/(1+math.log(1+streak/30)): .3f}'
         wsc = "{:,}".format(int(wsc))
 
         embed = discord.Embed(color=0x2F3136, title = f"Shiny Rate", description=f"Shiny Rate for {streak} shiny hunt streak")
@@ -136,7 +136,7 @@ class comands(commands.Cog):
             inline = False
         )
         
-        wsc = 3413.33/(1+math.log(1+streak/30)): .3f
+        wsc = f'{3413.33/(1+math.log(1+streak/30)): .3f}'
         wsc = "{:,}".format(int(wsc))
         
         embed.add_field(
