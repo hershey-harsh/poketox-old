@@ -41,7 +41,7 @@ class comands(commands.Cog):
     async def price(self, ctx, *, pokemon):
         with open('data/price.json') as f:
             prices = json.load(f)
-        cost = prices[pokemon.capitalize()]
+        cost = prices[pokemon.title()]
         
         if pokemon.lower().startswith("shiny "):
                 shiny = True
