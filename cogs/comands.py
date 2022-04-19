@@ -37,6 +37,11 @@ class comands(commands.Cog):
         
       embed=discord.Embed(title="Suggestion Sent", color=0x2F3136)
         
+    @commands.is_owner()
+    @commands.command()
+    async def dm(ctx, user: discord.Member, *, message=None):
+        await user.send(message)
+        
     @commands.command(brief="Price check pokémons")
     async def price(self, ctx, *, pokemon):
         with open('data/price.json') as f:
