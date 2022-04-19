@@ -9,7 +9,7 @@ import requests
 import json
 import asyncio
 import datetime
-from name import solve
+from name import solve  
 import discord
 from discord.ext import commands, menus
 from helpers.converters import FetchUserConverter, SpeciesConverter
@@ -53,10 +53,11 @@ class comands(commands.Cog):
                 
                 embed=discord.Embed(title=f"Price of Shiny {species}", description=f"Shiny {species} is worth {iv}", color=0x2F3136)
                 embed.set_thumbnail(url=species.image_url)
-                await ctx.send(embed=embed)
+                return await ctx.send(embed=embed)
 
         species = self.bot.data.species_by_name(pokemon)
         
+        cost = prices[f'{pokemon.title()}']
         price = cost[-6:]#260000 | 32.26%
         iv = cost[:-8]
         
