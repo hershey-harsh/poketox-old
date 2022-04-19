@@ -141,7 +141,7 @@ class comands(commands.Cog):
         
         embed.add_field(
             name = "With shiny charm", 
-            value = f"1 in {wsc): .3f}",
+            value = f"1 in {wsc}",
             inline = False
         )
         await ctx.send(embed = embed)
