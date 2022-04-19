@@ -41,11 +41,19 @@ class comands(commands.Cog):
     async def price(self, ctx, *, pokemon):
         with open('data/price.json') as f:
             prices = json.load(f)
-        cost = prices[pokemon.title()]
-        
+       
         if pokemon.lower().startswith("shiny "):
                 shiny = True
+                cost = prices[f'{pokemon.title()} ']
+                
                 species = species[6:]
+                species = self.bot.data.species_by_name(pokemon)
+                
+                iv = cost[:-8]
+                
+                embed=discord.Embed(title=f"Price of Shiny {species}", description=f"Shiny {species} is worth {iv}", color=0x2F3136)
+                embed.set_thumbnail(url=species.image_url)
+                await ctx.send(embed=embed)
 
         species = self.bot.data.species_by_name(pokemon)
         
