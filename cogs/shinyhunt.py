@@ -24,17 +24,31 @@ class Shinyhunt(commands.Cog):
                 {"$set": {'shinyhunt': species.id}},
                 upsert=True,
             )
-            return await ctx.send(f"Added {species} to your shiny hunt! You can run `{ctx.prefix}shinyping <pokemon>` to ping shiny hunters and `{ctx.prefix}collect enable` to enable pings.")
+            
+            embed=discord.Embed(title="Shiny Hunt", description=f"Your now Shiny Hunting {species}", color=0x36393F)
+            embed.set_thumbnail(url=species.image_url)
+            
+            return await ctx.send(embed=embed)
 
         if user.get('shinyhunt', None) == species.id:
-            return await ctx.send(f"You are already shiny hunting **{species}**!")
+
+            embed=discord.Embed(title="Shiny Hunt", description=f"You are already Shiny Hunting **{species}**", color=0x36393F)
+            embed.set_thumbnail(url=species.image_url)
+            
+            return await ctx.send(embed=embed, ephemeral=True)
         else:
             if user.get('shinyhunt', None) == None:
-                await ctx.send(f"Added **{species}** to your shinyhunt! Run `{ctx.prefix}clearhunt` to clear your shiny hunt!")
+                embed=discord.Embed(title="Shiny Hunt", description=f"Your now Shiny Hunting {species}", color=0x36393F)
+                embed.set_thumbnail(url=species.image_url)
+            
+                await ctx.send(embed=embed)
             else:
-                await ctx.send(
-                    f"Updated your shiny hunt to {species} from {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}. Run `{ctx.prefix}clearhunt` to clear your shiny hunt!"
-                )
+                
+                 embed=discord.Embed(title="Shiny Hunt", description=f"Updated your Shiny Hunt to {species} from {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
+                 embed.set_thumbnail(url=species.image_url)
+                
+                await ctx.send(embed=embed)
+                
             await self.bot.mongo.db.shinyhunt.update_one(
                 {"_id": ctx.author.id},
                 {"$set": {'shinyhunt': species.id}},
@@ -48,7 +62,9 @@ class Shinyhunt(commands.Cog):
         user = await self.bot.mongo.db.shinyhunt.find_one({"_id": ctx.author.id})
 
         if user == None or user.get('shinyhunt', None) == None:
-            await ctx.send(f"You are not shiny hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.")
+            embed=discord.Embed(title="Shiny Hunt", description=f"You are not Shiny Hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.", color=0x36393F)
+
+            await ctx.send(embed=embed, ephemeral=True)
         else:
             await ctx.send(
                 f"You are shiny hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}"
@@ -63,9 +79,9 @@ class Shinyhunt(commands.Cog):
             {"$set": {'shinyhunt': None}},
             upsert=True
         )
-        return await ctx.send(
-            "Cleared your shiny hunt."
-        )
+        embed=discord.Embed(title="Shiny Hunt", description="Cleared your Shiny HUnt", color=0x36393F)
+
+        return await ctx.send(embed=embed)
 
 
 def setup(bot):
