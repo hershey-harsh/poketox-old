@@ -67,6 +67,7 @@ class Shinyhunt(commands.Cog):
             await ctx.send(embed=embed, ephemeral=True)
         else:
             embed=discord.Embed(title="Shiny Hunt", description=f"You are Shiny Hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
+            species = self.bot.data.species_by_number(user.get('shinyhunt', None))
             embed.set_thumbnail(url=species.image_url)
             await ctx.send(embed=embed)
     
