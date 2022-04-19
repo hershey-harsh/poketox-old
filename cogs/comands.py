@@ -128,7 +128,7 @@ class comands(commands.Cog):
         """Check the shinyrate for a specific shiny hunt streak"""
         
         wsc = f'{4096/(1+math.log(1+streak/30)): .3f}'
-        wsc = "{:,}".format(int(wsc))
+        wsc = "{:,}".format(int(float(wsc)))
 
         embed = discord.Embed(color=0x2F3136, title = f"Shiny Rate", description=f"Shiny Rate for {streak} shiny hunt streak")
         embed.add_field(
@@ -138,7 +138,7 @@ class comands(commands.Cog):
         )
         
         wsc = f'{3413.33/(1+math.log(1+streak/30)): .3f}'
-        wsc = "{:,}".format(int(wsc))
+        wsc = "{:,}".format(int(float(wsc)))
         
         embed.add_field(
             name = "With shiny charm", 
