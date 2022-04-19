@@ -49,10 +49,10 @@ class comands(commands.Cog):
 
         species = self.bot.data.species_by_name(pokemon)
         
-        price = cost[-8:]#260000 | 32.26%
+        price = cost[-6:]#260000 | 32.26%
         iv = cost[:-8]
         
-        embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {iv} is worth {price}")
+        embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {price} is worth {iv}")
         embed.set_thumbnail(url=species.image_url)
         await ctx.send(embed=embed)
         
