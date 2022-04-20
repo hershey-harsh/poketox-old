@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands, menus
+from helpers import checks
 
 class dex(commands.Cog):
     """Check pokedex."""
@@ -7,6 +8,7 @@ class dex(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @checks.has_started()
     @commands.command(slash_command=True)
     async def dex(self, ctx, species):
         """Show Pokédex info"""
