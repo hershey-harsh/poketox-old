@@ -33,6 +33,7 @@ def has_started():
             )
 
         if member.suspended:
+            embed=discord.Embed(title="Account Suspended", description="Your account was found to be in violation of Pokétox rules and has been permanently blacklisted from using the bot.", color=0xe74d3c)
             raise commands.CheckFailure("Your account has been suspended.")
 
         return True
