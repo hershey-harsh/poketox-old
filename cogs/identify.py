@@ -107,6 +107,7 @@ class identify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @checks.has_started()
     @commands.command()
     async def identify(self, ctx, *, url):
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)  
