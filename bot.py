@@ -19,7 +19,8 @@ COGS = [
     "raredex",
     "help",
     "economy",
-    "comands"
+    "comands",
+    "admin"
 ]
 
 
