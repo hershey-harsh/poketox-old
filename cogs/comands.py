@@ -32,7 +32,7 @@ class comands(commands.Cog):
         if message.embeds and message.channel.id == 966129589275471902:
             voter_id = message.embeds[0].footer.value
             
-   
+    @checks.has_started()
     @commands.command(brief="Suggest new features")
     async def suggest(self, ctx, *, args):
       chan = self.bot.get_channel(939162941536735292)
@@ -46,12 +46,14 @@ class comands(commands.Cog):
         
       embed=discord.Embed(title="Suggestion Sent", color=0x2F3136)
         
+    @checks.has_started()
     @commands.is_owner()
     @commands.command()
     async def dm(ctx, user: discord.User, *, message=None):
         await user.send(message)
         await ctx.send("Sent Message")
-            
+          
+    @checks.has_started()
     @commands.command()
     async def botstats(self, ctx):
         """Pokétox stats"""
@@ -76,6 +78,7 @@ class comands(commands.Cog):
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
         await ctx.send(embed = embed)
         
+    @checks.has_started()
     @commands.command()
     async def vote(self, ctx):
         """Vote for the Pokétox"""
@@ -89,6 +92,7 @@ class comands(commands.Cog):
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
         await ctx.send(embed=embed)
         
+    @checks.has_started()
     @commands.command(aliases=("sr",))
     async def shinyrate(self, ctx, streak=1):
         """Check the shinyrate for a specific shiny hunt streak"""
