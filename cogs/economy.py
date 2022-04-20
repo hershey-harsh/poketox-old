@@ -50,7 +50,7 @@ class Minigame(commands.Cog):
         embed.add_field(name="About", value="Pokétox is an advanced helper bot made for Pokétwo. It has an economy system where you can gamble tokens which you can convert into pokécoins. Pokétox names any pokémon spawned by Pokétwo as well as pings you when a rare pokémon, shiny hunt, collecting pokémons spawns!", inline=False)
         embed.add_field(name="Privacy", value="We store data only associated with your User ID (userid) If you want your data to be deleted please reach out to Future#0811 although if you are suspended your data will be unable to delete. Our data is stored in [MongoDB](https://www.mongodb.com/) on Virginians servers.", inline=True)
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed, view=Confirm())
         
     @checks.has_started()
     @commands.command(aliases=["bal"])
