@@ -24,7 +24,7 @@ from data import models
 from data import models
 
 class Confirm(discord.ui.View):
-    def __init__(self, bot):
+    def __init__(self):
         super().__init__()
         
     @discord.ui.button(label="Terms of Conditions", style=discord.ButtonStyle.gray)
