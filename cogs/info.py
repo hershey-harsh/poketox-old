@@ -16,8 +16,6 @@ def voted(userid):
         
         vote = str(vote)
         
-        print(vote)
-        
         if vote == "1":
                 return True
         else:
@@ -64,13 +62,18 @@ class stats(commands.Cog):
 
     @commands.command()
     async def nature(self, ctx, poke : str):
+        voted=voted(ctx.author.id)
+        if voted == False:
+                embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
+                embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
+                return await ctx.send(embed=embed)
         reply = await get_nature_embed(poke)
         await ctx.send(embed=reply)
   
     @commands.command()
     async def stats(self, ctx, pokemon:str):
         """Shows statistics needed for an duelish pokémon"""
-        voted(ctx.author.id)
+        voted=voted(ctx.author.id)
         if voted == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
@@ -81,7 +84,7 @@ class stats(commands.Cog):
     @commands.command()
     async def moveset(self, ctx, pokemon):
         """Shows the pokémons moves"""
-        voted(ctx.author.id)
+        voted=voted(ctx.author.id)
         if voted == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
@@ -91,7 +94,7 @@ class stats(commands.Cog):
 
     @commands.command(brief="Price check pokémons")
     async def price(self, ctx, *, pokemon):
-        voted(ctx.author.id)
+        voted=voted(ctx.author.id)
         if voted == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
