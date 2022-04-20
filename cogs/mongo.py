@@ -19,6 +19,7 @@ class Member(Document):
     banker_balance = fields.IntegerField(default=0)
     joined_at = fields.DateTimeField(default=None)
     suspended = fields.BooleanField(default = False)
+    suspension_reason = fields.StringField()
     invites = fields.IntegerField(default = 0)
 
     gatcha_counter = fields.DictField(
