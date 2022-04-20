@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from helpers import checks
 import config
 import json
 import requests
@@ -64,6 +65,7 @@ class stats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @checks.has_started()
     @commands.command()
     async def nature(self, ctx, poke : str):
         vote=voted(ctx.author.id)
@@ -74,6 +76,7 @@ class stats(commands.Cog):
         reply = await get_nature_embed(poke)
         await ctx.send(embed=reply)
   
+    @checks.has_started()
     @commands.command()
     async def stats(self, ctx, pokemon:str):
         """Shows statistics needed for an duelish pokémon"""
@@ -85,6 +88,7 @@ class stats(commands.Cog):
         reply = await get_stats_embed(pokemon)
         await ctx.reply(embed=reply)
 
+    @checks.has_started()
     @commands.command()
     async def moveset(self, ctx, pokemon):
         """Shows the pokémons moves"""
@@ -96,6 +100,7 @@ class stats(commands.Cog):
         reply = await get_moveset_embed(pokemon)
         await ctx.reply(embed=reply)
 
+    @checks.has_started()
     @commands.command(brief="Price check pokémons")
     async def price(self, ctx, *, pokemon):
         vote=voted(ctx.author.id)
