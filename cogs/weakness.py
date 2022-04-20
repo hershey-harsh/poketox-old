@@ -10,6 +10,23 @@ import psutil
 from similar import Similar
 import os
 from discord.ext.commands import cooldown, BucketType
+from helpers import checks
+
+def voted(userid):
+        headers = {'authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3NTUyNjg5OTM4Njk1Mzc3OSIsImJvdCI6dHJ1ZSwiaWF0IjoxNjUwNDE0MjMzfQ.7aZSEjaVH-lH-KtBe_Q2pmGA-wnbyLLbODxEhcfghAE", 'content-type': 'application/json'}
+
+        url = f"https://top.gg/api/bots/875526899386953779/check?userId={userid}"
+        response = requests.get(url, headers=headers)
+        
+        output = json.loads(response.text)
+        vote = output['voted']
+        
+        vote = str(vote)
+        
+        if vote == "1":
+                return True
+        else:
+                return False
 
 all_types = ["bug", "dark", "dragon", "electric", "fairy", "fighting", "fire", "flying", "ghost", "grass", "ground", "ice", "normal", "poison", "psychic", "rock", "steel", "water"]
 
@@ -19,11 +36,17 @@ class Weakness(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-
+        
+    @checks.has_started()
     @commands.guild_only()
     @commands.command()
     async def weakness(self, ctx, *pokemon):
-
+        vote=voted(ctx.author.id)
+        if vote == False:
+                embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
+                embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
+                return await ctx.send(embed=embed)
+            
         params = pokemon
 
         params = [p.lower() for p in params]
