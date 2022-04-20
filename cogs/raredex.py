@@ -25,6 +25,7 @@ class raredex(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
    
+    @checks.has_started()
     @commands.group(invoke_without_command=True)
     async def raredex(self, ctx):
       embed=discord.Embed(title="Rare Dex", color=0x36393F)
@@ -33,6 +34,7 @@ class raredex(commands.Cog):
       embed.add_field(name="Disable | Disable pings for Rare Dex", value=f"```diff\n- {ctx.prefix}raredex disable```")
       await ctx.send(embed=embed)
     
+    @checks.has_started()
     @commands.has_permissions(manage_messages=True)
     @raredex.command()
     async def setup(self, ctx, roleid):
@@ -45,6 +47,7 @@ class raredex(commands.Cog):
       
       await ctx.send(f"The Role {roleid} will be pinged when a Rare Pokemon spawns")
       
+    @checks.has_started()
     @raredex.command()
     async def enable(self, ctx):
       guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
@@ -63,6 +66,7 @@ class raredex(commands.Cog):
       embed=discord.Embed(title="Rare Dex", description="You **will** now get pinged whenever a Rare Pokemon spawns", color=0x36393F)
       await ctx.send(embed=embed)
     
+    @checks.has_started()
     @raredex.command()
     async def disable(self, ctx):
       guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
