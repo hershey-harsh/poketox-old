@@ -17,13 +17,14 @@ class Admin(commands.Cog):
 
     @checks.is_banker()
     @commands.command(aliases=("susp",))
-    async def suspend(self, ctx, users: commands.Greedy[FetchUserConverter]):
+    async def suspend(self, ctx, users: commands.Greedy[FetchUserConverter], *, reason: str = None):
+        
         await self.bot.mongo.db.member.update_many(
             {"_id": {"$in": [x.id for x in users]}},
             {"$set": {"suspended": True}},
         )
         users_msg = ", ".join(f"**{x}**" for x in users)
-        await ctx.send(f"Suspended {users_msg}.")
+        await ctx.send(f"Suspended {users_msg} for {reason}")
     
     @checks.is_banker()
     @commands.command(aliases=("usp",))
@@ -45,6 +46,19 @@ class Admin(commands.Cog):
             return await ctx.send(f"**{user.name}** is suspended")
 
         await self.bot.mongo.update_member(user, {"$inc": {"balance": amount}})
+        await self.bot.mongo.update_member(ctx.author, {"$inc": {"banker_balance": -1*amount}})
+        await ctx.send(f"Gave **{user}** {amount} tokens.")
+        
+    @checks.is_banker()
+    @commands.command(aliases = ["rb"])
+    async def removebal(self, ctx, user: FetchUserConverter, amount=0):
+        u = await self.bot.mongo.fetch_member_info(user)
+        if u is None:
+            return await ctx.send(f"**{user.name}** needs to run `{ctx.prefix}start`")
+        elif u.suspended:
+            return await ctx.send(f"**{user.name}** is suspended")
+
+        await self.bot.mongo.update_member(user, {"$inc": {"balance": -amount}})
         await self.bot.mongo.update_member(ctx.author, {"$inc": {"banker_balance": -1*amount}})
         await ctx.send(f"Gave **{user}** {amount} tokens.")
         
