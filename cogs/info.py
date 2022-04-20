@@ -16,6 +16,8 @@ def voted(userid):
         
         vote = str(vote)
         
+        print(vote)
+        
         if vote == "1":
                 return True
         else:
