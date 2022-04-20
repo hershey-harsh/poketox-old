@@ -25,9 +25,9 @@ def is_banker():
 def has_started():
     async def predicate(ctx):
         member = await ctx.bot.mongo.Member.find_one(
-            {"id": ctx.author.id}, {"suspended": 1}
+            {"id": ctx.author.id}, {"suspended": 1, "suspension_reason": 1}
         )
-
+        
         if member is None:
             raise commands.CheckFailure(
                 f"Please first start by running `{ctx.prefix}start`!"
@@ -35,6 +35,7 @@ def has_started():
 
         if member.suspended:
             embed=discord.Embed(title="Account Suspended", description="Your account was found to be in violation of Pokétox rules and has been permanently blacklisted from using the bot.", color=0xe74d3c)
+            embed.add_field(name="Reason", value=member.suspension_reason, inline=False)
             await ctx.send(embed=embed)
             raise commands.CheckFailure(None)
            
