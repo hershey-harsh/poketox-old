@@ -9,6 +9,7 @@ from cogs import collectors
 from name import solve
 import config
 import re
+from helpers import checks
 
 import json
 import requests
@@ -223,15 +224,17 @@ class Pokedex(commands.Cog):
                 
                 except:
                     pass
-                
+  @checks.has_started()           
   @commands.group(invoke_without_command=True)
   async def toggle(self, ctx):
                 return None
         
+  @checks.has_started()
   @toggle.group(invoke_without_command=True)
   async def spawn(self, ctx):
                 return None
-        
+    
+  @checks.has_started()
   @spawn.command()
   async def enable(self, ctx):
         mode = "On"
@@ -242,6 +245,8 @@ class Pokedex(commands.Cog):
         
         embed=discord.Embed(title="Spawn", description="I will start identifying spawn images", color=0x36393F)
         await ctx.send(embed=embed)
+  
+  @checks.has_started()
   @commands.has_permissions(manage_messages=True)     
   @spawn.command()
   async def disable(self, ctx):
