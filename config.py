@@ -3,7 +3,7 @@ import random
 import discord
 
 def RATES(bet):
-  random.randint(0, 11)
+  number = random.randint(0, 11)
   if number > 6: # the random function of the gambling games
     return true
 
