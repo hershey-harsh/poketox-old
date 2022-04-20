@@ -4,6 +4,10 @@ import config
 import json
 import requests
 from typing import Literal
+from similar import best_match
+
+with open('data/price.json') as f:
+        prices = json.load(f)
 
 def voted(userid):
         headers = {'authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3NTUyNjg5OTM4Njk1Mzc3OSIsImJvdCI6dHJ1ZSwiaWF0IjoxNjUwNDE0MjMzfQ.7aZSEjaVH-lH-KtBe_Q2pmGA-wnbyLLbODxEhcfghAE", 'content-type': 'application/json'}
@@ -99,8 +103,6 @@ class stats(commands.Cog):
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
-        with open('data/price.json') as f:
-            prices = json.load(f)
             
         try:
        
@@ -135,7 +137,7 @@ class stats(commands.Cog):
             await ctx.send(embed=embed)
         
         except:
-            embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons', color=0x2F3136)
+            embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons\n Perhaps maybe you meant {best_match(pokemon, prices.keys())}', color=0x2F3136)
             embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
             await ctx.send(embed=embed)
 
