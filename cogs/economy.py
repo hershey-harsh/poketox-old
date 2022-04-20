@@ -30,8 +30,7 @@ class Confirm(discord.ui.View):
     @discord.ui.button(label="Terms of Conditions", style=discord.ButtonStyle.gray)
     async def predi(self, button: discord.ui.Button, interaction: discord.Interaction):
                 
-                embed=discord.Embed(title="Terms of Conditions", color=0x2F3136)
-                embed.set_image(url="https://cdn.discordapp.com/attachments/921172317143466004/966463293734649886/unknown.png")
+                embed=discord.Embed(title="Terms of Conditions", description="Don't abuse the Auto Identify by using it to Autocatch (The automation of user account to catch Pokémons)\nDon't abuse any glitches or bugs found within Pokétox, instead report it to us at our support server https://discord.gg/W7t3EA3W\nFollow the Discord Terms of Service\nDon't spread false information about Pokétox or about Developers of Pokétox\nDon't spam Pokétox commands intentionally trying to lag the bot", color=0x2F3136)
 
                 await interaction.response.send_message(embed=embed,ephemeral=True)
               
@@ -44,6 +43,14 @@ class Minigame(commands.Cog):
         
     @commands.command()
     async def start(self, ctx):
+        member = await self.bot.mongo.fetch_member_info(ctx.author)
+
+        if member is not None:
+            return await ctx.send(f"You have already started!")
+
+        await self.bot.mongo.db.member.insert_one(
+            {"_id": ctx.author.id, "joined_at": datetime.utcnow()}
+        )
 
         
         embed=discord.Embed(title="Welcome to Pokétox", description="Congratulations on registering with Pokétox. Please go over our Terms of Service by clicking the button below or visit the Pokétox website [pokétox.com](https://poketox.me/tos) Violating any of our Terms of Service will result in a permanent ban.", color=0x2F3136)
