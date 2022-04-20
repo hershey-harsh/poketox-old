@@ -11,7 +11,7 @@ def voted(userid):
         url = f"https://top.gg/api/bots/875526899386953779/check?userId={userid}"
         response = requests.get(url, headers=headers)
 
-        output = json.loads(response)
+        print(response)
         vote = output['voted']
         
         vote = str(vote)
