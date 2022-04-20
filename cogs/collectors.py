@@ -95,6 +95,7 @@ class Collectors(commands.Cog):
                 if self.bot.data.species_by_number(int(x)):
                     yield self.bot.data.species_by_number(int(x))
         
+    @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
@@ -108,7 +109,8 @@ class Collectors(commands.Cog):
         )
         
         await ctx.send("Now whitelisting collect pings in " + ", ".join(x.mention for x in channels))
-
+    
+    @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
@@ -119,8 +121,9 @@ class Collectors(commands.Cog):
             ctx.guild, {"$set": {"sh_channels": [x.id for x in channels]}}
         )
 
-      await ctx.send("Now whitelisting Shiny pings in " + ", ".join(x.mention for x in channels))   
+      await ctx.send("Now whitelisting Shiny pings in " + ", ".join(x.mention for x in channels))  
 
+    @checks.has_started()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
     async def all(self, ctx: commands.Context):
@@ -132,6 +135,7 @@ class Collectors(commands.Cog):
 
         await self.bot.mongo.update_guild(ctx.guild, {"$set": {"sh_channels": []}})
 
+    @checks.has_started()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
     async def reset(self, ctx: commands.Context):
@@ -143,6 +147,7 @@ class Collectors(commands.Cog):
 
         await self.bot.mongo.update_guild(ctx.guild, {"$set": {"sh_channels": [877637271929647125]}})
   
+    @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
@@ -157,6 +162,7 @@ class Collectors(commands.Cog):
         )
         await ctx.send("Now whitelisting collect pings in " + ", ".join(x.mention for x in channels))
         
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.group(aliases=("cl",), invoke_without_command=True, slash_command=True)
     async def collectlist(self, ctx, *, member: discord.Member = None):
@@ -177,7 +183,8 @@ class Collectors(commands.Cog):
             await pages.start(ctx)
         except IndexError:
             await ctx.send("No pokémon or regions found.")
-
+        
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(slash_command=True)
     async def enable(self, ctx, guildid=None):
@@ -206,7 +213,8 @@ class Collectors(commands.Cog):
             embed=discord.Embed(title="Collector", description=f"This feature is already enabled in **{ctx.guild}**! **Tip:** You can always turn this feature of with `a!disable`", color=0x36393F)
             embed.set_footer(text=x)
             await ctx.send(embed=embed)
-    
+       
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(slash_command=True)
     async def disable(self, ctx):
@@ -231,7 +239,8 @@ class Collectors(commands.Cog):
             embed=discord.Embed(title="Ping", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_footer(text="Tip: You can always turn this feature on with a!enable")
             await ctx.send(embed=embed)
-    
+        
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(slash_command=True)
     async def serverlist(self, ctx):
@@ -264,7 +273,8 @@ class Collectors(commands.Cog):
         except IndexError:
             embed=discord.Embed(title="Collector Server List", description="None", color=0x36393F)
             await ctx.send(embed=embed)
-
+                
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
@@ -290,7 +300,8 @@ class Collectors(commands.Cog):
             await pages.start(ctx)
         except IndexError:
             await ctx.send("No pokémon or regions found.")
-
+        
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def add(self, ctx, *, species: SpeciesConverter):
@@ -313,6 +324,7 @@ class Collectors(commands.Cog):
             embed2.set_thumbnail(url=species.image_url)
             return await ctx.send(embed=embed2, ephemeral=True)
 
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def remove(self, ctx, *, species: SpeciesConverter):
@@ -333,6 +345,7 @@ class Collectors(commands.Cog):
             await ctx.send(embed=embed, ephemeral=True)
     
 
+    @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -345,11 +358,19 @@ class Collectors(commands.Cog):
             {"$unset": {str(ctx.guild.id): 1}},
             upsert=True,
         )
+        
+        result = await self.bot.mongo.db.shinyhunt.update_one(
+            {"_id": user.id},
+            {"$unset": {str(ctx.guild.id): 1}},
+            upsert=True,
+        )
 
         if result.upserted_id or result.modified_count > 0:
             return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** pinging list.")
         else:
             return await ctx.send(f"**{user}** is not on the **{ctx.guild}** pinging list!")
+
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def clear(self, ctx):
@@ -358,6 +379,7 @@ class Collectors(commands.Cog):
         await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
         await ctx.send("Cleared your collecting list.")
 
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def globalsearch(self, ctx, *, species: SpeciesConverter):
@@ -375,7 +397,8 @@ class Collectors(commands.Cog):
 
         
         await pages.start(ctx)
-    
+        
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def search(self, ctx, *, species: SpeciesConverter):
@@ -415,6 +438,7 @@ class Collectors(commands.Cog):
         
         return embed
 
+    @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(aliases = ["config"], slash_command=True)
     async def configuration(self, ctx: commands.Context):
@@ -425,7 +449,6 @@ class Collectors(commands.Cog):
         
         await ctx.send(embed=embed)
         
-
     @commands.Cog.listener()
     async def on_guild_leave(self, guild):
       del db[db[str(guild.id)]]
