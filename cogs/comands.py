@@ -28,12 +28,10 @@ class comands(commands.Cog):
         self.dblpy = dbl.DBLClient(self.bot, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3NTUyNjg5OTM4Njk1Mzc3OSIsImJvdCI6dHJ1ZSwiaWF0IjoxNjUwNDE0MjMzfQ.7aZSEjaVH-lH-KtBe_Q2pmGA-wnbyLLbODxEhcfghAE")
         
     @commands.Cog.listener()
-    async def on_dbl_vote(self, data):
-        print(data)
-        user = data['user']
-        embed = discord.Embed(description=str(user))
-        channel = self.bot.get_channel(int(966129589275471902))
-        await channel.send(embed=embed)
+    async def on_message(self, message):
+        if message.embeds and message.channel.id == 966129589275471902:
+            voter_id = message.embeds[0].footer.value
+            
    
     @commands.command(brief="Suggest new features")
     async def suggest(self, ctx, *, args):
