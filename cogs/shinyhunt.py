@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from helpers.converters import SpeciesConverter
+from helpers import checks
 
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779, 790788488983085056, 950522564751544330]
 
@@ -12,6 +13,7 @@ class Shinyhunt(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
       
+    @checks.has_started()
     @commands.group(aliases=("sh",),invoke_without_command=True)
     async def shinyhunt(self, ctx, species: SpeciesConverter):
         """Add pokémon to shiny hunt"""
@@ -55,6 +57,7 @@ class Shinyhunt(commands.Cog):
                 upsert=True,
             )
 
+    @checks.has_started()
     @shinyhunt.command()
     async def view(self, ctx):
         """Check the pokémon you are shiny hunting"""
@@ -71,6 +74,7 @@ class Shinyhunt(commands.Cog):
             embed.set_thumbnail(url=species.image_url)
             await ctx.send(embed=embed)
     
+    @checks.has_started()
     @shinyhunt.command()
     async def clear(self, ctx):
         """Clear your shiny hunt"""
