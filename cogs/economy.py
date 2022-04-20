@@ -55,54 +55,6 @@ class Minigame(commands.Cog):
         embed.add_field(name="Tokens", value=f"{amount:,}")
 
         return await ctx.send(embed=embed)     
-    
-    @checks.has_started()
-    @commands.max_concurrency(1, commands.BucketType.user)
-    @commands.command(aliases=["rf", "romo"])
-    async def romoflip(self, ctx, start="about"):
-        if start == "start":
-            member = await self.bot.mongo.fetch_member_info(ctx.author)
-            amount = member.balance
-
-            if amount < 10:
-                return await ctx.send("You don't have enough tokens to play (min: 10)")
-
-            flip_dialogue = ""
-            health = 100
-            for i in range(10):
-                damage = random.randint(5, 14)
-                health -= damage
-                if health < 0:
-                    health = 0
-                flip_dialogue += f"Flip {i+1}: {damage} damage — health: {health}\n"
-                if health <= 0:
-                    break
-
-            embed = discord.Embed(
-                title=f"Flipping Romo — 10 tokens",
-                description=flip_dialogue,
-                color=0xEB4634,
-            )
-
-            if health <= 0:
-                await self.bot.mongo.update_member(
-                    ctx.author, {"$inc": {"balance": 10}}
-                )
-                embed.add_field(name="Winnings", value="You won 20 tokens!")
-            else:
-                await self.bot.mongo.update_member(
-                    ctx.author, {"$inc": {"balance": -10}}
-                )
-                embed.add_field(name="Winnings", value="You won 0 tokens.")
-            await ctx.send(f"> <@!{ctx.author.id}>", embed=embed)
-            return
-        else:
-            embed = discord.Embed(
-                title=f"Romo Flip",
-                description=f"You pay 10 tokens to flip Romo 10 times. He starts with 100 health and each time you flip him, he loses 5-14 health. If he dies, you will receive 20 tokens. Do `{ctx.prefix}romoflip start` to play!",
-                color=0xEB4634,
-            )
-            return await ctx.send(embed=embed)
 
     @checks.has_started()
     @commands.max_concurrency(1, commands.BucketType.user)
