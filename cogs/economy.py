@@ -23,6 +23,18 @@ from data import models
 
 from data import models
 
+class Confirm(discord.ui.View):
+    def __init__(self, bot):
+        super().__init__()
+        
+    @discord.ui.button(label="Terms of Conditions", style=discord.ButtonStyle.gray)
+    async def predi(self, button: discord.ui.Button, interaction: discord.Interaction):
+                
+                embed=discord.Embed(title="Terms of Conditions", color=0x2F3136)
+                embed.set_image(url="https://cdn.discordapp.com/attachments/921172317143466004/966463293734649886/unknown.png")
+
+                await interaction.response.send_message(embed=embed,ephemeral=True)
+              
 
 class Minigame(commands.Cog):
     """Minigames"""
@@ -32,17 +44,13 @@ class Minigame(commands.Cog):
         
     @commands.command()
     async def start(self, ctx):
-        member = await self.bot.mongo.fetch_member_info(ctx.author)
 
-        if member is not None:
-            return await ctx.send(f"You have already started!")
+        
+        embed=discord.Embed(title="Welcome to Pokétox", description="Congratulations on registering with Pokétox. Please go over our Terms of Service by clicking the button below or visit the Pokétox website [pokétox.com](https://poketox.me/tos) Violating any of our Terms of Service will result in a permanent ban.", color=0x2F3136)
+        embed.add_field(name="About", value="Pokétox is an advanced helper bot made for Pokétwo. It has an economy system where you can gamble tokens which you can convert into pokécoins. Pokétox names any pokémon spawned by Pokétwo as well as pings you when a rare pokémon, shiny hunt, collecting pokémons spawns!", inline=False)
+        embed.add_field(name="Privacy", value="We store data only associated with your User ID (userid) If you want your data to be deleted please reach out to Future#0811 although if you are suspended your data will be unable to delete. Our data is stored in [MongoDB](https://www.mongodb.com/) on Virginians servers.", inline=True)
 
-        await self.bot.mongo.db.member.insert_one(
-            {"_id": ctx.author.id, "joined_at": datetime.utcnow()}
-        )
-        await ctx.send(
-            f"Welcome! You can run `{ctx.prefix}help` to see the variety of minigames we have. At any time, you can contact one of the bankers to get money or withdraw tokens."
-        )
+        await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.command(aliases=["bal"])
