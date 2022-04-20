@@ -10,8 +10,8 @@ def voted(userid):
 
         url = f"https://top.gg/api/bots/875526899386953779/check?userId={userid}"
         response = requests.get(url, headers=headers)
-
-        print(response)
+        
+        output = json.loads(response.text)
         vote = output['voted']
         
         vote = str(vote)
