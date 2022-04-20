@@ -137,7 +137,8 @@ class stats(commands.Cog):
             await ctx.send(embed=embed)
         
         except:
-            embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons\n Perhaps maybe you meant {best_match(pokemon, prices.keys())}', color=0x2F3136)
+            embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons', color=0x2F3136)
+            embed.add_field(name="Maybe you meant?", value=best_match(pokemon, prices.keys()))
             embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
             await ctx.send(embed=embed)
 
