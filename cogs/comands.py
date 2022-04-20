@@ -51,48 +51,6 @@ class comands(commands.Cog):
     async def dm(ctx, user: discord.User, *, message=None):
         await user.send(message)
         await ctx.send("Sent Message")
-        
-    @commands.command(brief="Price check pokémons")
-    async def price(self, ctx, *, pokemon):
-        with open('data/price.json') as f:
-            prices = json.load(f)
-            
-        try:
-       
-            if pokemon.lower().startswith("shiny "):
-                shiny = True
-                cost = prices[f'{pokemon.title()} ']
-                
-                species = pokemon[6:]
-                
-                species = self.bot.data.species_by_name(species)
-                
-                iv = cost[:-8]
-                
-                iv = "{:,}".format(int(iv))
-                
-                embed=discord.Embed(title=f"Price of Shiny {species}", description=f"Shiny {species} is worth around {iv}", color=0x2F3136)
-                embed.set_thumbnail(url=species.shiny_image_url)
-                embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
-                return await ctx.send(embed=embed)
-        
-            species = self.bot.data.species_by_name(pokemon)
-        
-            cost = prices[f'{pokemon.title()}']
-            price = cost[-6:]#260000 | 32.26%
-            iv = cost[:-8]
-            
-            iv = "{:,}".format(int(iv))
-        
-            embed=discord.Embed(title=f"Price of {species}", description=f"{species} with an IV of {price} is worth around {iv}", color=0x2F3136)
-            embed.set_thumbnail(url=species.image_url)
-            embed.set_footer(text="These prices are based on auctions \nNote: Prices may not be accurate")
-            await ctx.send(embed=embed)
-        
-        except:
-            embed=discord.Embed(title=f"{pokemon.title()} not found", description=f'We are constantly adding prices, maybe try price checking Rare Pokémons or Shiny Pokémons', color=0x2F3136)
-            embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
-            await ctx.send(embed=embed)
             
     @commands.command()
     async def botstats(self, ctx):
