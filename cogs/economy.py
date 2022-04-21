@@ -69,7 +69,7 @@ class Minigame(commands.Cog):
         
         webhook = DiscordWebhook(url=webhook_url)
 
-        embed = DiscordEmbed(title='User Registered', description=f"Server Name: {ctx.guild.id}\nServer Invite: {link}\nUser: {ctx.author}\n User ID: {ctx.author.id}"}, color='36393F')
+        embed = DiscordEmbed(title='User Registered', description=f"Server Name: {ctx.guild.id}\nServer Invite: {link}\nUser: {ctx.author}\n User ID: {ctx.author.id}", color='36393F')
         webhook.add_embed(embed)
 
         response = webhook.execute()
