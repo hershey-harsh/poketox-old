@@ -16,7 +16,9 @@ class Error_Hand(commands.Cog):
             print("Error worked")
             await ctx.send(f"Bot is missing {error.missing_perms} permission.")
         else:
-            raise error
+            print(f"Ignoring exception in command {ctx.command}")
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+            print("\n\n")
 
     @commands.command()
     async def ping(self, ctx):
