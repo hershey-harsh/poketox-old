@@ -29,9 +29,9 @@ def has_started():
         )
         
         if member is None:
-            raise commands.CheckFailure(
-                f"Please first start by running `{ctx.prefix}start`!"
-            )
+            embed=discord.Embed(title="New Account", description=f"Please register by doing `{ctx.prefix}start`\nNote: Running this command means you have accepted our [Terms of Service](https://poketox.me/tos)", color=0x36393F)
+            await ctx.send(embed=embed)
+            raise commands.CheckFailure(None)
 
         if member.suspended:
             embed=discord.Embed(title="Account Suspended", description="Your account was found to be in violation of Pokétox rules and has been permanently blacklisted from using the bot.", color=0xe74d3c)
