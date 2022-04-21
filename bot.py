@@ -44,12 +44,9 @@ class Bot(commands.Bot, events.EventsMixin):
                 read_messages=True,
                 send_messages=True,
                 embed_links=True,
-                attach_files=True,
                 read_message_history=True,
                 add_reactions=True,
                 external_emojis=True,
-                manage_roles=True,
-                mention_everyone=True,
             ).predicate
         )
 
