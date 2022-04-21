@@ -25,11 +25,11 @@ class Error_Hand(commands.Cog):
             await ctx.send("Sorry. This command is disabled and cannot be used.")
         elif isinstance(error, commands.BotMissingPermissions):
             missing = [
-                "`" + perm.replace("_", " ").replace("guild", "server").title() + "`"
+                "**" + perm.replace("_", " ").replace("guild", "server").title() + "**"
                 for perm in error.missing_permissions
             ]
             fmt = "\n".join(missing)
-            message = f"I need the following permmisions to function\n{fmt}"
+            message = f"Something went wrong! I am missing the following permissions to run this command:\n> {fmt}\n\n Fix this and try again"
             try:
                 await ctx.send(message)
             except:
