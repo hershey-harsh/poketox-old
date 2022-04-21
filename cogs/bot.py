@@ -9,23 +9,11 @@ class Error_Hand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+    
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.BotMissingPermissions):
-            missing = [
-                f"`{perm.replace('_', ' ').replace('guild', 'server').title()}`" for perm in error.missing_permissions
-            ]
-            fmt = "\n".join(missing)
-            message = (
-                f"💥 Err, I need the following permissions to run this command:\n{fmt}\nPlease fix this and try again."
-            )
-            botmember = self.bot.user if ctx.guild is None else ctx.guild.get_member(self.bot.user.id)
-            if ctx.channel.permissions_for(botmember).send_messages:
-                await ctx.send(message)
-
-    @commands.Cog.listener()
-    async def on_error(self, event, error):
-        if isinstance(error, commands.BotMissingPermissions):
+            print("Error worked")
             await ctx.send(f"Bot is missing {error.missing_perms} permission.")
         else:
             raise error
