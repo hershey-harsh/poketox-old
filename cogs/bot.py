@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands, tasks
 import config
 
-class Bot(commands.Cog):
+class Error_Hand(commands.Cog):
     """For basic bot operation."""
 
     def __init__(self, bot):
@@ -65,4 +65,4 @@ class Bot(commands.Cog):
         await message.edit(content=f"Pong! **{seconds * 1000:.0f} ms**")
 
 def setup(bot):
-    bot.add_cog(Bot(bot))
+    bot.add_cog(Error_Hand(bot))
