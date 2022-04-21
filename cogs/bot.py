@@ -2,6 +2,7 @@ import sys
 import traceback
 import discord
 from discord.ext import commands, tasks
+import copy
 import config
 
 class Error_Hand(commands.Cog):
@@ -42,7 +43,10 @@ class Error_Hand(commands.Cog):
                 pass
                 
         elif isinstance(error, commands.MissingRequiredArgument):
-            await self.bot.process_commands(f"help {ctx.command}")
+            con = copy.copy(ctx)
+            con.content = f'{ctx.prefix}help {ctx.command}'
+            
+            await self.bot.process_commands(con)
         elif isinstance(error, commands.CheckFailure):
             await ctx.send(error)
         elif isinstance(error, commands.UserInputError):
