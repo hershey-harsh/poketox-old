@@ -9,6 +9,12 @@ class Error_Hand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        
+    @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        if after.content != before.content:
+            after.content = after.content.replace("—", "--").replace("'", "′").replace("‘", "′").replace("’", "′")
+            await self.bot.process_commands(after)
    
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -36,7 +42,7 @@ class Error_Hand(commands.Cog):
                 pass
                 
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send_help(ctx.command)
+            await self.bot.process_commands(f"help {ctx.command}")
         elif isinstance(error, commands.CheckFailure):
             await ctx.send(error)
         elif isinstance(error, commands.UserInputError):
