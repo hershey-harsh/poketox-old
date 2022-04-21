@@ -25,11 +25,10 @@ class Error_Hand(commands.Cog):
 
     @commands.Cog.listener()
     async def on_error(self, event, error):
-        if isinstance(error, discord.NotFound):
-            return
+        if isinstance(error, commands.BotMissingPermissions):
+            await ctx.send(f"Bot is missing {error.missing_perms} permission.")
         else:
-            print(f"Ignoring exception in event {event}:")
-            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+            raise error
 
     @commands.command()
     async def ping(self, ctx):
