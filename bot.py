@@ -50,7 +50,6 @@ class Bot(commands.Bot, events.EventsMixin):
                 external_emojis=True,
                 manage_roles=True,
                 mention_everyone=True,
-                create_instant_invite=True,
             ).predicate
         )
 
