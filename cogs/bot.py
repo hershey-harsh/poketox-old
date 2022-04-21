@@ -10,10 +10,7 @@ class Error_Hand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
    
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.BotMissingPermissions):
-            await ctx.send("Bot missing perms")
+
 
     @commands.command()
     async def ping(self, ctx):
