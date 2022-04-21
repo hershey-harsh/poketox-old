@@ -29,7 +29,7 @@ class Error_Hand(commands.Cog):
                 for perm in error.missing_permissions
             ]
             fmt = "\n".join(missing)
-            message = f"Something went wrong! I am missing the following permissions to run this command:\n\n{fmt}\n\n Fix this and try again"
+            message = f"Something went wrong! I am missing the following permissions to run this command:\n\n{fmt}\n\n Please fix this and try again."
             try:
                 await ctx.send(message)
             except:
