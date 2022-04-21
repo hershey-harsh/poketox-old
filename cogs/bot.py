@@ -26,6 +26,17 @@ class Error_Hand(commands.Cog):
             )
             if ctx.channel.permissions_for(ctx.me).send_messages:
                 await ctx.send(message)
+                
+        elif isinstance(error, commands.MissingPermissions):
+            missing = [
+                "`" + perm.replace("_", " ").replace("guild", "server").title() + "`"
+                for perm in error.missing_permissions
+            ]
+            fmt = "\n".join(missing)
+            message = (
+                f"💥 Err, I need the following permissions to run this command:\n{fmt}\nPlease fix this and try again."
+            )   
+            
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send_help(ctx.command)
         elif isinstance(error, commands.CommandOnCooldown):
