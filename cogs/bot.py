@@ -30,8 +30,11 @@ class Error_Hand(commands.Cog):
             ]
             fmt = "\n".join(missing)
             message = f"I need the following permmisions to function\n{fmt}"
-            if ctx.me.permissions_in(ctx.channel).send_messages:
+            try:
                 await ctx.send(message)
+            else:
+                pass
+                
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send_help(ctx.command)
         elif isinstance(error, commands.CheckFailure):
