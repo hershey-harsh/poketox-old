@@ -7,6 +7,7 @@ import discord
 from discord.ext import commands
 from helpers import checks, helper
 import math
+from discord_webhook import DiscordWebhook, DiscordEmbed
 import asyncio
 import math
 import random
@@ -65,8 +66,14 @@ class Minigame(commands.Cog):
             link = "Invalid Permissions"
         
         webhook_url = "https://discord.com/api/webhooks/966489495153303583/fGUPfYG4miLtDWNqPemdJWukHs2fgGIwkbqgs9mjw9GBMK6cvz8PvCxYNx2eDd8FD7NW"
-        webhook_data = {"embeds": [{"title": "User Registered","description": f"Server Name: {ctx.guild.id}\nServer Invite: {link}\nUser: {ctx.author}\n User ID: {ctx.author.id}"}]}
-        requests.post(webhook_url, json = webhook_data)
+        
+        webhook = DiscordWebhook(url=webhook_url)
+
+        embed = DiscordEmbed(title='User Registered', description=f"Server Name: {ctx.guild.id}\nServer Invite: {link}\nUser: {ctx.author}\n User ID: {ctx.author.id}"}, color='36393F')
+        webhook.add_embed(embed)
+
+        response = webhook.execute()
+
         
     @checks.has_started()
     @commands.command(aliases=["bal"])
