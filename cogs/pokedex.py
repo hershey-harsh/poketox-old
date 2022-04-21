@@ -308,9 +308,6 @@ class Pokedex(commands.Cog):
             
         elif message.guild.id in config.unlimited_premium:
                 await self.identify(message.embeds[0].image.url, message, "Unlimited")
-            else:
-                embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(unlimited)}` seconds left till Cooldown expires", color=0x2f3136)
-                await message.channel.send(embed=embed)
            
                 
         
