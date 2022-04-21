@@ -44,8 +44,8 @@ class Error_Hand(commands.Cog):
             message = "Couldn't find that member."
         # Bot doesn't have permissions
         elif isinstance(error.original, discord.errors.Forbidden):
-            await ctx.message.add_reaction("📛")
             message = "Bot doesn't have the permissions needed."
+            await ctx.send(message)
         else:
             message = "This is an undocumented error, it has been reported and will be patched in the next update."
             raise error
