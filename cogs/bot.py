@@ -32,7 +32,7 @@ class Error_Hand(commands.Cog):
             message = f"I need the following permmisions to function\n{fmt}"
             try:
                 await ctx.send(message)
-            else:
+            except:
                 pass
                 
         elif isinstance(error, commands.MissingRequiredArgument):
