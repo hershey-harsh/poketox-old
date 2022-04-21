@@ -38,6 +38,22 @@ class Bot(commands.Bot, events.EventsMixin):
         self.remove_command("help")
         for i in COGS:
             self.load_extension(f"cogs.{i}")
+            
+        self.add_check(
+            commands.bot_has_permissions(
+                read_messages=True,
+                send_messages=True,
+                embed_links=True,
+                attach_files=True,
+                read_message_history=True,
+                add_reactions=True,
+                external_emojis=True,
+                manage_roles=True,
+                mention_everyone=True,
+                create_instant_invite=True,
+            ).predicate
+        )
+
         
     @property
     def mongo(self):
