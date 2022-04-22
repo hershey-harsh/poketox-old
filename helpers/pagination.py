@@ -3,6 +3,12 @@ import asyncio
 import discord
 from discord.ext import commands, menus
 
+class AsyncListPageSource(menus.AsyncIteratorPageSource):
+    def __init__(self, data, title=None, show_index=False, format_item=str):
+        super().__init__(data, per_page=20)
+        self.title = title
+        self.show_index = show_index
+        self.format_item = format_item
 
 class AsyncEmbedCodeBlockTablePageSource(menus.AsyncIteratorPageSource):
     def __init__(
