@@ -1,7 +1,12 @@
 import discord
 from discord.ext import commands, menus
+
 from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers.pagination import AsyncListPageSource
+
+from discord.ext.menus.views import ViewMenuPages
+from helpers.pagination import AsyncEmbedListPageSource
+
 from helpers import checks
 import asyncio
 from replit import db
