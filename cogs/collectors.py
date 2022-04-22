@@ -171,7 +171,7 @@ class Collectors(commands.Cog):
 
         result = await self.bot.mongo.db.collector.find_one({"_id": member.id})
 
-        pages = menus.MenuPages(
+        pages = ViewMenuPages(
             source=AsyncListPageSource(
                 self.doc_to_species(result or {}),
                 title=str(member),
