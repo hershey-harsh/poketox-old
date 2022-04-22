@@ -1,17 +1,8 @@
 import discord
-from discord.ext import commands, menus
-
-from helpers.converters import FetchUserConverter, SpeciesConverter
-from helpers.pagination import AsyncListPageSource
-
-from discord.ext.menus.views import ViewMenuPages
-from helpers.pagination import AsyncEmbedListPageSource
-
-from helpers import checks
-import asyncio
-from replit import db
-import discord,random,os
 from discord.ext import commands
+from discord.ext.menus.views import ViewMenuPages
+from helpers import checks
+from helpers.pagination import AsyncEmbedListPageSource
 
 seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
 seconds_120 = [937716757387444294]
@@ -175,9 +166,9 @@ class Collectors(commands.Cog):
             member = ctx.author
 
         result = await self.bot.mongo.db.collector.find_one({"_id": member.id})
-
+        
         pages = ViewMenuPages(
-            source=AsyncListPageSource(
+            source=AsyncEmbedListPageSource(
                 self.doc_to_species(result or {}),
                 title=str(member),
                 format_item=lambda x: x.name,
