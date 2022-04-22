@@ -92,8 +92,8 @@ class Reputation(commands.Cog):
         if msg := await self.process_giverep(ctx, user):
             await ctx.send(msg)
 
+    @commands.is_owner()
     @commands.command()
-    @checks.is_community_manager()
     async def setrep(self, ctx, user: discord.Member, value: int):
         """Sets a user's reputation to a given value.
         You must have the Community Manager role to use this."""
