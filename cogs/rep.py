@@ -114,8 +114,10 @@ class Reputation(commands.Cog):
             )
 
         def format_item(x):
-            name = f"{x['name']}#{x['discriminator']}"
-            return f"{x.get('reputation', 0)}", "-", name
+            name = f"{x['_id']}"
+            user = ctx.guild.get_member(int(name))
+            
+            return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
             source=AsyncEmbedCodeBlockTablePageSource(
