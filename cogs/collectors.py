@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
+from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers import checks
 from helpers.pagination import AsyncEmbedListPageSource
 
