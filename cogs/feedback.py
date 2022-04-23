@@ -51,9 +51,7 @@ class MyModal(Modal):
         
     async def callback(self, interaction: discord.Interaction):
 
-        await interaction.response.send_message(
-            f"Your name is {self.children[0].value}\n" f"The meaning of life is {self.children[1].value}\n"
-        )
+        await interaction.response.send_message("Your feedback has been submitted. Thank you.")
 
 
 class ModalView(discord.ui.View):
@@ -72,9 +70,9 @@ class feedbac(commands.Cog):
     @commands.command(brief="Suggest new features")
     async def feedback(self, ctx: commands.Context):
         """Sends a feedback form"""
-    
+        embed=discord.Embed(title="Feedback", description="Please click the button below to start the feedback form. Please keep in mind to include any negative feedbacks as well as positive feedbacks since we want to hear from everyone including people that don't like the bot", color=0x2F3136)
         view = ModalView()
-        await ctx.send("Click to open modal:", view=view)
+        await ctx.send(embed=embed, view=view)
       
 def setup(bot):
     print("Loaded Feedback")
