@@ -8,8 +8,6 @@ from discord.ui import Modal, TextInput
 class MyModal(Modal):
     def __init__(self) -> None:
         super().__init__("Pokétox Feedback")
-
-        self.add_item(TextInput(label="What is your User ID?", placeholder="790788488983085056"))
         
         self.add_item(
             TextInput(
