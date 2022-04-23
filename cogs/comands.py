@@ -116,7 +116,77 @@ class comands(commands.Cog):
             inline = False
         )
         await ctx.send(embed = embed)
-      
+        
+    @checks.has_started()
+    @commands.command()
+    async def spawnrate(self, ctx, pokemon):
+        
+        zero_set = ["Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
+        first_set = ["Nihilego", "Buzzwole", "Pheromosa", "Xurkitree", "Celesteela", "Kartana", "Guzzlord", "Poipole", "Naganadel", "Stakataka", "Blacephalon"]
+        second_set = ["Articuno", "Zapdos", "Moltres", "Mewtwo", "Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Regirock", "Regice", "Registeel", "Latias", "Latios", "Kyogre", "Groudon", "Rayquaza", "Uxie", "Mesprit", "Azelf", "Dialga", "Palkia", "Heatran", "Regigigas", "Giratina", "Cresselia", "Cobalion", "Terrakion", "Virizion", "Tornadus", "Thundurus", "Reshiram", "Zekrom", "Landorus", "Kyurem", "Xerneas", "Yveltal", "Zygarde", "Type: Null", "Silvally", "Tapu Koko", "Tapu Lele", "Tapu Bulu", "Tapu Fini", "Cosmog", "Cosmoem", "Solgaleo", "Lunala", "Necrozma", "Mr. Rime", "Zacian", "Zamazenta", "Eternatus", "Kubfu", "Urshifu", "Regieleki", "Regidrago", "Glastrier", "Spectrier", "Calyrex", "Alolan Golem", "10% Zygarde", "Complete Zygarde", "Galarian Slowking", "Rapid Strike Urshifu"]
+        third_set = ["Mew", "Celebi", "Jirachi", "Deoxys", "Phione", "Manaphy", "Darkrai", "Shaymin", "Arceus", "Victini", "Keldeo", "Meloetta", "Genesect", "Diancie", "Hoopa", "Volcanion", "Magearna", "Marshadow", "Zeraora", "Meltan", "Melmetal", "Obstagoon", "Perrserker", "Cursola", "Sirfetch'd", "Runerigus", "Zarude", "Attack Deoxys", "Defense Deoxys", "Speed Deoxys", "Alolan Raticate", "Alolan Sandslash", "Alolan Ninetales", "Alolan Dugtrio", "Alolan Persian", "Alolan Graveler", "Alolan Muk", "Alolan Exeggutor", "Alolan Marowak", "Galarian Rapidash", "Galarian Slowbro", "Galarian Weezing", "Galarian Mr. Mime", "Galarian Zigzagoon", "Galarian Darumaka", "Galarian Stunfisk"]
+        four_set = ["Alolan Rattata", "Alolan Raichu", "Alolan Sandshrew", "Alolan Vulpix", "Alolan Diglett", "Alolan Meowth", "Alolan Geodude", "Alolan Grimer", "Galarian Meowth", "Galarian Ponyta", "Galarian Slowpoke", "Galarian Farfetch'd", "Galarian Corsola", "Galarian Linoone", "Galarian Darmanitan", "Galarian Yamask"]
+        fifth_set = ["Dragonite", "Tyranitar", "Salamence", "Metagross", "Garchomp", "Hydreigon", "Goodra", "Kommo-o"]
+        sixth_set = ["Venusaur", "Charizard", "Blastoise", "Butterfree", "Beedrill", "Pidgeot", "Fearow", "Arbok", "Raichu", "Sandslash", "Nidoqueen", "Nidoking", "Clefable", "Ninetales", "Wigglytuff", "Vileplume", "Parasect", "Venomoth", "Dugtrio", "Persian", "Golduck", "Primeape", "Arcanine", "Poliwrath", "Alakazam", "Machamp", "Victreebel", "Tentacruel", "Golem", "Rapidash", "Slowbro", "Farfetch'd", "Dodrio", "Dewgong", "Muk", "Cloyster", "Gengar", "Hypno", "Kingler", "Electrode", "Exeggutor", "Marowak", "Hitmonlee", "Hitmonchan", "Weezing", "Kangaskhan", "Seaking", "Starmie", "Mr. Mime", "Jynx", "Pinsir", "Tauros", "Gyarados", "Lapras", "Ditto", "Vaporeon", "Jolteon", "Flareon", "Omastar", "Kabutops", "Aerodactyl", "Snorlax", "Meganium", "Typhlosion", "Feraligatr", "Furret", "Noctowl", "Ledian", "Ariados", "Crobat", "Lanturn", "Pichu", "Cleffa", "Igglybuff", "Xatu", "Ampharos", "Bellossom", "Azumarill", "Sudowoodo", "Politoed", "Jumpluff", "Sunflora", "Quagsire", "Espeon", "Umbreon", "Slowking", "Unown", "Wobbuffet", "Girafarig", "Forretress", "Dunsparce", "Steelix", "Granbull", "Qwilfish", "Scizor", "Shuckle", "Heracross", "Ursaring", "Magcargo", "Corsola", "Octillery", "Delibird", "Mantine", "Skarmory", "Houndoom", "Kingdra", "Donphan", "Stantler", "Smeargle", "Hitmontop", "Smoochum", "Elekid", "Magby", "Miltank", "Blissey", "Sceptile", "Blaziken", "Swampert", "Mightyena", "Linoone", "Beautifly", "Dustox", "Ludicolo", "Shiftry", "Swellow", "Pelipper", "Gardevoir", "Masquerain", "Breloom", "Slaking", "Ninjask", "Shedinja", "Exploud", "Hariyama", "Azurill", "Delcatty", "Sableye", "Mawile", "Aggron", "Medicham", "Manectric", "Plusle", "Minun", "Volbeat", "Illumise", "Swalot", "Sharpedo", "Wailord", "Camerupt", "Torkoal", "Grumpig", "Spinda", "Flygon", "Cacturne", "Altaria", "Zangoose", "Seviper", "Lunatone", "Solrock", "Whiscash", "Crawdaunt", "Claydol", "Cradily", "Armaldo", "Milotic", "Castform", "Kecleon", "Banette", "Tropius", "Chimecho", "Absol", "Wynaut", "Glalie", "Walrein", "Huntail", "Gorebyss", "Relicanth", "Luvdisc", "Torterra", "Infernape", "Empoleon", "Staraptor", "Bibarel", "Kricketune", "Luxray", "Budew", "Roserade", "Rampardos", "Bastiodon", "Wormadam", "Mothim", "Vespiquen", "Pachirisu", "Floatzel", "Cherrim", "Gastrodon", "Ambipom", "Drifblim", "Lopunny", "Mismagius", "Honchkrow", "Purugly", "Chingling", "Skuntank", "Bronzong", "Bonsly", "Mime Jr.", "Happiny", "Chatot", "Spiritomb", "Munchlax", "Lucario", "Hippowdon", "Drapion", "Toxicroak", "Carnivine", "Lumineon", "Mantyke", "Abomasnow", "Weavile", "Magnezone", "Lickilicky", "Rhyperior", "Tangrowth", "Electivire", "Magmortar", "Togekiss", "Yanmega", "Leafeon", "Glaceon", "Gliscor", "Mamoswine", "Porygon-Z", "Gallade", "Probopass", "Dusknoir", "Froslass", "Rotom", "Serperior", "Emboar", "Samurott", "Watchog", "Stoutland", "Liepard", "Simisage", "Simisear", "Simipour", "Musharna", "Unfezant", "Zebstrika", "Gigalith", "Swoobat", "Excadrill", "Audino", "Conkeldurr", "Seismitoad", "Throh", "Sawk", "Leavanny", "Scolipede", "Whimsicott", "Lilligant", "Basculin", "Krookodile", "Darmanitan", "Maractus", "Crustle", "Scrafty", "Sigilyph", "Cofagrigus", "Carracosta", "Archeops", "Garbodor", "Zoroark", "Cinccino", "Gothitelle", "Reuniclus", "Swanna", "Vanilluxe", "Sawsbuck", "Emolga", "Escavalier", "Amoonguss", "Jellicent", "Alomomola", "Galvantula", "Ferrothorn", "Klinklang", "Eelektross", "Beheeyem", "Chandelure", "Haxorus", "Beartic", "Cryogonal", "Accelgor", "Stunfisk", "Mienshao", "Druddigon", "Golurk", "Bisharp", "Bouffalant", "Braviary", "Mandibuzz", "Heatmor", "Durant", "Volcarona", "Chesnaught", "Delphox", "Greninja", "Diggersby", "Talonflame", "Vivillon", "Pyroar", "Florges", "Gogoat", "Pangoro", "Furfrou", "Meowstic", "Aegislash", "Aromatisse", "Slurpuff", "Malamar", "Barbaracle", "Dragalge", "Clawitzer", "Heliolisk", "Tyrantrum", "Aurorus", "Sylveon", "Hawlucha", "Dedenne", "Carbink", "Klefki", "Trevenant", "Gourgeist", "Avalugg", "Noivern", "Decidueye", "Incineroar", "Primarina", "Toucannon", "Gumshoos", "Vikavolt", "Crabominable", "Oricorio", "Ribombee", "Lycanroc", "Wishiwashi", "Toxapex", "Mudsdale", "Araquanid", "Lurantis", "Shiinotic", "Salazzle", "Bewear", "Tsareena", "Comfey", "Oranguru", "Passimian", "Golisopod", "Palossand", "Pyukumuku", "Minior", "Komala", "Turtonator", "Togedemaru", "Mimikyu", "Bruxish", "Drampa", "Dhelmise", "Rillaboom", "Cinderace", "Inteleon", "Greedent", "Corviknight", "Orbeetle", "Thievul", "Eldegoss", "Dubwool", "Drednaw", "Boltund", "Coalossal", "Flapple", "Appletun", "Sandaconda", "Cramorant", "Barraskewda", "Toxtricity", "Centiskorch", "Grapploct", "Polteageist", "Hatterene", "Grimmsnarl", "Alcremie", "Falinks", "Pincurchin", "Frosmoth", "Stonjourner", "Eiscue", "Indeedee", "Morpeko", "Copperajah", "Dracozolt", "Arctozolt", "Dracovish", "Arctovish", "Duraludon", "Dragapult", "Sandy Wormadam", "Trash Wormadam", "Sunny Castform", "Rainy Castform", "Snowy Castform", "Blue-Striped Basculin", "Pom-pom Oricorio", "Pa'u Oricorio", "Sensu Oricorio"]
+        seventh_set = ["Ivysaur", "Charmeleon", "Wartortle", "Raticate", "Dragonair", "Pupitar", "Shelgon", "Metang", "Gabite", "Zweilous", "Sliggoo", "Hakamo-o"]
+        eight_set = ["Metapod", "Kakuna", "Pidgeotto", "Spearow", "Ekans", "Pikachu", "Sandshrew", "Nidorina", "Nidorino", "Clefairy", "Vulpix", "Jigglypuff", "Golbat", "Gloom", "Paras", "Venonat", "Diglett", "Meowth", "Psyduck", "Mankey", "Growlithe", "Poliwhirl", "Kadabra", "Machoke", "Weepinbell", "Tentacool", "Graveler", "Ponyta", "Slowpoke", "Magneton", "Doduo", "Seel", "Grimer", "Shellder", "Haunter", "Onix", "Drowzee", "Krabby", "Voltorb", "Exeggcute", "Cubone", "Lickitung", "Koffing", "Rhydon", "Chansey", "Tangela", "Seadra", "Goldeen", "Staryu", "Scyther", "Electabuzz", "Magmar", "Magikarp", "Eevee", "Omanyte", "Kabuto", "Bayleef", "Quilava", "Croconaw", "Sentret", "Hoothoot", "Ledyba", "Spinarak", "Chinchou", "Togetic", "Natu", "Flaaffy", "Marill", "Skiploom", "Aipom", "Sunkern", "Yanma", "Wooper", "Murkrow", "Misdreavus", "Pineco", "Gligar", "Snubbull", "Sneasel", "Teddiursa", "Slugma", "Piloswine", "Remoraid", "Houndour", "Phanpy", "Porygon2", "Tyrogue", "Grovyle", "Combusken", "Marshtomp", "Poochyena", "Zigzagoon", "Silcoon", "Cascoon", "Lombre", "Nuzleaf", "Taillow", "Wingull", "Kirlia", "Surskit", "Shroomish", "Vigoroth", "Nincada", "Loudred", "Makuhita", "Nosepass", "Skitty", "Lairon", "Meditite", "Electrike", "Roselia", "Gulpin", "Carvanha", "Wailmer", "Numel", "Spoink", "Vibrava", "Cacnea", "Swablu", "Barboach", "Corphish", "Baltoy", "Lileep", "Anorith", "Feebas", "Shuppet", "Dusclops", "Snorunt", "Sealeo", "Clamperl", "Grotle", "Monferno", "Prinplup", "Staravia", "Bidoof", "Kricketot", "Luxio", "Cranidos", "Shieldon", "Burmy", "Combee", "Buizel", "Cherubi", "Shellos", "Drifloon", "Buneary", "Glameow", "Stunky", "Bronzor", "Riolu", "Hippopotas", "Skorupi", "Croagunk", "Finneon", "Snover", "Servine", "Pignite", "Dewott", "Patrat", "Herdier", "Purrloin", "Pansage", "Pansear", "Panpour", "Munna", "Tranquill", "Blitzle", "Boldore", "Woobat", "Drilbur", "Gurdurr", "Palpitoad", "Swadloon", "Whirlipede", "Cottonee", "Petilil", "Krokorok", "Darumaka", "Dwebble", "Scraggy", "Yamask", "Tirtouga", "Archen", "Trubbish", "Zorua", "Minccino", "Gothorita", "Duosion", "Ducklett", "Vanillish", "Deerling", "Karrablast", "Foongus", "Frillish", "Joltik", "Ferroseed", "Klang", "Eelektrik", "Elgyem", "Lampent", "Fraxure", "Cubchoo", "Shelmet", "Mienfoo", "Golett", "Pawniard", "Rufflet", "Vullaby", "Larvesta", "Quilladin", "Braixen", "Frogadier", "Bunnelby", "Fletchinder", "Spewpa", "Litleo", "Floette", "Skiddo", "Pancham", "Espurr", "Doublade", "Spritzee", "Swirlix", "Inkay", "Binacle", "Skrelp", "Clauncher", "Helioptile", "Tyrunt", "Amaura", "Phantump", "Pumpkaboo", "Bergmite", "Noibat", "Dartrix", "Torracat", "Brionne", "Trumbeak", "Yungoos", "Charjabug", "Crabrawler", "Cutiefly", "Rockruff", "Mareanie", "Mudbray", "Dewpider", "Fomantis", "Morelull", "Salandit", "Stufful", "Steenee", "Wimpod", "Sandygast", "Thwackey", "Raboot", "Drizzile", "Skwovet", "Corvisquire", "Dottler", "Nickit", "Gossifleur", "Wooloo", "Chewtle", "Yamper", "Carkol", "Applin", "Silicobra", "Arrokuda", "Toxel", "Sizzlipede", "Clobbopus", "Sinistea", "Hattrem", "Morgrem", "Milcery", "Snom", "Cufant", "Drakloak"]
+        ninth_set = ["Bulbasaur", "Charmander", "Squirtle", "Chikorita", "Cyndaquil", "Totodile", "Treecko", "Torchic", "Mudkip", "Turtwig", "Chimchar", "Piplup", "Snivy", "Tepig", "Oshawott", "Chespin", "Fennekin", "Froakie", "Rowlet", "Litten", "Popplio", "Grookey", "Scorbunny", "Sobble"]
+        tenth_set = ["Rattata", "Dratini", "Larvitar", "Bagon", "Beldum", "Gible", "Deino", "Goomy", "Jangmo-o"]
+        eleven_set = ["Caterpie", "Weedle", "Pidgey", "Nidoran♀️", "Nidoran♂️", "Zubat", "Oddish", "Poliwag", "Abra", "Machop", "Bellsprout", "Geodude", "Magnemite", "Gastly", "Rhyhorn", "Horsea", "Porygon", "Togepi", "Mareep", "Hoppip", "Swinub", "Wurmple", "Lotad", "Seedot", "Ralts", "Slakoth", "Whismur", "Aron", "Trapinch", "Duskull", "Spheal", "Starly", "Shinx", "Lillipup", "Pidove", "Roggenrola", "Timburr", "Tympole", "Sewaddle", "Venipede", "Sandile", "Gothita", "Solosis", "Vanillite", "Klink", "Tynamo", "Litwick", "Axew", "Fletchling", "Scatterbug", "Flabébé", "Honedge", "Pikipek", "Grubbin", "Bounsweet", "Rookidee", "Blipbug", "Rolycoly", "Hatenna", "Impidimp", "Dreepy""]
+        
+        if pokemon in zero_set:
+            INDIVIDUAL_PERCENTAGE = "0.0007%"
+            INDIVIDUAL = "142857"
+                      
+        elif pokemon in first_set:
+            INDIVIDUAL_PERCENTAGE = "0.0011%"
+            INDIVIDUAL = "90909"
+                      
+        elif pokemon in second_set:
+            INDIVIDUAL_PERCENTAGE = "0.0022%"
+            INDIVIDUAL = "45455"
+                      
+        elif pokemon in third_set:
+            INDIVIDUAL_PERCENTAGE = "0.0045%"
+            INDIVIDUAL = "22222"
+                      
+        elif pokemon in four_set:
+            INDIVIDUAL_PERCENTAGE = "0.009%"
+            INDIVIDUAL = "11111"
+                      
+        elif pokemon in fifth_set:
+            INDIVIDUAL_PERCENTAGE = "0.024%"
+            INDIVIDUAL = "4167"
+                      
+        elif pokemon in sixth_set:
+            INDIVIDUAL_PERCENTAGE = "0.036%"
+            INDIVIDUAL = "2778"
+                      
+        elif pokemon in seventh_set:
+            INDIVIDUAL_PERCENTAGE = "0.0959%"
+            INDIVIDUAL = "1043"
+                      
+        elif pokemon in eight_set:
+            INDIVIDUAL_PERCENTAGE = "0.1439%"
+            INDIVIDUAL = "695"
+                      
+        elif pokemon in ninth_set:
+            INDIVIDUAL_PERCENTAGE = "0.1918%"
+            INDIVIDUAL = "521"
+                      
+        elif pokemon in tenth_set:
+            INDIVIDUAL_PERCENTAGE = "0.3836%"
+            INDIVIDUAL = "261"
+                      
+        elif pokemon in eleven_set:
+            INDIVIDUAL_PERCENTAGE = "0.5754%"
+            INDIVIDUAL = "174"
+                      
+        embed=discord.Embed(title="Spawn Rate", description=f"The spawn rate for {pokemon} is {INDIVIDUAL_PERCENTAGE} which means 1 every {INDIVIDUAL}". color=0x2F3136)
+        species = self.bot.data.species_by_name(species)
+        embed.set_thumbnail(url=species.image_url)
+        await ctx.send(embed=embed)
+        
 def setup(bot):
     print("Loaded Commands")
     bot.add_cog(comands(bot))
