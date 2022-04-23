@@ -125,7 +125,7 @@ class Reputation(commands.Cog):
                 users,
                 title=f"Reputation Leaderboard",
                 format_embed=format_embed,
-                format_item=await format_item,
+                format_item=format_item,
                 count=count,
                 show_index=True,
             )
