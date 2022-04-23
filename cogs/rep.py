@@ -7,6 +7,7 @@ from helpers import checks, time
 from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
+import typing
 import asyncio
 
 GIVEREP_TRIGGERS = [
@@ -28,6 +29,12 @@ class Reputation(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self._cd = commands.CooldownMapping.from_cooldown(1, 120.0, commands.BucketType.member)
+        
+    def get_ratelimit(self, message: discord.Message) -> typing.Optional[int]:
+        """Returns the ratelimit left"""
+        bucket = self._cd.get_bucket(message)
+        return bucket.update_rate_limit()
 
     async def get_rep(self, user):
         member = await self.bot.mongo.db.member.find_one({"_id": user.id})
@@ -56,10 +63,20 @@ class Reputation(commands.Cog):
     async def on_message(self, message):
         if message.author.bot or len(message.mentions) == 0:
             return
-
+        
         words = message.content.casefold().split()
         if any(x in words for x in GIVEREP_TRIGGERS):
-            await message.channel.send(f"Please run `a!rep give <user>` to give them rep")
+            ratelimit = self.get_ratelimit(message)
+            if ratelimit is None:
+                ctx = await self.bot.get_context(message)
+                await self.process_giverep(ctx, message.mentions[0])
+            
+            else:
+            embed = discord.Embed(
+                title=f"Slow it down!",
+                description=f"Try again in {int(float(ratelimit))} seconds",
+                color=0x99A7F9
+            )
 
     @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     async def rep(self, ctx, *, user: discord.Member = None):
