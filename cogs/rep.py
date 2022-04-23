@@ -8,8 +8,8 @@ from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
-def info(user: Union[discord.Member, FetchUserConverter]):
-    return str(user)
+def info(member: discord.Member = None):
+    return str(member)
 
 GIVEREP_TRIGGERS = [
     "+rep",
