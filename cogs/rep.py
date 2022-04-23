@@ -123,7 +123,6 @@ class Reputation(commands.Cog):
             source=AsyncEmbedCodeBlockTablePageSource(
                 users,
                 title=f"Reputation Leaderboard",
-                color="0x2F3136",
                 format_embed=format_embed,
                 format_item=format_item,
                 count=count,
