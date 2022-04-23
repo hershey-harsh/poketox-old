@@ -8,9 +8,6 @@ from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
-def info(user: discord.User):
-    return user.display_name
-
 GIVEREP_TRIGGERS = [
     "+rep",
     "thanks",
@@ -119,8 +116,8 @@ class Reputation(commands.Cog):
             )
 
         def format_item(x):
-            name = f"<@{x['_id']}>"
-            user = info(name)
+            name = f"{x['_id']}"
+            user = await self.bot.fetch_user(int(name))
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
