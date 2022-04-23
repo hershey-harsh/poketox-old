@@ -22,6 +22,7 @@ COGS = [
     "comands",
     "admin",
     "rep",
+    "feedback"
 ]
 
 
