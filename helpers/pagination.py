@@ -43,7 +43,7 @@ class AsyncEmbedCodeBlockTablePageSource(menus.AsyncIteratorPageSource):
         lines = ["  ".join(self.justify(x, col_lens[i]) for i, x in enumerate(line)).rstrip() for line in table]
         embed = discord.Embed(
             title=self.title,
-            color="0x2F3136",
+            color=0x2F3136,
             description="```" + f"\n".join(lines) + "```",
         )
         self.format_embed(embed)
@@ -68,7 +68,7 @@ class EmbedListPageSource(menus.ListPageSource):
         )
         return discord.Embed(
             title=self.title,
-            color=discord.Color.blurple(),
+            color=0x2F3136,
             description=f"\n".join(lines),
         )
 
@@ -89,7 +89,7 @@ class AsyncEmbedListPageSource(menus.AsyncIteratorPageSource):
         ]
         embed = discord.Embed(
             title=self.title,
-            color=discord.Color.blurple(),
+            color=0x2F3136,
             description=f"\n".join(lines),
         )
         footer = f"Showing entries {start + 1}–{start + len(lines) + 1}"
@@ -109,7 +109,7 @@ class AsyncEmbedFieldsPageSource(menus.AsyncIteratorPageSource):
     async def format_page(self, menu, entries):
         embed = discord.Embed(
             title=self.title,
-            color=discord.Color.blurple(),
+            color=0x2F3136,
         )
         start = menu.current_page * self.per_page
         for i, x in enumerate(entries, start=start):
