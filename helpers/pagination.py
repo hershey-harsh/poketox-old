@@ -43,7 +43,7 @@ class AsyncEmbedCodeBlockTablePageSource(menus.AsyncIteratorPageSource):
         lines = ["  ".join(self.justify(x, col_lens[i]) for i, x in enumerate(line)).rstrip() for line in table]
         embed = discord.Embed(
             title=self.title,
-            color=discord.Color.blurple(),
+            color="0x2F3136",
             description="```" + f"\n".join(lines) + "```",
         )
         self.format_embed(embed)
