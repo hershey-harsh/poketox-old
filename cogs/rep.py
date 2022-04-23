@@ -75,7 +75,7 @@ class Reputation(commands.Cog):
         embed.add_field(name="Rank", value=str(rank + 1))
         await ctx.send(embed=embed)
 
-    @rep.command(aliases=("gr", "+"), cooldown_after_parsing=True)
+    @rep.command(aliases=["gr", "+"], cooldown_after_parsing=True)
     @commands.cooldown(1, 120, commands.BucketType.user)
     async def give(self, ctx, *, user: discord.Member):
         """Gives a reputation point to a user"""
@@ -84,7 +84,7 @@ class Reputation(commands.Cog):
             await ctx.send(msg)
 
     @commands.is_owner()
-    @rep.command(aliases=("add"))
+    @rep.command(aliases=["add"])
     async def set(self, ctx, user: discord.Member, value: int):
         """Sets a user's reputation to a given value.
         You must have the Community Manager role to use this."""
@@ -92,7 +92,7 @@ class Reputation(commands.Cog):
         await self.update_rep(user, set=value)
         await ctx.send(f"Set **{user}**'s rep to **{value}**")
 
-    @rep.command(aliases=("lb", "leaderb", "lboard"))
+    @rep.command(aliases=["lb", "leaderb", "lboard"])
     async def leaderboard(self, ctx):
         """Displays the server reputation leaderboard."""
 
