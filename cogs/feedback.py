@@ -14,7 +14,7 @@ class MyModal(Modal):
         self.add_item(
             TextInput(
                 label="What is your most favorite about Pokétox?",
-                placeholder="Identify Spawns, Automatic Pings, Price Check...",
+                placeholder="Identify Spawns, Automatic Pings, Price Check",
                 style=discord.TextInputStyle.long,
             )
         )
@@ -22,7 +22,7 @@ class MyModal(Modal):
         self.add_item(
             TextInput(
                 label="What is your least favorite about Pokétox?",
-                placeholder="Identify Spawns, Automatic Pings, Price Check...",
+                placeholder="Identify Spawns, Automatic Pings, Price Check",
                 style=discord.TextInputStyle.long,
             )
         )
