@@ -11,6 +11,7 @@ seconds_120 = [937716757387444294]
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779, 790788488983085056, 950522564751544330]
 
 import random
+import asyncio
 
 async def collectping(self, ctx, species: SpeciesConverter):
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
