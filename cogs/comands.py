@@ -182,7 +182,7 @@ class comands(commands.Cog):
             INDIVIDUAL_PERCENTAGE = "0.5754%"
             INDIVIDUAL = "174"
                       
-        embed=discord.Embed(title="Spawn Rate", description=f"The spawn rate for {pokemon.capitalize()} is {INDIVIDUAL_PERCENTAGE}\n1 {pokemon.capitalize()} will spawn every {INDIVIDUAL} spawns", color=0x2F3136)
+        embed=discord.Embed(title="Spawn Rate", description=f"The spawn rate for {pokemon} is {INDIVIDUAL_PERCENTAGE}\n1 {pokemon} will spawn every {INDIVIDUAL} spawns", color=0x2F3136)
         embed.set_thumbnail(url=pokemon.image_url)
         await ctx.send(embed=embed)
         
