@@ -49,10 +49,10 @@ class feedbac(commands.Cog):
         
     @commands.command(brief="Suggest new features")
     async def feedback(ctx: commands.Context):
-    """Sends a feedback form"""
+        """Sends a feedback form"""
     
-      view = ModalView()
-      await ctx.send("Click to open modal:", view=view)
+        view = ModalView()
+        await ctx.send("Click to open modal:", view=view)
       
 def setup(bot):
     print("Loaded Feedback")
