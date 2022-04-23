@@ -5,6 +5,7 @@ from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
 from helpers import checks, time
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
+from typing import Union
 
 GIVEREP_TRIGGERS = [
     "+rep",
@@ -100,6 +101,10 @@ class Reputation(commands.Cog):
 
         await self.update_rep(user, set=value)
         await ctx.send(f"Set **{user}**'s rep to **{value}**")
+        
+    async def info(self, ctx, *, user: Union[discord.Member, FetchUserConverter]):
+        return str(user)
+        
 
     @commands.command()
     async def toprep(self, ctx):
@@ -115,8 +120,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = ctx.guild.get_member(int(name))
-            
+            user = await info(self, ctx, name)
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
