@@ -7,6 +7,7 @@ from helpers import checks, time
 from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
+import asyncio
 
 async def info(id, bot):
     user = await bot.fetch_user(int(name))
@@ -121,7 +122,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = info(name, self.bot)
+            user = asyncio.run(info(name, self.bot))
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
