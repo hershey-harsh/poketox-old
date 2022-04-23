@@ -84,7 +84,7 @@ class Reputation(commands.Cog):
             await ctx.send(msg)
 
     @commands.is_owner()
-    @rep.command(aliases=("set", "add"))
+    @rep.command(aliases=("add"))
     async def set(self, ctx, user: discord.Member, value: int):
         """Sets a user's reputation to a given value.
         You must have the Community Manager role to use this."""
