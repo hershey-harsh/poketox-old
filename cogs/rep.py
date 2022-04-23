@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
 from helpers import checks, time
+from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
