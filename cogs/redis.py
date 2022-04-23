@@ -25,5 +25,5 @@ class Redis(commands.Cog):
         self.bot.loop.create_task(self.close())
 
 
-async def setup(bot):
-    await bot.add_cog(Redis(bot))
+def setup(bot):
+    bot.add_cog(Redis(bot))
