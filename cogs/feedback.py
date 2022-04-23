@@ -109,7 +109,7 @@ class feedbac(commands.Cog):
     @commands.group(invoke_without_command=True, ignore_extra=False, brief="Shows the help page")
     async def about(self, ctx):
         embed=discord.Embed(title="ℹ️ Why should you use Pokétox?", description="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more. Overall Pokétox provides the best User Interface.", color=0x2F3136)
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed, view=DropdownView(ctx))
         
         
     @commands.command(brief="Suggest new features")
