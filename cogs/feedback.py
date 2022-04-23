@@ -13,7 +13,7 @@ class MyModal(Modal):
         
         self.add_item(
             TextInput(
-                label="What is your favorite thing about Pokétox?",
+                label="What is your most favorite about Pokétox?",
                 placeholder="Identify Spawns, Automatic Pings, Price Check...",
                 style=discord.TextInputStyle.long,
             )
@@ -21,7 +21,7 @@ class MyModal(Modal):
         
         self.add_item(
             TextInput(
-                label="What is your **least** favorite thing about Pokétox?",
+                label="What is your least favorite about Pokétox?",
                 placeholder="Identify Spawns, Automatic Pings, Price Check...",
                 style=discord.TextInputStyle.long,
             )
@@ -29,8 +29,24 @@ class MyModal(Modal):
         
         self.add_item(
             TextInput(
-                label="What is your favorite thing about Pokétox?",
-                placeholder="Identify Spawns, Automatic Pings, Price Check...",
+                label="What features do you want to see in Pokétox?",
+                placeholder="Commands that don't exist yet",
+                style=discord.TextInputStyle.long,
+            )
+        )
+        
+        self.add_item(
+            TextInput(
+                label="Would you use Pokétox over other naming bots?",
+                placeholder="I would use because / I would not use because",
+                style=discord.TextInputStyle.long,
+            )
+        )
+        
+        self.add_item(
+            TextInput(
+                label="Does Pokétox provide better experience than other bots?",
+                placeholder="Yes because / No because",
                 style=discord.TextInputStyle.long,
             )
         )
