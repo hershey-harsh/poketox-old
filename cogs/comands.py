@@ -119,7 +119,9 @@ class comands(commands.Cog):
         
     @checks.has_started()
     @commands.command()
-    async def spawnrate(self, ctx, pokemon: SpeciesConverter):
+    async def spawnrate(self, ctx, pokemon):
+        
+        pokemon = pokemon.capitalize()
         
         zero_set = ["Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
         first_set = ["Nihilego", "Buzzwole", "Pheromosa", "Xurkitree", "Celesteela", "Kartana", "Guzzlord", "Poipole", "Naganadel", "Stakataka", "Blacephalon"]
