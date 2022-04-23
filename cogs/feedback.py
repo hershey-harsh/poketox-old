@@ -48,7 +48,7 @@ class feedbac(commands.Cog):
         self.bot = bot
         
     @commands.command(brief="Suggest new features")
-    async def feedback(ctx: commands.Context):
+    async def feedback(self, ctx: commands.Context):
         """Sends a feedback form"""
     
         view = ModalView()
