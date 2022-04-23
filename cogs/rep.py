@@ -59,7 +59,7 @@ class Reputation(commands.Cog):
 
         words = message.content.casefold().split()
         if any(x in words for x in GIVEREP_TRIGGERS):
-            await message.channel.send(f"Please run `{bot.command_prefix}rep give <user>` to give them rep")
+            await message.channel.send(f"Please run `{self.bot.command_prefix}rep give <user>` to give them rep")
 
     @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     async def rep(self, ctx, *, user: discord.Member = None):
