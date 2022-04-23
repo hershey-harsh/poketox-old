@@ -8,6 +8,9 @@ from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
+def info(ctx, *, user: Union[discord.Member, FetchUserConverter]):
+    return str(user)
+
 GIVEREP_TRIGGERS = [
     "+rep",
     "thanks",
@@ -102,10 +105,6 @@ class Reputation(commands.Cog):
 
         await self.update_rep(user, set=value)
         await ctx.send(f"Set **{user}**'s rep to **{value}**")
-        
-    def info(self, ctx, *, user: Union[discord.Member, FetchUserConverter]):
-        return str(user)
-        
 
     @commands.command()
     async def toprep(self, ctx):
@@ -121,7 +120,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = info(self, ctx, name)
+            user = info(ctx, name)
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
