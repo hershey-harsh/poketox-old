@@ -92,14 +92,6 @@ class Reputation(commands.Cog):
         embed.add_field(name="Rank", value=str(rank + 1))
         await ctx.send(embed=embed)
 
-    @rep.command(aliases=["gr", "+"], cooldown_after_parsing=True)
-    @commands.cooldown(1, 120, commands.BucketType.user)
-    async def give(self, ctx, *, user: discord.Member):
-        """Gives a reputation point to a user"""
-
-        if msg := await self.process_giverep(ctx, user):
-            await ctx.send(msg)
-
     @commands.is_owner()
     @rep.command(aliases=["add"])
     async def set(self, ctx, user: discord.Member, value: int):
