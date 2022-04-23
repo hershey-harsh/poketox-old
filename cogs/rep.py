@@ -118,7 +118,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = bot.get_user(int(name))
+            user = self.bot.get_user(int(name))
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
