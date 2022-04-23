@@ -119,7 +119,7 @@ class Reputation(commands.Cog):
             )
 
         def format_item(x):
-            name = f"{x['_id']}"
+            name = f"<@{x['_id']}>"
             user = info(name)
             return f"{x.get('reputation', 0)}", "-", str(user)
 
