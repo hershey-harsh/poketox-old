@@ -119,7 +119,7 @@ class comands(commands.Cog):
         
     @checks.has_started()
     @commands.command()
-    async def spawnrate(self, ctx, pokemon):
+    async def spawnrate(self, ctx, pokemon: SpeciesConverter):
         
         zero_set = ["Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
         first_set = ["Nihilego", "Buzzwole", "Pheromosa", "Xurkitree", "Celesteela", "Kartana", "Guzzlord", "Poipole", "Naganadel", "Stakataka", "Blacephalon"]
@@ -134,57 +134,56 @@ class comands(commands.Cog):
         tenth_set = ["Rattata", "Dratini", "Larvitar", "Bagon", "Beldum", "Gible", "Deino", "Goomy", "Jangmo-o"]
         eleven_set = ["Caterpie", "Weedle", "Pidgey", "Nidoran♀️", "Nidoran♂️", "Zubat", "Oddish", "Poliwag", "Abra", "Machop", "Bellsprout", "Geodude", "Magnemite", "Gastly", "Rhyhorn", "Horsea", "Porygon", "Togepi", "Mareep", "Hoppip", "Swinub", "Wurmple", "Lotad", "Seedot", "Ralts", "Slakoth", "Whismur", "Aron", "Trapinch", "Duskull", "Spheal", "Starly", "Shinx", "Lillipup", "Pidove", "Roggenrola", "Timburr", "Tympole", "Sewaddle", "Venipede", "Sandile", "Gothita", "Solosis", "Vanillite", "Klink", "Tynamo", "Litwick", "Axew", "Fletchling", "Scatterbug", "Flabébé", "Honedge", "Pikipek", "Grubbin", "Bounsweet", "Rookidee", "Blipbug", "Rolycoly", "Hatenna", "Impidimp", "Dreepy"]
         
-        if pokemon in zero_set:
+        if pokemon.capitalize() in zero_set:
             INDIVIDUAL_PERCENTAGE = "0.0007%"
             INDIVIDUAL = "142857"
                       
-        elif pokemon in first_set:
+        elif pokemon.capitalize() in first_set:
             INDIVIDUAL_PERCENTAGE = "0.0011%"
             INDIVIDUAL = "90909"
                       
-        elif pokemon in second_set:
+        elif pokemon.capitalize() in second_set:
             INDIVIDUAL_PERCENTAGE = "0.0022%"
             INDIVIDUAL = "45455"
                       
-        elif pokemon in third_set:
+        elif pokemon.capitalize() in third_set:
             INDIVIDUAL_PERCENTAGE = "0.0045%"
             INDIVIDUAL = "22222"
                       
-        elif pokemon in four_set:
+        elif pokemon.capitalize() in four_set:
             INDIVIDUAL_PERCENTAGE = "0.009%"
             INDIVIDUAL = "11111"
                       
-        elif pokemon in fifth_set:
+        elif pokemon.capitalize() in fifth_set:
             INDIVIDUAL_PERCENTAGE = "0.024%"
             INDIVIDUAL = "4167"
                       
-        elif pokemon in sixth_set:
+        elif pokemon.capitalize() in sixth_set:
             INDIVIDUAL_PERCENTAGE = "0.036%"
             INDIVIDUAL = "2778"
                       
-        elif pokemon in seventh_set:
+        elif pokemon.capitalize() in seventh_set:
             INDIVIDUAL_PERCENTAGE = "0.0959%"
             INDIVIDUAL = "1043"
                       
-        elif pokemon in eight_set:
+        elif pokemon.capitalize() in eight_set:
             INDIVIDUAL_PERCENTAGE = "0.1439%"
             INDIVIDUAL = "695"
                       
-        elif pokemon in ninth_set:
+        elif pokemon.capitalize().capitalize() in ninth_set:
             INDIVIDUAL_PERCENTAGE = "0.1918%"
             INDIVIDUAL = "521"
                       
-        elif pokemon in tenth_set:
+        elif pokemon.capitalize() in tenth_set:
             INDIVIDUAL_PERCENTAGE = "0.3836%"
             INDIVIDUAL = "261"
                       
-        elif pokemon in eleven_set:
+        elif pokemon.capitalize() in eleven_set:
             INDIVIDUAL_PERCENTAGE = "0.5754%"
             INDIVIDUAL = "174"
                       
         embed=discord.Embed(title="Spawn Rate", description=f"The spawn rate for {pokemon.capitalize()} is {INDIVIDUAL_PERCENTAGE}\n1 {pokemon.capitalize()} will spawn every {INDIVIDUAL} spawns", color=0x2F3136)
-        species = self.bot.data.species_by_name(pokemon)
-        embed.set_thumbnail(url=species.image_url)
+        embed.set_thumbnail(url=pokemon.image_url)
         await ctx.send(embed=embed)
         
 def setup(bot):
