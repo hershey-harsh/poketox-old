@@ -22,11 +22,10 @@ class Error_Hand(commands.Cog):
         if isinstance(error, commands.NoPrivateMessage):
             await ctx.send("This command cannot be used in private messages.")
         elif isinstance(error, commands.CommandOnCooldown):
-            cooldown = error.retry_after:.2f
-            cooldown = int(float(cooldown))
+
             embed = discord.Embed(
                 title=f"Slow it down!",
-                description=f"Try again in {cooldown} seconds",
+                description=f"Try again in {round(error.retry_after, 2)} seconds",
                 color=0x99A7F9
             )
             await ctx.send(embed=embed)
