@@ -115,7 +115,7 @@ class Reputation(commands.Cog):
                 f"\nUse `{ctx.prefix}rep` to view your reputation, and `{ctx.prefix}giverep` to give rep to others."
             )
 
-        def format_item(x):
+        async def format_item(x):
             name = f"{x['_id']}"
             user = await self.bot.fetch_user(int(name))
             return f"{x.get('reputation', 0)}", "-", str(user)
@@ -125,7 +125,7 @@ class Reputation(commands.Cog):
                 users,
                 title=f"Reputation Leaderboard",
                 format_embed=format_embed,
-                format_item=format_item,
+                format_item=await format_item,
                 count=count,
                 show_index=True,
             )
