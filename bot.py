@@ -21,7 +21,8 @@ COGS = [
     "economy",
     "comands",
     "admin",
-    "rep"
+    "rep",
+    "redis"
 ]
 
 
