@@ -57,7 +57,7 @@ class MyModal(Modal):
 
 
 class ModalView(discord.ui.View):
-    @discord.ui.button(label="Open Survey", style=discord.ButtonStyle.blurple)
+    @discord.ui.button(label="Open Survey", style=discord.ButtonStyle.primary)
     async def open_modal(self, button: discord.Button, interaction: discord.Interaction):
         # Create the modal
         modal = MyModal()
