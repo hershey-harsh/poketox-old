@@ -43,7 +43,7 @@ class MyModal(Modal):
         
         self.add_item(
             TextInput(
-                label="Does Pokétox provide better experience than other bots?",
+                label="Do other bots provide better features?",
                 placeholder="Yes because / No because",
                 style=discord.TextInputStyle.long,
             )
@@ -57,7 +57,7 @@ class MyModal(Modal):
 
 
 class ModalView(discord.ui.View):
-    @discord.ui.button(label="Open Modal", style=discord.ButtonStyle.green)
+    @discord.ui.button(label="Open Survey", style=discord.ButtonStyle.blurple)
     async def open_modal(self, button: discord.Button, interaction: discord.Interaction):
         # Create the modal
         modal = MyModal()
