@@ -24,8 +24,8 @@ class Error_Hand(commands.Cog):
         elif isinstance(error, commands.CommandOnCooldown):
             embed = discord.Embed(
                 title=f"Slow it down!",
-                description=f"Try again in {error.retry_after:.2f}s.",
-                color=0xEB4634
+                description=f"Try again in {int(error.retry_after:.2f)} seconds",
+                color=0x99A7F9
             )
             await ctx.send(embed=embed)
         elif isinstance(error, commands.DisabledCommand):
