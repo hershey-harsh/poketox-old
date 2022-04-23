@@ -49,16 +49,6 @@ class Reputation(commands.Cog):
         if user == ctx.author:
             return "You can't give rep to yourself!"
 
-        cd = await self.bot.redis.pttl(key := f"rep:{ctx.author.id}")
-        if cd >= 0:
-            return f"You're on cooldown! Try again in **{time.human_timedelta(timedelta(seconds=cd / 1000))}**."
-
-        user_cd = await self.bot.redis.pttl(user_key := f"rep:{ctx.author.id}:{user.id}")
-        if user_cd >= 0:
-            return f"You can rep **{user}** again in **{time.human_timedelta(timedelta(seconds=user_cd / 1000))}**."
-
-        await self.bot.redis.set(key, 1, expire=120)
-        await self.bot.redis.set(user_key, 1, expire=3600)
         await self.update_rep(user, inc=1)
         await ctx.send(f"Gave 1 rep to **{user}**.")
 
@@ -69,10 +59,9 @@ class Reputation(commands.Cog):
 
         words = message.content.casefold().split()
         if any(x in words for x in GIVEREP_TRIGGERS):
-            ctx = await self.bot.get_context(message)
-            await self.process_giverep(ctx, message.mentions[0])
+            await message.channel.send(f"Please run `{bot.command_prefix}rep give <user>` to give them rep")
 
-    @commands.command()
+    @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     async def rep(self, ctx, *, user: discord.Member = None):
         """Shows the reputation of a given user."""
 
@@ -80,32 +69,31 @@ class Reputation(commands.Cog):
             user = ctx.author
 
         rep, rank = await self.get_rep(user)
-        embed = discord.Embed(color=discord.Color.blurple())
+        embed = discord.Embed(color=0x2F3136)
         embed.set_author(name=user.display_name, icon_url=user.display_avatar.url)
         embed.add_field(name="Reputation", value=str(rep))
         embed.add_field(name="Rank", value=str(rank + 1))
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=("gr", "+"), cooldown_after_parsing=True)
+    @rep.command(aliases=("gr", "+"), cooldown_after_parsing=True)
     @commands.cooldown(1, 120, commands.BucketType.user)
-    async def giverep(self, ctx, *, user: discord.Member):
-        """Gives a reputation point to a user.
-        You can only give reputation once every two minutes; once every hour for a specific user."""
+    async def give(self, ctx, *, user: discord.Member):
+        """Gives a reputation point to a user"""
 
         if msg := await self.process_giverep(ctx, user):
             await ctx.send(msg)
 
     @commands.is_owner()
-    @commands.command()
-    async def setrep(self, ctx, user: discord.Member, value: int):
+    @rep.command(aliases=("set", "add"))
+    async def set(self, ctx, user: discord.Member, value: int):
         """Sets a user's reputation to a given value.
         You must have the Community Manager role to use this."""
 
         await self.update_rep(user, set=value)
         await ctx.send(f"Set **{user}**'s rep to **{value}**")
 
-    @commands.command()
-    async def toprep(self, ctx):
+    @rep.command(aliases=("lb", "leaderb", "lboard"))
+    async def leaderboard(self, ctx):
         """Displays the server reputation leaderboard."""
 
         users = self.bot.mongo.db.member.find({"reputation": {"$gt": 0}}).sort("reputation", -1)
@@ -125,6 +113,7 @@ class Reputation(commands.Cog):
             source=AsyncEmbedCodeBlockTablePageSource(
                 users,
                 title=f"Reputation Leaderboard",
+                color="0x2F3136",
                 format_embed=format_embed,
                 format_item=format_item,
                 count=count,
