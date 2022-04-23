@@ -1,10 +1,49 @@
 import discord
 from discord.ext import commands
 from discord.ui import Modal, TextInput
+from discord.ext import commands, menus
+import typing
 
 # Defines a custom Modal with questions
 # that user has to answer. The callback function
 # of this class is called when the user submits the modal
+
+class Dropdown(discord.ui.Select):
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+        # Set the options that will be presented inside the dropdown
+        options = [
+            discord.SelectOption(label='Spawn Identifying', description='Why our spawn identifying is better?', emoji='<:pokeball:936773252913700894>'),
+            discord.SelectOption(label='Automatic Pings', description='Why our Automatic Pings are better?', emoji='✨'),
+            discord.SelectOption(label='Miscellaneous', description='Why our miscellaneous commands are better?', emoji='<:poketwo:964311966384554025>'),
+        ]
+
+        # The placeholder is what will be shown when no option is chosen
+        # The min and max values indicate we can only pick one of the three options
+        # The options parameter defines the dropdown options. We defined this above
+        super().__init__(placeholder='Choose the category', min_values=1, max_values=1, options=options)
+
+    async def callback(self, interaction: discord.Interaction):
+
+        if self.values[0] == "Spawn Identifying":
+            embed=discord.Embed(title="ℹ️ Why should you use Pokétox?", description="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more. Overall Pokétox provides the best User Interface.", color=0x2F3136)
+            embed.add_field(name="Spawn Identifying", value="Although other bots have this feature — Pokétox makes its much better because it doesn't send a low quality image with the pokémon name in it, rather it sends the pokémons name in the title and provides a button which when you click gives you all the dex information.", inline=True)
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            
+        if self.values[0] == "Automatic Pings":
+            embed=discord.Embed(title="ℹ️ Why should you use Pokétox?", description="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more. Overall Pokétox provides the best User Interface.", color=0x2F3136)
+            embed.add_field(name="Automatic Pings", value="There are no bots out there that ping you for Collecting Lists — Only few bots automatically ping you for Shiny Hunts including Pokétox. You can also add regions to your collecting lists instead of individual pokémons.", inline=True)
+            
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            
+        if self.values[0] == "Miscellaneous":
+            embed=discord.Embed(title="ℹ️ Why should you use Pokétox?", description="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more. Overall Pokétox provides the best User Interface.", color=0x2F3136)
+            embed.add_field(name="Miscellaneous", value="There are some bots out there that provide Shiny Rate, and Spawn Rate and so on... Meanwhile Pokétox provides all those features including Duel Stats, Weakness, Nature, Moveset, Dex, Spawn Rate, and Price Check commands which no other bot provides. These commands are unique to Pokétox.", inline=True)
+            
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
 class MyModal(Modal):
     def __init__(self) -> None:
         super().__init__("Pokétox Feedback")
@@ -66,6 +105,12 @@ class ModalView(discord.ui.View):
 class feedbac(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        
+    @commands.group(invoke_without_command=True, ignore_extra=False, brief="Shows the help page")
+    async def about(self, ctx):
+        embed=discord.Embed(title="ℹ️ Why should you use Pokétox?", description="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more. Overall Pokétox provides the best User Interface.", color=0x2F3136)
+        await ctx.send(embed=embed)
+        
         
     @commands.command(brief="Suggest new features")
     async def feedback(self, ctx: commands.Context):
