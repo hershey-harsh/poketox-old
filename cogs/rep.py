@@ -102,7 +102,7 @@ class Reputation(commands.Cog):
         await self.update_rep(user, set=value)
         await ctx.send(f"Set **{user}**'s rep to **{value}**")
         
-    async def info(self, ctx, *, user: Union[discord.Member, FetchUserConverter]):
+    def info(self, ctx, *, user: Union[discord.Member, FetchUserConverter]):
         return str(user)
         
 
@@ -120,7 +120,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = await info(self, ctx, name)
+            user = info(self, ctx, name)
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
