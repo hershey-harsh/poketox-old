@@ -8,7 +8,7 @@ from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
-async def info(id, bot)
+async def info(id, bot):
     user = await bot.fetch_user(int(name))
     return user
 
