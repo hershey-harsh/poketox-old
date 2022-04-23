@@ -72,11 +72,12 @@ class Reputation(commands.Cog):
                 await self.process_giverep(ctx, message.mentions[0])
             
             else:
-            embed = discord.Embed(
-                title=f"Slow it down!",
-                description=f"Try again in {int(float(ratelimit))} seconds",
-                color=0x99A7F9
-            )
+                embed = discord.Embed(
+                    title=f"Slow it down!",
+                    description=f"Try again in {int(float(ratelimit))} seconds",
+                    color=0x99A7F9
+                )
+                await message.channel.send(embed=embed)
 
     @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     async def rep(self, ctx, *, user: discord.Member = None):
