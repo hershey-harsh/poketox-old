@@ -134,51 +134,51 @@ class comands(commands.Cog):
         tenth_set = ["Rattata", "Dratini", "Larvitar", "Bagon", "Beldum", "Gible", "Deino", "Goomy", "Jangmo-o"]
         eleven_set = ["Caterpie", "Weedle", "Pidgey", "Nidoran♀️", "Nidoran♂️", "Zubat", "Oddish", "Poliwag", "Abra", "Machop", "Bellsprout", "Geodude", "Magnemite", "Gastly", "Rhyhorn", "Horsea", "Porygon", "Togepi", "Mareep", "Hoppip", "Swinub", "Wurmple", "Lotad", "Seedot", "Ralts", "Slakoth", "Whismur", "Aron", "Trapinch", "Duskull", "Spheal", "Starly", "Shinx", "Lillipup", "Pidove", "Roggenrola", "Timburr", "Tympole", "Sewaddle", "Venipede", "Sandile", "Gothita", "Solosis", "Vanillite", "Klink", "Tynamo", "Litwick", "Axew", "Fletchling", "Scatterbug", "Flabébé", "Honedge", "Pikipek", "Grubbin", "Bounsweet", "Rookidee", "Blipbug", "Rolycoly", "Hatenna", "Impidimp", "Dreepy"]
         
-        if pokemon.capitalize() in zero_set:
+        if pokemon in zero_set:
             INDIVIDUAL_PERCENTAGE = "0.0007%"
             INDIVIDUAL = "142857"
                       
-        elif pokemon.capitalize() in first_set:
+        elif pokemon in first_set:
             INDIVIDUAL_PERCENTAGE = "0.0011%"
             INDIVIDUAL = "90909"
                       
-        elif pokemon.capitalize() in second_set:
+        elif pokemon in second_set:
             INDIVIDUAL_PERCENTAGE = "0.0022%"
             INDIVIDUAL = "45455"
                       
-        elif pokemon.capitalize() in third_set:
+        elif pokemon in third_set:
             INDIVIDUAL_PERCENTAGE = "0.0045%"
             INDIVIDUAL = "22222"
                       
-        elif pokemon.capitalize() in four_set:
+        elif pokemon in four_set:
             INDIVIDUAL_PERCENTAGE = "0.009%"
             INDIVIDUAL = "11111"
                       
-        elif pokemon.capitalize() in fifth_set:
+        elif pokemon in fifth_set:
             INDIVIDUAL_PERCENTAGE = "0.024%"
             INDIVIDUAL = "4167"
                       
-        elif pokemon.capitalize() in sixth_set:
+        elif pokemon in sixth_set:
             INDIVIDUAL_PERCENTAGE = "0.036%"
             INDIVIDUAL = "2778"
                       
-        elif pokemon.capitalize() in seventh_set:
+        elif pokemon in seventh_set:
             INDIVIDUAL_PERCENTAGE = "0.0959%"
             INDIVIDUAL = "1043"
                       
-        elif pokemon.capitalize() in eight_set:
+        elif pokemon in eight_set:
             INDIVIDUAL_PERCENTAGE = "0.1439%"
             INDIVIDUAL = "695"
                       
-        elif pokemon.capitalize().capitalize() in ninth_set:
+        elif pokemon in ninth_set:
             INDIVIDUAL_PERCENTAGE = "0.1918%"
             INDIVIDUAL = "521"
                       
-        elif pokemon.capitalize() in tenth_set:
+        elif pokemon in tenth_set:
             INDIVIDUAL_PERCENTAGE = "0.3836%"
             INDIVIDUAL = "261"
                       
-        elif pokemon.capitalize() in eleven_set:
+        elif pokemon in eleven_set:
             INDIVIDUAL_PERCENTAGE = "0.5754%"
             INDIVIDUAL = "174"
                       
