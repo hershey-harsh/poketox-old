@@ -9,10 +9,6 @@ from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 import asyncio
 
-async def info(id, bot):
-    user = await bot.fetch_user(int(name))
-    return user
-
 GIVEREP_TRIGGERS = [
     "+rep",
     "thanks",
@@ -122,7 +118,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = asyncio.run(info(name, self.bot))
+            user = bot.get_user(int(name))
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
