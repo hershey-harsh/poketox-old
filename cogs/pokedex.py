@@ -265,7 +265,7 @@ class Pokedex(commands.Cog):
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
         solution = hint_solve(message.content)
    
-        embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {solution[0]}\nNeed help? Join our [Support Server](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
+        embed1=discord.Embed(title=solution[0].capitalize(), description=f"The pokémon spawned is {solution[0]}\nNeed help? Join our [Support Server](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
         species = self.bot.data.species_by_name(solution[0])
         embed1.set_thumbnail(url=species.image_url)
         await message.channel.send(embed=embed)
