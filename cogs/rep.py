@@ -9,7 +9,7 @@ from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
 def info(member: discord.Member = None):
-    return str(member.display_name)
+    return member.display_name
 
 GIVEREP_TRIGGERS = [
     "+rep",
