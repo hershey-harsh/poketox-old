@@ -43,6 +43,13 @@ class Dropdown(discord.ui.Select):
             
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
+class DropdownView(discord.ui.View):
+    def __init__(self, ctx):
+        super().__init__()
+        self.ctx = ctx
+
+        # Adds the dropdown to our view object.
+        self.add_item(Dropdown(self.ctx))
 
 class MyModal(Modal):
     def __init__(self) -> None:
