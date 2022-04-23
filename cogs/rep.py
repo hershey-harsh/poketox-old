@@ -8,7 +8,7 @@ from helpers.utils import FetchUserConverter
 from helpers.pagination import AsyncEmbedCodeBlockTablePageSource
 from typing import Union
 
-def info(ctx, *, user: Union[discord.Member, FetchUserConverter]):
+def info(user: Union[discord.Member, FetchUserConverter]):
     return str(user)
 
 GIVEREP_TRIGGERS = [
@@ -120,7 +120,7 @@ class Reputation(commands.Cog):
 
         def format_item(x):
             name = f"{x['_id']}"
-            user = info(ctx, name)
+            user = info(name)
             return f"{x.get('reputation', 0)}", "-", str(user)
 
         pages = ViewMenuPages(
