@@ -38,6 +38,8 @@ class Member(Document):
 
     pray_count = fields.IntegerField(default=0)
     pray_winnings = fields.IntegerField(default=0)
+    
+    reputation = fields.StringField()
 
     #event system
     event_activated = fields.BooleanField(default = False)
