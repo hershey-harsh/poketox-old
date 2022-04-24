@@ -141,9 +141,9 @@ class Pokedex(commands.Cog):
 
   def __init__(self, bot):
     self.bot = bot
-    self._free = commands.CooldownMapping.from_cooldown(1, 120.0, commands.BucketType.guild)
-    self._basic = commands.CooldownMapping.from_cooldown(1, 60.0, commands.BucketType.guild)
-    self._premium = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
+    self._free = commands.CooldownMapping.from_cooldown(1, 60.0, commands.BucketType.guild)
+    self._basic = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
+    self._premium = commands.CooldownMapping.from_cooldown(1, 15.0, commands.BucketType.guild)
     self._unlimited = commands.CooldownMapping.from_cooldown(1, 1.0, commands.BucketType.guild)
 
   def get_ratelimit(self, message):
