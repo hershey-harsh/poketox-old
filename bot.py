@@ -18,7 +18,6 @@ COGS = [
     "bot",
     "raredex",
     "help",
-    "economy",
     "comands",
     "admin",
     "rep",
