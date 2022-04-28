@@ -30,7 +30,7 @@ class Bot(commands.Bot, events.EventsMixin):
     def __init__(self, **kwargs):
         super().__init__(
             **kwargs,
-            command_prefix=[config.PREFIX, "A!"], self_bot=False, owner_id = 790788488983085056, slash_commands=True, intents=discord.Intents.all(),
+            command_prefix=[config.PREFIX, "A!"], self_bot=False, owner_id = 790788488983085056, slash_commands=True,
             allowed_mentions=discord.AllowedMentions(everyone=False, roles=True, replied_user=False),
             case_insensitive=True,
         )
