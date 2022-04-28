@@ -26,7 +26,6 @@ COGS = [
 ]
 
 intents = discord.Intents.none()
-intents.message_content = True
 
 class Bot(commands.Bot, events.EventsMixin):
     def __init__(self, **kwargs):
