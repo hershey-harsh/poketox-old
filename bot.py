@@ -25,7 +25,7 @@ COGS = [
     "economy"
 ]
 
-intents = discord.Intents.default()
+intents = discord.Intents.none()
 intents.message_content = True
 
 class Bot(commands.Bot, events.EventsMixin):
