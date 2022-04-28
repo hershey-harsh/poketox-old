@@ -200,7 +200,7 @@ class Pokedex(commands.Cog):
         
           if species is None:
             return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
-          embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
+          embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
