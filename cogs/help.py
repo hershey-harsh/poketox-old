@@ -68,7 +68,7 @@ class Help(commands.Cog):
     embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png")
     embed.add_field(name="About Me", value="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more.", inline=False)
     embed.add_field(name="<:developer:964340773367726101> Developer", value="[Future#0811](https://discord.com/users/790788488983085056)", inline=True)
-    embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/mhcjdJkxn6)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
+    embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/YmVA2ah5tE)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
     await ctx.send(embed=embed, view=DropdownView(ctx))
   
   @help.command(brief="Shows the help page")
