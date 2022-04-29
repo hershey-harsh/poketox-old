@@ -58,7 +58,7 @@ class Shinyhunt(commands.Cog):
             )
 
     @checks.has_started()
-    @shinyhunt.commands()
+    @shinyhunt.command()
     async def view(self, ctx):
         """Check the pokémon you are shiny hunting"""
 
@@ -75,7 +75,7 @@ class Shinyhunt(commands.Cog):
             await ctx.send(embed=embed)
     
     @checks.has_started()
-    @shinyhunt.commands()
+    @shinyhunt.command()
     async def clear(self, ctx):
         """Clear your shiny hunt"""
 
