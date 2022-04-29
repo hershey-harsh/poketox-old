@@ -25,7 +25,8 @@ COGS = [
     "economy"
 ]
 
-intents = discord.Intents.none()
+intents = discord.Intents.default()
+intents.message_content = True
 
 class Bot(commands.Bot, events.EventsMixin):
     def __init__(self, **kwargs):
@@ -39,8 +40,10 @@ class Bot(commands.Bot, events.EventsMixin):
         self.config = config
         os.system("clear")
         self.remove_command("help")
-        for i in COGS:
-            self.load_extension(f"cogs.{i}")
+        
+        async def setup_hook(self):
+            for i in COGS:
+                await self.load_extension(f"cogs.{i}")
             
         self.add_check(
             commands.bot_has_permissions(
