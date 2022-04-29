@@ -41,8 +41,12 @@ class Bot(commands.Bot, events.EventsMixin):
         os.system("clear")
         self.remove_command("help")
         
+        async def on_ready(self):
+            print("Bot ready!")
+        
         async def setup_hook(self):
             for i in COGS:
+                print("Loading")
                 await self.load_extension(f"cogs.{i}")
             
         self.add_check(
