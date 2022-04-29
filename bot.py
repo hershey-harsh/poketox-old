@@ -47,15 +47,15 @@ class Bot(commands.Bot, events.EventsMixin):
         
         print("Loaded Check #3")
         
-        async def on_ready(self):
-            print("Bot ready!")
+    async def on_ready(self):
+        print("Bot ready!")
             
         print("Loaded Check #4")
         
-        async def setup_hook(self):
-            for i in COGS:
-                print("Loading")
-                await self.load_extension(f"cogs.{i}")
+    async def setup_hook(self):
+        for i in COGS:
+            print("Loading")
+            await self.load_extension(f"cogs.{i}")
             
         print("Loaded Check #5")
             
