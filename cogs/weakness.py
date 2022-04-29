@@ -139,6 +139,6 @@ class Weakness(commands.Cog):
 
         await ctx.send(embed=embed)
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Weakness")
-    bot.add_cog(Weakness(bot))
+    await bot.add_cog(Weakness(bot))
