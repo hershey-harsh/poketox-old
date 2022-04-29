@@ -78,6 +78,6 @@ class Error_Hand(commands.Cog):
         seconds = (message.created_at - ctx.message.created_at).total_seconds()
         await message.edit(content=f"Pong! **{seconds * 1000:.0f} ms**")
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Error")
-    bot.add_cog(Error_Hand(bot))
+    await bot.add_cog(Error_Hand(bot))
