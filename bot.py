@@ -5,6 +5,8 @@ from discord.ext.events import member_kick
 import datetime
 import config
 
+print(discord.__version__)
+
 COGS = [
     "data",
     "mongo",
