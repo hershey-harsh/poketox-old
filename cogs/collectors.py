@@ -453,6 +453,6 @@ class Collectors(commands.Cog):
       
 
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Collectors")
-    bot.add_cog(Collectors(bot))
+    await bot.add_cog(Collectors(bot))
