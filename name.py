@@ -22,7 +22,7 @@ def solve(url):
   predicted_pokemon = model.config.id2label[predicted_id]
   return predicted_pokemon
 
-filelist = ["../data/gen8.h5", "../data/gen7.h5", "../data/special_forms.h5", "../data/gen6.h5", "../data/gen5.h5"]
+filelist = ["gen8.h5", "gen7.h5", "special_forms.h5", "gen6.h5", "gen5.h5"]
 
 model_list = []
 for file in filelist:
