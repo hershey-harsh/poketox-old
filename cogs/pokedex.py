@@ -268,7 +268,7 @@ class Pokedex(commands.Cog):
         embed1=discord.Embed(title=solution[0].capitalize(), description=f"The pokémon spawned is {solution[0]}\nNeed help? Join our [Support Server](https://discord.gg/mhcjdJkxn6)", color=0x2F3136)
         species = self.bot.data.species_by_name(solution[0])
         embed1.set_thumbnail(url=species.image_url)
-        await message.channel.send(embed=embed)
+        await message.channel.send(embed=embed1)
         
   
         
