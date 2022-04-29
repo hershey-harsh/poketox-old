@@ -126,6 +126,6 @@ class feedbac(commands.Cog):
         view = ModalView()
         await ctx.send(embed=embed, view=view)
       
-def setup(bot):
+async def setup(bot):
     print("Loaded Feedback")
-    bot.add_cog(feedbac(bot))
+    await bot.add_cog(feedbac(bot))
