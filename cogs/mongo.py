@@ -145,6 +145,6 @@ class Mongo(commands.Cog):
         )
         return glob
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Mongo")
-    bot.add_cog(Mongo(bot))
+    await bot.add_cog(Mongo(bot))
