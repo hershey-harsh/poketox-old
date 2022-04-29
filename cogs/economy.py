@@ -386,5 +386,5 @@ class Minigame(commands.Cog):
         )
         return await message.reply(embed=embed)
       
-def setup(bot):
-    bot.add_cog(Minigame(bot))
+async def setup(bot):
+    await bot.add_cog(Minigame(bot))
