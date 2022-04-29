@@ -137,4 +137,4 @@ class identifyy(commands.Cog):
 
 async def setup(bot):
     print("Loaded Identify")
-    await bot.add_cog(identify(bot))
+    await bot.add_cog(identifyy(bot))
