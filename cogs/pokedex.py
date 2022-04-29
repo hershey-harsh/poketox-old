@@ -314,6 +314,6 @@ class Pokedex(commands.Cog):
                 
         
     
-def setup(bot):
+async def setup(bot):
     print("Loaded Pokedex")
-    bot.add_cog(Pokedex(bot))
+    await bot.add_cog(Pokedex(bot))
