@@ -53,7 +53,7 @@ class Confirm(discord.ui.View):
         self.name_poke = name_poke
         
     @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.red, emoji="<:notify:965755380812611614>")
-    async def predi(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def predi(self, interaction: discord.Interaction, button: discord.ui.Button):
                 embed=discord.Embed(title="Reported Image", description="Thanks for reporting the image!", color=0x2F3136)
 
                 await interaction.response.send_message(embed=embed,ephemeral=True)
@@ -65,7 +65,7 @@ class Confirm(discord.ui.View):
                 requests.post(url, json = data)
         
     @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.blurple, emoji="<:pokedex:965752930789621810>")
-    async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def info(self, interaction: discord.Interaction, button: discord.ui.Button):
 
         species = self.species
       
