@@ -89,6 +89,6 @@ class raredex(commands.Cog):
         embed=discord.Embed(title="Rare Dex", description=f"You already have <@&{roleid}>", color=0x36393F)
         await ctx.send(embed=embed)
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Rare Dex")
-    bot.add_cog(raredex(bot))
+    await bot.add_cog(raredex(bot))
