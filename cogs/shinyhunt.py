@@ -14,7 +14,7 @@ class Shinyhunt(commands.Cog):
         self.bot = bot
       
     @checks.has_started()
-    @commands.group(aliases=("sh",),invoke_without_command=True)
+    @commands.hybrid_group(aliases=("sh",),invoke_without_command=True)
     async def shinyhunt(self, ctx, species: SpeciesConverter):
         """Add pokémon to shiny hunt"""
 
@@ -58,7 +58,7 @@ class Shinyhunt(commands.Cog):
             )
 
     @checks.has_started()
-    @shinyhunt.command()
+    @shinyhunt.hybrid_command()
     async def view(self, ctx):
         """Check the pokémon you are shiny hunting"""
 
@@ -75,7 +75,7 @@ class Shinyhunt(commands.Cog):
             await ctx.send(embed=embed)
     
     @checks.has_started()
-    @shinyhunt.command()
+    @shinyhunt.hybrid_command()
     async def clear(self, ctx):
         """Clear your shiny hunt"""
 
