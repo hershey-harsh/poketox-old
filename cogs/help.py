@@ -128,6 +128,6 @@ class Help(commands.Cog):
     embed.add_field(name="Usage & Description", value=f"Removes a pokémon from your collecting list | 3 seconds cooldown\n```\n{ctx.prefix}shinyhunt view [user]```", inline=False)
     await ctx.send(embed=embed)
     
-def setup(bot):
+async def setup(bot):
     print("Loaded Help")
-    bot.add_cog(Help(bot))
+    await bot.add_cog(Help(bot))
