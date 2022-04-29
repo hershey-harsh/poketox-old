@@ -147,6 +147,6 @@ class stats(commands.Cog):
             embed.set_footer(text="These prices are based on auctions\nNote: Prices may not be accurate")
             await ctx.send(embed=embed)
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Info")
-    bot.add_cog(stats(bot))
+    await bot.add_cog(stats(bot))
