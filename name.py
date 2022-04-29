@@ -1,6 +1,8 @@
 from transformers import ViTForImageClassification, ViTFeatureExtractor
 from PIL import Image
 import torch
+from keras.models import load_model
+import numpy as np
 import requests
 
 # Loading in Model
