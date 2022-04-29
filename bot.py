@@ -5,7 +5,7 @@ from discord.ext.events import member_kick
 import datetime
 import config
 
-print(discord.__version__)
+print("Loaded Check #1")
 
 COGS = [
     "data",
@@ -38,18 +38,26 @@ class Bot(commands.Bot, events.EventsMixin):
             allowed_mentions=discord.AllowedMentions(everyone=False, roles=True, replied_user=False),
             case_insensitive=True,
         )
+        
+        print("Loaded Check #2")
       
         self.config = config
         os.system("clear")
         self.remove_command("help")
         
+        print("Loaded Check #3")
+        
         async def on_ready(self):
             print("Bot ready!")
+            
+        print("Loaded Check #4")
         
         async def setup_hook(self):
             for i in COGS:
                 print("Loading")
                 await self.load_extension(f"cogs.{i}")
+            
+        print("Loaded Check #5")
             
         self.add_check(
             commands.bot_has_permissions(
