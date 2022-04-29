@@ -78,6 +78,6 @@ class dex(commands.Cog):
 
         await ctx.send(embed=embed)
     
-def setup(bot):
+async def setup(bot):
   print("Loaded Dex")
-  bot.add_cog(dex(bot))
+  await bot.add_cog(dex(bot))
