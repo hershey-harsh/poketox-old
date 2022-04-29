@@ -25,5 +25,5 @@ class Logging(commands.Cog):
         self.log.setLevel(logging.DEBUG)
         dlog.setLevel(logging.INFO)
 
-def setup(bot):
-    bot.add_cog(Logging(bot))
+async def setup(bot):
+    await bot.add_cog(Logging(bot))
