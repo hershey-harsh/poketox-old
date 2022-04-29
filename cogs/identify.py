@@ -134,6 +134,6 @@ class identify(commands.Cog):
 
           await aaa.edit(embed=embed1)
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Identify")
-    bot.add_cog(identify(bot))
+    await bot.add_cog(identify(bot))
