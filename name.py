@@ -1,5 +1,5 @@
 from transformers import ViTForImageClassification, ViTFeatureExtractor
-from PIL import Image
+from PIL import Image, ImageOps
 import torch
 from keras.models import load_model
 import numpy as np
