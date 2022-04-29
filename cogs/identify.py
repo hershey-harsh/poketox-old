@@ -10,6 +10,7 @@ import json
 import asyncio
 import datetime
 from name import solve
+import name
 
 class Confirm(discord.ui.View):
     def __init__(self, url, species, bot):
@@ -23,12 +24,12 @@ class Confirm(discord.ui.View):
 
         self.add_item(discord.ui.Button(label="Bot Invite", url=url))
 
-        url = "https://discord.gg/mhcjdJkxn6"
+        url = "https://discord.gg/YmVA2ah5tE"
 
         self.add_item(discord.ui.Button(label="Support Server", url=str(url)))
         
     @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.gray)
-    async def info(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def info(self, interaction: discord.Interaction, button: discord.ui.Button):
 
         species = self.species
       
@@ -93,7 +94,7 @@ class Confirm(discord.ui.View):
         await interaction.response.send_message(embed=embed,ephemeral=True)
 
     @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.gray)
-    async def confirm(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message("Thanks for contributing to the bot! We reported the incorrect prediction to the Owner!", ephemeral=True)
         data = {"content" : f'Reported by: **{interaction.user.name}** *({interaction.user.id})*{self.url}',"username" : "Incorrect Prediction"}
 
@@ -103,7 +104,7 @@ class Confirm(discord.ui.View):
         self.value = True
         self.stop()
 
-class identify(commands.Cog):
+class identifyy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -111,7 +112,7 @@ class identify(commands.Cog):
     @commands.command()
     async def identify(self, ctx, *, url):
           embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)  
-          pokemon = solve(url)
+          pokemon = name.identifyy(url)
 
           aaa = await ctx.reply(embed=embed, view=Confirm(url, pokemon, self.bot), mention_author=False)
       
