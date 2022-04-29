@@ -89,6 +89,6 @@ class Shinyhunt(commands.Cog):
         return await ctx.send(embed=embed)
 
 
-def setup(bot):
+async def setup(bot):
     print("Loaded Shinyhunt")
-    bot.add_cog(Shinyhunt(bot))
+    await bot.add_cog(Shinyhunt(bot))
