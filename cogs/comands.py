@@ -190,6 +190,6 @@ class comands(commands.Cog):
         embed.set_thumbnail(url=pokemon.image_url)
         await ctx.send(embed=embed)
         
-def setup(bot):
+async def setup(bot):
     print("Loaded Commands")
-    bot.add_cog(comands(bot))
+    await bot.add_cog(comands(bot))
