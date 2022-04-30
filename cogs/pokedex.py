@@ -6,7 +6,7 @@ import asyncio
 import datetime
 from replit import db
 from cogs import collectors
-from name import solve
+import name
 import config
 import re
 from helpers import checks
@@ -172,7 +172,7 @@ class Pokedex(commands.Cog):
                 allow_mode = "On"
                 
           if allow_mode == "Off":
-                pokemon = solve(img_url)
+                pokemon = name.identifyy(url)
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
                 await collectors.collectping(self, ctx, species)
@@ -190,22 +190,17 @@ class Pokedex(commands.Cog):
                                 pass
                 return
         
-          embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)
-          
-          aaa = await message.channel.send(embed=embed)
         
-          pokemon = solve(img_url)
+          pokemon = name.identifyy(url)
       
           species = self.bot.data.species_by_name(pokemon)
         
-          if species is None:
-            return await message.channel.send(f"Could not find a pokemon matching `{species}`.")
           embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
         
-          await aaa.edit(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+          await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
                 
           try:
                 await collectors.collectping(self, ctx, species)
