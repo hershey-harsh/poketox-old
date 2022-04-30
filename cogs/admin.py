@@ -37,6 +37,20 @@ class Admin(commands.Cog):
         users_msg = ", ".join(f"**{x}**" for x in users)
         await ctx.send(f"Unsuspended {users_msg}.")
     
+    @commands.is_owner()
+    @commands.command(aliases=["sp"])
+    async def genspawn(self, ctx, num):
+              url = f"https://server.poketwo.io/image?time=day&species={num}"
+        
+              response = requests.get(url)
+              file = open("pokemon.png", "wb")
+              file.write(response.content)
+              file.close()
+              image = discord.File(f"pokemon.png", filename="pokemon.png")
+              embed=discord.Embed()
+              embed.set_image(url="attachment://pokemon.png")
+              await ctx.send(embed=embed, file=image)
+    
     @checks.is_banker()
     @commands.command(aliases = ["ab"])
     async def addbal(self, ctx, user: FetchUserConverter, amount=0):
