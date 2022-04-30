@@ -235,10 +235,7 @@ class comands(commands.Cog):
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
 
-        if (
-            models.deaccent(message.content.lower().replace("′", "'"))
-            not in species.lower()
-        ):
+        if message.content.lower() != species.lower():
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
             return await message.channel.send(embed=embed)
 
