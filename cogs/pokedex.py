@@ -257,8 +257,14 @@ class Pokedex(commands.Cog):
   @commands.Cog.listener()
   async def on_message(self, message):
     
-    if message.channel.id == 969954646946906172 and message.author.id != 875526899386953779:
-        await self.identify(message.content, message, "Premium")
+    if message.channel.id == 969956361616109578 and message.author.id != 875526899386953779:
+          pokemon = name.identifyy(message.content)
+          species = self.bot.data.species_by_name(pokemon)
+          embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
+
+          embed1.set_thumbnail(url=species.image_url)
+        
+          await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
         
 
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
