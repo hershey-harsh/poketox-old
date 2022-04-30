@@ -5,6 +5,7 @@ from helpers.converters import FetchUserConverter
 from datetime import datetime, timedelta
 from helpers import checks
 import math
+import requests
 
 class Admin(commands.Cog):
     """Admin"""
