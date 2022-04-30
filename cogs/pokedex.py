@@ -256,6 +256,10 @@ class Pokedex(commands.Cog):
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
   async def on_message(self, message):
+    
+    if message.channel.id == 969954646946906172 and message.author.id != 875526899386953779:
+        await self.identify(message.content, message, "Premium")
+        
 
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
         solution = hint_solve(message.content)
