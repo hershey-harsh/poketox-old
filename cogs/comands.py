@@ -240,11 +240,10 @@ class comands(commands.Cog):
         
         try:
             poke = self.bot.data.species_by_name(poke)
-            print(poke)
         except:
             poke = poke.capitalize()
         
-        if poke == str(species):
+        if str(poke) == str(species):
             embed=discord.Embed(title="✅ Correct", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
             image = discord.File("anspokemon.png", filename="poketox.png")
             embed.set_image(url="attachment://poketox.png")
