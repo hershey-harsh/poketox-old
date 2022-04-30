@@ -114,10 +114,7 @@ class identifyy(commands.Cog):
           pokemon = name.identifyy(url)
       
           species = pokemon
-          embed1=discord.Embed(title=pokemon,color=0x2F3136)
-
-          await aaa.edit(embed=embed1)
-
+            
           species = self.bot.data.species_by_name(species)
         
           if species is None:
