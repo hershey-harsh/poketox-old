@@ -237,6 +237,8 @@ class comands(commands.Cog):
             return await ctx.send(embed=embed, file=image)
         
         poke = message.content.capitalize()
+        poke = self.bot.data.species_by_name(poke)
+        poke = poke.capitalize()
         
         if poke == str(species):
             embed=discord.Embed(title="✅ Correct", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
