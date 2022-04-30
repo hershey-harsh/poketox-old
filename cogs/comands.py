@@ -13,6 +13,7 @@ import asyncio
 import datetime
 from name import solve  
 import discord
+from data import models
 from discord.ext import commands, menus
 from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers.pagination import AsyncListPageSource
@@ -208,7 +209,7 @@ class comands(commands.Cog):
         
         embed=discord.Embed(title="Who's that pokémon?")
         
-        image = discord.File("whopokemon.png", filename="whopokemon.png")
+        image = discord.File("poketox.png", filename="whopokemon.png")
         embed.set_image(url="attachment://poketox.png")
         
         await ctx.send(embed=embed, file=image)
