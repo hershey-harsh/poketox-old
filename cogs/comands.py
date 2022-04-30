@@ -208,7 +208,7 @@ class comands(commands.Cog):
         
         embed=discord.Embed(title="Who's that pokémon?")
         
-        image = discord.File(arr, filename="whopokemon.png")
+        image = discord.File(filename="whopokemon.png")
         embed.set_image(url="attachment://poketox.png")
         
         await ctx.send(embed=embed, file=image)
@@ -230,7 +230,7 @@ class comands(commands.Cog):
             )
         except:
             embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
-            image = discord.File(arr, filename="anspokemon.png")
+            image = discord.File(filename="anspokemon.png")
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
 
@@ -246,7 +246,7 @@ class comands(commands.Cog):
             color=0x36393F
         )
         
-        image = discord.File(arr, filename="anspokemon.png")
+        image = discord.File(filename="anspokemon.png")
         embed.set_image(url="attachment://poketox.png")
         
         return await message.reply(embed=embed, file=image,)        
