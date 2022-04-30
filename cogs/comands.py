@@ -8,6 +8,7 @@ import config
 import asyncio
 import requests
 import json
+import random
 import asyncio
 import datetime
 from name import solve  
@@ -189,6 +190,66 @@ class comands(commands.Cog):
 
         embed.set_thumbnail(url=pokemon.image_url)
         await ctx.send(embed=embed)
+        
+    @checks.has_started()
+    @commands.command(aliases=("wtp",))
+    async def whosthatpokemon(self, ctx):
+        num = random.randint(0, 890)
+        
+        q_url = f"https://cdn.dagpi.xyz/wtp/pokemon/{num}q.png"
+        a_url = f"https://cdn.dagpi.xyz/wtp/pokemon/{num}a.png"
+        
+        species = self.bot.data.species_by_number(int(num))
+        
+        response = requests.get(q_url)
+        file = open("whopokemon.png", "wb")
+        file.write(response.content)
+        file.close()
+        
+        embed=discord.Embed(title="Who's that pokémon?")
+        
+        image = discord.File(arr, filename="whopokemon.png")
+        embed.set_image(url="attachment://poketox.png")
+        
+        await ctx.send(embed=embed, file=image)
+        
+        response = requests.get(a_url)
+        file = open("anspokemon.png", "wb")
+        file.write(response.content)
+        file.close()
+        
+        def check_winner(message):
+            return (
+                ctx.author.id == message.author.id
+                and message.channel.id == ctx.channel.id
+            )
+
+        try:
+            message = await self.bot.wait_for(
+                "message", timeout=30, check=lambda m: check_winner(m)
+            )
+        except:
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
+            image = discord.File(arr, filename="anspokemon.png")
+            embed.set_image(url="attachment://poketox.png")
+            return await ctx.send(embed=embed, file=image)
+
+        if (
+            models.deaccent(message.content.lower().replace("′", "'"))
+            not in species.lower()
+        ):
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
+            return await message.channel.send(embed=embed)
+
+        embed = discord.Embed(
+            title=f"Correct",
+            color=0x36393F
+        )
+        
+        image = discord.File(arr, filename="anspokemon.png")
+        embed.set_image(url="attachment://poketox.png")
+        
+        return await message.reply(embed=embed, file=image,)        
         
 async def setup(bot):
     print("Loaded Commands")
