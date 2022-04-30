@@ -111,10 +111,7 @@ class identifyy(commands.Cog):
     @checks.has_started()
     @commands.command()
     async def identify(self, ctx, *, url):
-          embed=discord.Embed(title="<a:loading:875500054868291585> Predicting...", color=0x2f3136)  
           pokemon = name.identifyy(url)
-
-          aaa = await ctx.reply(embed=embed, view=Confirm(url, pokemon, self.bot), mention_author=False)
       
           species = pokemon
           embed1=discord.Embed(title=pokemon,color=0x2F3136)
@@ -133,7 +130,7 @@ class identifyy(commands.Cog):
           embed1.set_image(url=url)
           embed1.set_thumbnail(url=species.image_url)
 
-          await aaa.edit(embed=embed1)
+          await ctx.reply(embed=embed1, view=Confirm(url, pokemon, self.bot), mention_author=False)
 
 async def setup(bot):
     print("Loaded Identify")
