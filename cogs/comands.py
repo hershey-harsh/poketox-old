@@ -208,7 +208,7 @@ class comands(commands.Cog):
         file.write(response.content)
         file.close()
         
-        embed=discord.Embed(title="Who's that pokémon?")
+        embed=discord.Embed(title="Who's that pokémon?", color=0x36393F)
         
         image = discord.File("whopokemon.png", filename="poketox.png")
         embed.set_image(url="attachment://poketox.png")
@@ -236,9 +236,11 @@ class comands(commands.Cog):
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
 
-        if message.content.lower() != species:
-            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
-            return await message.channel.send(embed=embed)
+        if message.content.capitalize() != species:
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
+            image = discord.File("anspokemon.png", filename="poketox.png")
+            embed.set_image(url="attachment://poketox.png")
+            return await ctx.send(embed=embed, file=image)
 
         embed = discord.Embed(
             title=f"Correct",
