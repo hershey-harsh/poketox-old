@@ -240,6 +240,7 @@ class comands(commands.Cog):
         
         try:
             poke = self.bot.data.species_by_name(poke)
+            print(poke)
         except:
             poke = poke.capitalize()
         
