@@ -231,7 +231,7 @@ class comands(commands.Cog):
                 "message", timeout=30, check=lambda m: check_winner(m)
             )
         except:
-            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
+            embed=discord.Embed(title=":hourglass: Times Up", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
             image = discord.File("anspokemon.png", filename="poketox.png")
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
@@ -239,13 +239,14 @@ class comands(commands.Cog):
         poke = message.content.capitalize()
         
         if poke == str(species):
+            embed=discord.Embed(title="✅ Correct", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
             image = discord.File("anspokemon.png", filename="poketox.png")
             embed.set_image(url="attachment://poketox.png")
             
             await message.reply(embed=embed, file=image)  
         
         else:
-            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
+            embed=discord.Embed(title=":x: Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
             image = discord.File("anspokemon.png", filename="poketox.png")
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
