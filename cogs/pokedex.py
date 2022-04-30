@@ -264,7 +264,7 @@ class Pokedex(commands.Cog):
 
           embed1.set_thumbnail(url=species.image_url)
         
-          await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+          await message.reply(embed=embed1, view=Confirm(message.content, pokemon, pokemon, self.bot))
         
 
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
