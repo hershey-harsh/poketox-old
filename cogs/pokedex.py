@@ -172,7 +172,7 @@ class Pokedex(commands.Cog):
                 allow_mode = "On"
                 
           if allow_mode == "Off":
-                pokemon = name.identifyy(url)
+                pokemon = name.identifyy(img_url)
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
                 await collectors.collectping(self, ctx, species)
@@ -191,7 +191,7 @@ class Pokedex(commands.Cog):
                 return
         
         
-          pokemon = name.identifyy(url)
+          pokemon = name.identifyy(img_url)
       
           species = self.bot.data.species_by_name(pokemon)
         
