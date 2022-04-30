@@ -54,7 +54,7 @@ def identifyy(url):
   combined_1_2_3_4 = np.append(combined_1_2_3, predictions4)
   combined_1_2_3_4_5 = np.append(combined_1_2_3_4, predictions5)
   combined_1_2_3_4_5_6 = np.append(combined_1_2_3_4_5, predictions6)
-  combined_1_2_3_4_5_6_7 = np.append(combined_1_2_3_4_5, predictions7)
+  combined_1_2_3_4_5_6_7 = np.append(combined_1_2_3_4_5_6, predictions7)
 
   ind = np.argmax(combined_1_2_3_4_5_6_7)
   
