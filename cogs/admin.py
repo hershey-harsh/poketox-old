@@ -38,7 +38,7 @@ class Admin(commands.Cog):
         await ctx.send(f"Unsuspended {users_msg}.")
     
     @commands.is_owner()
-    @commands.command(aliases=["sp"])
+    @commands.command()
     async def genspawn(self, ctx, num):
               url = f"https://server.poketwo.io/image?time=day&species={num}"
         
