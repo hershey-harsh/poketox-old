@@ -50,7 +50,7 @@ def identifyy(url):
   predictions7 = model_list[6].predict(data)[0] #200-300
   predictions8 = model_list[7].predict(data)[0] #100-200
   predictions9 = model_list[8].predict(data)[0] #0-100
-  predictions9 = model_list[9].predict(data)[0] #300-400
+  predictions10 = model_list[9].predict(data)[0] #300-400
 
   combined_1_2 = np.append(predictions1, predictions2)
   combined_1_2_3 = np.append(combined_1_2, predictions3)
