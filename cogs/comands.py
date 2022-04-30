@@ -201,6 +201,7 @@ class comands(commands.Cog):
         a_url = f"https://cdn.dagpi.xyz/wtp/pokemon/{num}a.png"
         
         species = self.bot.data.species_by_number(int(num))
+        print(species)
         
         response = requests.get(q_url)
         file = open("whopokemon.png", "wb")
@@ -235,7 +236,7 @@ class comands(commands.Cog):
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
 
-        if message.content.lower() != species.lower():
+        if message.content.lower() != species:
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
             return await message.channel.send(embed=embed)
 
