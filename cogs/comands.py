@@ -235,9 +235,8 @@ class comands(commands.Cog):
             image = discord.File("anspokemon.png", filename="poketox.png")
             embed.set_image(url="attachment://poketox.png")
             return await ctx.send(embed=embed, file=image)
-
-        if message.content.capitalize() != species:
-            print(message.content.capitalize())
+        poke = message.content.capitalize()
+        if poke != species:
             embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species}**. You can start another one with `{ctx.prefix}whosthatpokemon`", color=0x36393F)
             image = discord.File("anspokemon.png", filename="poketox.png")
             embed.set_image(url="attachment://poketox.png")
