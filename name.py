@@ -49,7 +49,7 @@ def identifyy(url):
   predictions6 = model_list[5].predict(data)[0] #Gen 400-493
   predictions7 = model_list[6].predict(data)[0] #Gen 200-300
   predictions8 = model_list[7].predict(data)[0] #Gen 200-300
-  predictions8 = model_list[8].predict(data)[0] #Gen 200-300
+  predictions9 = model_list[8].predict(data)[0] #Gen 200-300
 
   combined_1_2 = np.append(predictions1, predictions2)
   combined_1_2_3 = np.append(combined_1_2, predictions3)
