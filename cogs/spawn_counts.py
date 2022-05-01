@@ -25,10 +25,10 @@ class spawn_counts(commands.Cog):
             "percentage": percentage,
         }
 
-        background = Editor(Canvas((934, 282), "#23272a"))
+        background = Editor(Canvas((934, 282), "#8F9296"))
         
         profile_image = load_image(str(ctx.guild.icon.url))
-        profile = Editor("pfp.png").resize((190, 190)).circle_image()
+        profile = Editor(profile_image).resize((190, 190)).circle_image()
 
         poppins = Font.poppins(size=30)
 
@@ -44,7 +44,7 @@ class spawn_counts(commands.Cog):
             fill="#00fa81",
             radius=20,
         )
-        background.text((270, 120), user_data["name"], font=poppins, color="#00fa81")
+        background.text((270, 120), user_data["name"], font=poppins, color="#FFFFFF")
         background.text(
             (870, 125),
             f"{user_data['xp']} / 750",
@@ -52,6 +52,13 @@ class spawn_counts(commands.Cog):
             color="#00fa81",
             align="right",
         )
+        
+        rank_level_texts = [
+            Text("Used ", color="#00fa81", font=poppins),
+            Text(f"{user_data['xp']}", color="#1EAAFF", font=poppins),
+            Text("   Total ", color="#00fa81", font=poppins),
+            Text(f"750", color="#1EAAFF", font=poppins),
+        ]
 
         #background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
         file = File(fp=background.image_bytes, filename="card.png")
