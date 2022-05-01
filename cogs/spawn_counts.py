@@ -1,5 +1,6 @@
 from discord import File, Member
 from discord.ext import commands
+import requests
 from easy_pil import Editor, Canvas, load_image_async, Font
 
 def make_card(name, xp, percentage, urll):
