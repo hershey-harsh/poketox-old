@@ -15,7 +15,7 @@ class spawn_counts(commands.Cog):
         except:
             spawn_co = 0
             
-        percentage = spawn_co / 750
+        percentage = 750 / spawn_co
 
         background = Editor("background.png")
         profile = await load_image_async(str(ctx.guild.icon.url))
