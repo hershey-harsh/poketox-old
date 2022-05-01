@@ -60,7 +60,7 @@ class spawn_counts(commands.Cog):
             Text(f"750", color="#1EAAFF", font=poppins),
         ]
 
-        #background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
+        background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
         file = File(fp=background.image_bytes, filename="card.png")
         await ctx.send(file=file)
 
