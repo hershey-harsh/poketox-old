@@ -198,10 +198,6 @@ class comands(commands.Cog):
         num = random.randint(0, 890)
         
         q_url = f"https://cdn.dagpi.xyz/wtp/pokemon/{num}q.png"
-        a_url = f"https://cdn.dagpi.xyz/wtp/pokemon/{num}a.png"
-        
-        species = self.bot.data.species_by_number(int(num))
-        print(species)
         
         response = requests.get(q_url)
         file = open("whopokemon.png", "wb")
@@ -214,6 +210,10 @@ class comands(commands.Cog):
         embed.set_image(url="attachment://poketox.png")
         
         await ctx.send(embed=embed, file=image)
+        
+        a_url = f"https://cdn.dagpi.xyz/wtp/pokemon/{num}a.png"
+        
+        species = self.bot.data.species_by_number(int(num))
         
         response = requests.get(a_url)
         file = open("anspokemon.png", "wb")
