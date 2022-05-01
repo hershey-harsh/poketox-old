@@ -2,6 +2,42 @@ from discord import File, Member
 from discord.ext import commands
 from easy_pil import Editor, Canvas, load_image_async, Font
 
+def make_card(name, xp, percentage, rank):
+    user_data = {  # Most likely coming from database or calculation
+        "name": name,  # The user's name
+        "xp": xp,
+        "percentage": percentage,
+    }
+
+    background = Editor(Canvas((934, 282), "#23272a"))
+    profile = Editor("assets/pfp.png").resize((190, 190)).circle_image()
+
+    poppins = Font.poppins(size=30)
+
+    background.rectangle((20, 20), 894, 242, "#2a2e35")
+    background.paste(profile, (50, 50))
+    background.ellipse((42, 42), width=206, height=206, outline="#43b581", stroke_width=10)
+    background.rectangle((260, 180), width=630, height=40, fill="#484b4e", radius=20)
+    background.bar(
+        (260, 180),
+        max_width=630,
+        height=40,
+        percentage=user_data["percentage"],
+        fill="#00fa81",
+        radius=20,
+    )
+    background.text((270, 120), user_data["name"], font=poppins, color="#00fa81")
+    background.text(
+        (870, 125),
+        f"{user_data['xp']} / 750",
+        font=poppins,
+        color="#00fa81",
+        align="right",
+    )
+
+    #background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
+    file = File(fp=background.image_bytes, filename="card.png")
+    return file
 
 class spawn_counts(commands.Cog):
     def __init__(self, bot) -> None:
@@ -13,46 +49,12 @@ class spawn_counts(commands.Cog):
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             spawn_co = int(guild["spawn_count"])
         except:
-            spawn_co = 0
+            spawn_co = 1
             
-        percentage = 750 / spawn_co
-
-        background = Editor("background.png")
-        profile = await load_image_async(str(ctx.guild.icon.url))
-
-        profile = Editor(profile).resize((150, 150)).circle_image()
-
-        poppins = Font.poppins(size=40)
-        poppins_small = Font.poppins(size=30)
-
-        square = Canvas((500, 500), "#06FFBF")
-        square = Editor(square)
-        square.rotate(30, expand=True)
-
-        background.paste(square.image, (600, -250))
-        background.paste(profile.image, (30, 30))
-
-        background.rectangle((30, 220), width=650, height=40, fill="white", radius=20)
-        background.bar(
-            (30, 220),
-            max_width=650,
-            height=40,
-            percentage=percentage,
-            fill="#FF56B2",
-            radius=20,
-        )
-        background.text((200, 40), str(ctx.guild), font=poppins, color="white")
-
-        background.rectangle((200, 100), width=350, height=2, fill="#17F3F6")
-        background.text(
-            (200, 130),
-            f"Limit : 750"
-            + f" Used : {spawn_co} / {750}",
-            font=poppins_small,
-            color="white",
-        )
-
-        file = File(fp=background.image_bytes, filename="card.png")
+        x = spawn_co / 750
+        percentage = int((x % 1) * 100 // 1)
+        file = make_card(ctx.guild, spawn_co, percentage)
+        
         await ctx.send(file=file)
 
 
