@@ -400,8 +400,9 @@ class Pokedex(commands.Cog):
         elif message.guild.id in config.unlimited_premium:
                 await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
            
-                
-  @tasks.loop(hours=24)
+  time_to_execute_task = datetime.time(hour=12, minute=2)    
+            
+  @tasks.loop(time=time_to_execute_task)
   async def daily_task(self):
         await self.bot.mongo.db.guild.update_many(
             {},
@@ -414,20 +415,6 @@ class Pokedex(commands.Cog):
         webhook.add_embed(embed)
 
         webhook.execute()
-        
-        
-    
-  @daily_task.before_loop
-  async def wait_until_12am(self):
-
-    now = datetime.datetime.now().astimezone("EST")
-    next_run = now.replace(hour=7, minute=40, second=0)
-
-    if next_run < now:
-        next_run += datetime.timedelta(days=1)
-
-    await discord.utils.sleep_until(next_run)
-        
     
 async def setup(bot):
     print("Loaded Pokedex")
