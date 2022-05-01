@@ -1,10 +1,9 @@
 from discord import File, Member
 from discord.ext import commands
-from leveling.utils import get_user_data, get_rank
 from easy_pil import Editor, Canvas, load_image_async, Font
 
 
-class Level(commands.Cog):
+class spawn_counts(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
 
@@ -57,5 +56,6 @@ class Level(commands.Cog):
         await ctx.send(file=file)
 
 
-def setup(bot):
-    bot.add_cog(Level(bot))
+async def spawn_counts(bot):
+    print("Loaded Spawn Counts")
+    await bot.add_cog(Level(bot))
