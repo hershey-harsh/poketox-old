@@ -238,7 +238,7 @@ class Pokedex(commands.Cog):
     except:
         spawn_count = 0
     
-    if int(spawn_count) >= 100:
+    if int(spawn_count) >= 1000000000000:
         return
     
     else:
