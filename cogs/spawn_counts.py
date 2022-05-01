@@ -2,10 +2,23 @@ from discord import File, Member
 from discord.ext import commands
 import requests
 from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
+from discord.ext import commands, tasks
 
 class spawn_counts(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
+        self.update_status.start()
+        
+    @tasks.loop(minutes=1)
+    async def update_status(self):
+        await self.bot.wait_until_ready()
+
+        await self.bot.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching,
+                name=f"a!help | {len(self.bot.guilds): ,} servers",
+            )
+        )
 
     @commands.command(alias=["sl"])
     async def spawnlimit(self, ctx):
