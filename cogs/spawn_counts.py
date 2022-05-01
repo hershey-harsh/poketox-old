@@ -7,8 +7,8 @@ class spawn_counts(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @commands.command()
-    async def rank(self, ctx):
+    @commands.command(alias=["sl"])
+    async def spawnlimit(self, ctx):
         try:
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             spawn_co = int(guild["spawn_count"])
