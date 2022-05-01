@@ -2,7 +2,7 @@ from discord import File, Member
 from discord.ext import commands
 from easy_pil import Editor, Canvas, load_image_async, Font
 
-def make_card(name, xp, percentage, rank):
+def make_card(name, xp, percentage):
     user_data = {  # Most likely coming from database or calculation
         "name": name,  # The user's name
         "xp": xp,
