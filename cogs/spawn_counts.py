@@ -10,8 +10,12 @@ class Level(commands.Cog):
 
     @commands.command()
     async def rank(self, ctx):
-        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-
+        try:
+            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+            spawn_co = guild["spawn_count"]
+        except:
+            spawn_co = 0
+            
         percentage = int(guild["spawn_count"]) / 750
 
         background = Editor("background.png")
@@ -44,7 +48,7 @@ class Level(commands.Cog):
         background.text(
             (200, 130),
             f"Limit : 750"
-            + f" Used : {guild["spawn_count"]} / {750}",
+            + f" Used : {spawn_co} / {750}",
             font=poppins_small,
             color="white",
         )
