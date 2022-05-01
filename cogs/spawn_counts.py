@@ -17,7 +17,7 @@ class spawn_counts(commands.Cog):
             
         x = spawn_co / 750
         percentage = int((x % 1) * 100 // 1)
-        file = make_card(ctx.guild, spawn_co, percentage, ctx.guild.icon.url)
+        #file = make_card(ctx.guild, spawn_co, percentage, ctx.guild.icon.url)
         
         user_data = {  # Most likely coming from database or calculation
             "name": ctx.guild.name,  # The user's name
