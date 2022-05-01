@@ -15,8 +15,11 @@ class spawn_counts(commands.Cog):
         except:
             spawn_co = 1
             
-        x = spawn_co / 750
-        percentage = int((x % 1) * 100 // 1)
+        if spawn_co != 500:
+            x = spawn_co / 500
+            percentage = int((x % 1) * 100 // 1)
+        else:
+            percentage = 100
         #file = make_card(ctx.guild, spawn_co, percentage, ctx.guild.icon.url)
         
         user_data = {  # Most likely coming from database or calculation
@@ -47,7 +50,7 @@ class spawn_counts(commands.Cog):
         background.text((270, 120), user_data["name"], font=poppins, color="#FFFFFF")
         background.text(
             (870, 125),
-            f"{user_data['xp']} / 750",
+            f"{user_data['xp']} / 500",
             font=poppins,
             color="#00fa81",
             align="right",
@@ -57,7 +60,7 @@ class spawn_counts(commands.Cog):
             Text("Used ", color="#00fa81", font=poppins),
             Text(f"{user_data['xp']}", color="#1EAAFF", font=poppins),
             Text("   Total ", color="#00fa81", font=poppins),
-            Text(f"750", color="#1EAAFF", font=poppins),
+            Text(f"500", color="#1EAAFF", font=poppins),
         ]
 
         background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
