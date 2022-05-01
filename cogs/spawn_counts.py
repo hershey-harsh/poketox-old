@@ -12,7 +12,7 @@ def make_card(name, xp, percentage, urll):
     background = Editor(Canvas((934, 282), "#23272a"))
         
     response = requests.get(urll)
-    file = open("pokemon.png", "wb")
+    file = open("pfp.png", "wb")
     file.write(response.content)
     file.close()
     profile = Editor("pfp.png").resize((190, 190)).circle_image()
