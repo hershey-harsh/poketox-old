@@ -11,8 +11,8 @@ def make_card(name, xp, percentage, urll):
     }
 
     background = Editor(Canvas((934, 282), "#23272a"))
-        
-    response = requests.get(urll)
+
+    response = requests.get(str(urll))
     file = open("pfp.png", "wb")
     file.write(response.content)
     file.close()
