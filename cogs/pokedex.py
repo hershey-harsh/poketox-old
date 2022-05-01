@@ -256,10 +256,10 @@ class Pokedex(commands.Cog):
                 await collectors.collectping(self, ctx, species)
                 await collectors.shinyping(self, ctx, species)
                 
-                total_count = int(guild["spawn_count"]) + 1
+                total_count = spawn_count + 1
 
                 await self.bot.mongo.update_guild(
-                        ctx.guild, {"$set": {"spawn_count": total_count}}
+                        ctx.guild, {"$set": {"spawn_count": str(total_count)}}
                 )
                 
                 if pokemon in rare_pokes:
