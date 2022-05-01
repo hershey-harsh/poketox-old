@@ -162,10 +162,11 @@ class Pokedex(commands.Cog):
         bucket = self._unlimited.get_bucket(message)
         return bucket.update_rate_limit()
     
-  async def identify(self, img_url, message, plan):
+  async def premium_identify(self, img_url, message, plan):
+    
           ctx = await self.bot.get_context(message)
           guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-          
+    
           try:
                 allow_mode = guild["name"]
           except: 
@@ -177,6 +178,13 @@ class Pokedex(commands.Cog):
                 ctx = await self.bot.get_context(message)
                 await collectors.collectping(self, ctx, species)
                 await collectors.shinyping(self, ctx, species)
+                
+                total_count = int(guild["spawn_count"]) + 1
+
+                await self.bot.mongo.update_guild(
+                        ctx.guild, {"$set": {"spawn_count": total_count}}
+                )
+                
                 if pokemon in rare_pokes:
                         
                         ctx = await self.bot.get_context(message)
@@ -207,6 +215,88 @@ class Pokedex(commands.Cog):
                 await collectors.shinyping(self, ctx, species)
           except:
                 pass
+        
+          if pokemon in rare_pokes:
+                        
+                ctx = await self.bot.get_context(message)
+                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'<@&{roleid}>')
+                
+                except:
+                    pass
+    
+  async def identify(self, img_url, message, plan):
+    
+    ctx = await self.bot.get_context(message)
+    guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+    
+    try:
+        spawn_count = guild["spawn_count"]
+    except:
+        spawn_count = 0
+    
+    if int(spawn_count) >= 100:
+        return
+    
+    else:
+    
+          try:
+                allow_mode = guild["name"]
+          except: 
+                allow_mode = "On"
+                
+          if allow_mode == "Off":
+                pokemon = name.identifyy(img_url)
+                species = self.bot.data.species_by_name(pokemon)
+                ctx = await self.bot.get_context(message)
+                await collectors.collectping(self, ctx, species)
+                await collectors.shinyping(self, ctx, species)
+                
+                total_count = int(guild["spawn_count"]) + 1
+
+                await self.bot.mongo.update_guild(
+                        ctx.guild, {"$set": {"spawn_count": total_count}}
+                )
+                
+                if pokemon in rare_pokes:
+                        
+                        ctx = await self.bot.get_context(message)
+                        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+
+                        try:
+                                roleid = guild["rareping"]
+                                await message.channel.send(f'<@&{roleid}>')
+                
+                        except:
+                                pass
+                return
+        
+        
+          pokemon = name.identifyy(img_url)
+      
+          species = self.bot.data.species_by_name(pokemon)
+        
+          embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
+
+          embed1.set_thumbnail(url=species.image_url)
+          embed1.set_footer(text=f'This server is currently on the {plan} Plan')
+        
+          await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+                
+          try:
+                await collectors.collectping(self, ctx, species)
+                await collectors.shinyping(self, ctx, species)
+          except:
+                pass
+            
+          total_count = int(guild["spawn_count"]) + 1
+
+          await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"spawn_count": total_count}}
+          )
         
           if pokemon in rare_pokes:
                         
@@ -298,7 +388,7 @@ class Pokedex(commands.Cog):
         
         elif message.guild.id in config.basic_premium:
             if basic is None:
-                await self.identify(message.embeds[0].image.url, message, "Basic")
+                await self.premium_identify(message.embeds[0].image.url, message, "Basic")
             else:
                 embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(basic)}` seconds left till Cooldown expires\nYour current plan is **Premium**, you can upgrade your plan at https://poketox.me/pricing", color=0x2f3136)
 
@@ -307,14 +397,14 @@ class Pokedex(commands.Cog):
             
         elif message.guild.id in config.premium:
             if premium is None:
-                await self.identify(message.embeds[0].image.url, message, "Premium")
+                await self.premium_identify(message.embeds[0].image.url, message, "Premium")
             else:
                 embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(premium)}` seconds left till Cooldown expires \nYour current plan is **Premium**, you can upgrade your plan at https://poketox.me/pricing", color=0x2f3136)
                 
                 await message.channel.send(embed=embed)
             
         elif message.guild.id in config.unlimited_premium:
-                await self.identify(message.embeds[0].image.url, message, "Unlimited")
+                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
            
                 
         
