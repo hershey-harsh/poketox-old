@@ -235,10 +235,11 @@ class Pokedex(commands.Cog):
     
     try:
         spawn_count = guild["spawn_count"]
+        spawn_count = int(spawn_count)
     except:
         spawn_count = 0
     
-    if int(spawn_count) >= 1000000000000:
+    if spawn_count >= 1000000000000:
         return
     
     else:
