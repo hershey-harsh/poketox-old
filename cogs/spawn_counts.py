@@ -11,11 +11,11 @@ class spawn_counts(commands.Cog):
     async def rank(self, ctx):
         try:
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            spawn_co = guild["spawn_count"]
+            spawn_co = int(guild["spawn_count"])
         except:
             spawn_co = 0
             
-        percentage = int(guild["spawn_count"]) / 750
+        percentage = spawn_co / 750
 
         background = Editor("background.png")
         profile = await load_image_async(str(ctx.guild.icon_url))
