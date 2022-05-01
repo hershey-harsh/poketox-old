@@ -56,6 +56,6 @@ class spawn_counts(commands.Cog):
         await ctx.send(file=file)
 
 
-async def spawn_counts(bot):
+async def setup(bot):
     print("Loaded Spawn Counts")
-    await bot.add_cog(Level(bot))
+    await bot.add_cog(spawn_counts(bot))
