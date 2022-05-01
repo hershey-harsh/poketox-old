@@ -10,7 +10,7 @@ import name
 import config
 import re
 from helpers import checks
-
+from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
@@ -141,6 +141,7 @@ class Pokedex(commands.Cog):
 
   def __init__(self, bot):
     self.bot = bot
+    self.daily_task.start()
     self._free = commands.CooldownMapping.from_cooldown(1, 60.0, commands.BucketType.guild)
     self._basic = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
     self._premium = commands.CooldownMapping.from_cooldown(1, 15.0, commands.BucketType.guild)
@@ -233,7 +234,7 @@ class Pokedex(commands.Cog):
     except:
         spawn_count = 0
     
-    if spawn_count >= 1000000000000:
+    if spawn_count >= 750:
         return
     
     else:
@@ -376,10 +377,7 @@ class Pokedex(commands.Cog):
             if free is None:
                 await self.identify(message.embeds[0].image.url, message, "Free")
             else:
-                embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(free)}` seconds left till Cooldown expires\nYour current plan is **Premium**, you can upgrade your plan at https://poketox.me/pricing", color=0x2f3136)
-
-                embed.set_footer(text="Did you know if your server has over 10k members you get free Premium! DM Future#0811 to claim your free premium")
-                await message.channel.send(embed=embed)
+                await self.identify(message.embeds[0].image.url, message, "Free")
         
         elif message.guild.id in config.basic_premium:
             if basic is None:
@@ -402,6 +400,32 @@ class Pokedex(commands.Cog):
                 await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
            
                 
+  @tasks.loop(hours=24)
+  async def daily_task(self):
+        await self.bot.mongo.db.guild.update_many(
+            {},
+            {"$set": {"spawn_count": "0"}},
+        )
+        
+        webhook = DiscordWebhook(url='https://discord.com/api/webhooks/970282274933338143/redztJ-2YtovCko_kJ1IGG3flPN8VdEXJiq6-rlXzHui_xDrOiDjU2WewncMKzBKPlE2')
+        
+        embed = DiscordEmbed(title='Naming Reset', description='Pokétox will now automatically identify 750 pokémon for free', color='03b2f8')
+        webhook.add_embed(embed)
+
+        webhook.execute()
+        
+        
+    
+  @daily_task.before_loop
+  async def wait_until_12am(self):
+
+    now = datetime.datetime.now().astimezone("EST")
+    next_run = now.replace(hour=0, minute=1, second=0)
+
+    if next_run < now:
+        next_run += datetime.timedelta(days=1)
+
+    await discord.utils.sleep_until(next_run)
         
     
 async def setup(bot):
