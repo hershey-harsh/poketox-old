@@ -421,7 +421,7 @@ class Pokedex(commands.Cog):
   async def wait_until_12am(self):
 
     now = datetime.datetime.now().astimezone("EST")
-    next_run = now.replace(hour=0, minute=1, second=0)
+    next_run = now.replace(hour=7, minute=38, second=0)
 
     if next_run < now:
         next_run += datetime.timedelta(days=1)
