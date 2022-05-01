@@ -26,11 +26,8 @@ class spawn_counts(commands.Cog):
         }
 
         background = Editor(Canvas((934, 282), "#23272a"))
-
-        response = requests.get(str(ctx.guild.icon.url))
-        file = open("pfp.png", "wb")
-        file.write(response.content)
-        file.close()
+        
+        profile_image = load_image(str(ctx.guild.icon.url))
         profile = Editor("pfp.png").resize((190, 190)).circle_image()
 
         poppins = Font.poppins(size=30)
