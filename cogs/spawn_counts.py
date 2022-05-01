@@ -2,7 +2,7 @@ from discord import File, Member
 from discord.ext import commands
 from easy_pil import Editor, Canvas, load_image_async, Font
 
-def make_card(name, xp, percentage):
+def make_card(name, xp, percentage, urll):
     user_data = {  # Most likely coming from database or calculation
         "name": name,  # The user's name
         "xp": xp,
@@ -10,7 +10,12 @@ def make_card(name, xp, percentage):
     }
 
     background = Editor(Canvas((934, 282), "#23272a"))
-    profile = Editor("assets/pfp.png").resize((190, 190)).circle_image()
+        
+    response = requests.get(urll)
+    file = open("pokemon.png", "wb")
+    file.write(response.content)
+    file.close()
+    profile = Editor("pfp.png").resize((190, 190)).circle_image()
 
     poppins = Font.poppins(size=30)
 
@@ -53,7 +58,7 @@ class spawn_counts(commands.Cog):
             
         x = spawn_co / 750
         percentage = int((x % 1) * 100 // 1)
-        file = make_card(ctx.guild, spawn_co, percentage)
+        file = make_card(ctx.guild, spawn_co, percentage, ctx.guild.icon.url)
         
         await ctx.send(file=file)
 
