@@ -69,6 +69,7 @@ class Guild(Document):
     rareping = fields.StringField()
     sh_channels = fields.ListField(fields.IntegerField, default=list)
     name = fields.StringField()
+    spawn_count = fields.StringField()
 
 class Shtimer(Document):
     class Meta:
