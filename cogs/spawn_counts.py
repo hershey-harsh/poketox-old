@@ -1,7 +1,7 @@
 from discord import File, Member
 from discord.ext import commands
 import requests
-from easy_pil import Editor, Canvas, load_image_async, Font, load_image
+from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 
 class spawn_counts(commands.Cog):
     def __init__(self, bot) -> None:
