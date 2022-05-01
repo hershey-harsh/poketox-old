@@ -14,6 +14,7 @@ COGS = [
     "collectors",
     "shinyhunt",
     "identify",
+    "spawn_counts",
     "info",
     "weakness",
     "dex",
