@@ -8,6 +8,7 @@ import requests
 import json
 import psutil
 from similar import Similar
+
 import os
 from discord.ext.commands import cooldown, BucketType
 from helpers import checks
@@ -39,7 +40,7 @@ class Weakness(commands.Cog):
         
     @checks.has_started()
     @commands.hybrid_command(description="View a pokémons weakness")
-    async def weakness(self, ctx, pokemon):
+    async def weakness(self, ctx, pokemon : str) -> str:
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
