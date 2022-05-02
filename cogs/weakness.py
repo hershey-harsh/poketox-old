@@ -38,9 +38,8 @@ class Weakness(commands.Cog):
         self.bot = bot
         
     @checks.has_started()
-    @commands.guild_only()
     @commands.hybrid_command(description="View a pokémons weakness")
-    async def weakness(self, ctx, *, pokemon):
+    async def weakness(self, ctx, pokemon):
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
