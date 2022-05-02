@@ -1,5 +1,6 @@
 from discord import File, Member
 from discord.ext import commands
+import discord
 import requests
 from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 from discord.ext import commands, tasks
