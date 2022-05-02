@@ -49,7 +49,7 @@ class Shinyhunt(commands.Cog):
                  embed=discord.Embed(title="Shiny Hunt", description=f"Updated your Shiny Hunt to {species} from {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
                  embed.set_thumbnail(url=species.image_url)
                 
-                 await ctx.send(embed=embed)
+                 await ctx.send(embed=embed, emperhal=False)
                 
             await self.bot.mongo.db.shinyhunt.update_one(
                 {"_id": ctx.author.id},
@@ -72,7 +72,7 @@ class Shinyhunt(commands.Cog):
             embed=discord.Embed(title="Shiny Hunt", description=f"You are Shiny Hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
             species = self.bot.data.species_by_number(user.get('shinyhunt', None))
             embed.set_thumbnail(url=species.image_url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, emperhal=False)
     
     @checks.has_started()
     @shinyhunt.command()
@@ -86,7 +86,7 @@ class Shinyhunt(commands.Cog):
         )
         embed=discord.Embed(title="Shiny Hunt", description="Cleared your Shiny Hunt", color=0x36393F)
 
-        return await ctx.send(embed=embed)
+        return await ctx.send(embed=embed, emperhal=False)
 
 
 async def setup(bot):
