@@ -20,7 +20,7 @@ class spawn_counts(commands.Cog):
             )
         )
 
-    @commands.command(alias=["sl"])
+    @commands.command(aliases=["sl"], description="View how many more spawns can be identified")
     async def spawnlimit(self, ctx):
         try:
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
