@@ -39,7 +39,7 @@ class Weakness(commands.Cog):
         
     @checks.has_started()
     @commands.guild_only()
-    @commands.command()
+    @commands.hybrid_command(description="View a pokémons weakness")
     async def weakness(self, ctx, *pokemon):
         vote=voted(ctx.author.id)
         if vote == False:
@@ -137,7 +137,7 @@ class Weakness(commands.Cog):
                 inline=False
             )
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed, ephemeral=False)
 
 async def setup(bot):
     print("Loaded Weakness")
