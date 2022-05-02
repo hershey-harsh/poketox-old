@@ -30,7 +30,7 @@ class Shinyhunt(commands.Cog):
             embed=discord.Embed(title="Shiny Hunt", description=f"Your now Shiny Hunting {species}", color=0x36393F)
             embed.set_thumbnail(url=species.image_url)
             
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed, ephemeral=False)
 
         if user.get('shinyhunt', None) == species.id:
 
@@ -49,7 +49,7 @@ class Shinyhunt(commands.Cog):
                  embed=discord.Embed(title="Shiny Hunt", description=f"Updated your Shiny Hunt to {species} from {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
                  embed.set_thumbnail(url=species.image_url)
                 
-                 await ctx.send(embed=embed, emperhal=False)
+                 await ctx.send(embed=embed, ephemeral=False)
                 
             await self.bot.mongo.db.shinyhunt.update_one(
                 {"_id": ctx.author.id},
@@ -67,12 +67,12 @@ class Shinyhunt(commands.Cog):
         if user == None or user.get('shinyhunt', None) == None:
             embed=discord.Embed(title="Shiny Hunt", description=f"You are not Shiny Hunting any pokemon. You can update your shiny hunt with `{ctx.prefix}shinyhunt`.", color=0x36393F)
 
-            await ctx.send(embed=embed, ephemeral=True)
+            await ctx.send(embed=embed, ephemeral=False)
         else:
             embed=discord.Embed(title="Shiny Hunt", description=f"You are Shiny Hunting {ctx.bot.data.species_by_number(user.get('shinyhunt', None))}", color=0x36393F)
             species = self.bot.data.species_by_number(user.get('shinyhunt', None))
             embed.set_thumbnail(url=species.image_url)
-            await ctx.send(embed=embed, emperhal=False)
+            await ctx.send(embed=embed, ephemeral=False)
     
     @checks.has_started()
     @shinyhunt.command()
@@ -86,7 +86,7 @@ class Shinyhunt(commands.Cog):
         )
         embed=discord.Embed(title="Shiny Hunt", description="Cleared your Shiny Hunt", color=0x36393F)
 
-        return await ctx.send(embed=embed, emperhal=False)
+        return await ctx.send(embed=embed, ephemeral=False)
 
 
 async def setup(bot):
