@@ -8,6 +8,9 @@ filelist = ["gen8.h5", "gen7.h5", "special_forms.h5", "gen6.h5", "gen5.h5", "400
 model_list = []
 for file in filelist:
   model_list.append(load_model(file))
+  
+def name(url):
+  return None
 
 def identifyy(url):
   
