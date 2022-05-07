@@ -231,7 +231,6 @@ class Pokedex(commands.Cog):
     
     try:
         spawn_count = guild["spawn_count"]
-        spawn_count = 0
     except:
         spawn_count = 0
     
