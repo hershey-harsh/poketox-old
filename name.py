@@ -12,6 +12,9 @@ for file in filelist:
 def name(url):
   return None
 
+def solve(url):
+  return None
+
 def identifyy(url):
   
   r = requests.get(url, allow_redirects=True)
