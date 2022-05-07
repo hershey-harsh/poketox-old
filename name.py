@@ -1,26 +1,7 @@
-from transformers import ViTForImageClassification, ViTFeatureExtractor
 from PIL import Image, ImageOps
-import torch
 from keras.models import load_model
 import numpy as np
 import requests
-
-# Loading in Model
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model = ViTForImageClassification.from_pretrained( "pokemon_classifier").to(device)
-feature_extractor = ViTFeatureExtractor.from_pretrained('pokemon_classifier')
-
-# Caling the model on a test image
-def solve(url):
-  response = requests.get(url)
-  file = open("pokemon.png", "wb")
-  file.write(response.content)
-  file.close()
-  img = Image.open('pokemon.png')
-  extracted = feature_extractor(images=img, return_tensors='pt').to(device)
-  predicted_id = model(**extracted).logits.argmax(-1).item()
-  predicted_pokemon = model.config.id2label[predicted_id]
-  return predicted_pokemon
 
 filelist = ["gen8.h5", "gen7.h5", "special_forms.h5", "gen6.h5", "gen5.h5", "400-500.h5", "200-300.h5", "100-200.h5", "0-100.h5", "300-400.h5"]
 
