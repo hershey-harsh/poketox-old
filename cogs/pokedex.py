@@ -150,6 +150,18 @@ class Pokedex(commands.Cog):
         return bucket.update_rate_limit()
     
   async def premium_identify(self, img_url, message, plan):
+    ctx = await self.bot.get_context(message)
+    guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+    
+    try:
+        spawn_count = int(guild["spawn_count"])
+    except:
+        spawn_count = 0
+    
+    if spawn_count >=5000:
+        return
+    
+    else:
     
           ctx = await self.bot.get_context(message)
           guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
