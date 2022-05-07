@@ -230,7 +230,7 @@ class Pokedex(commands.Cog):
     guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
     
     try:
-        spawn_count = guild["spawn_count"]
+        spawn_count = int(guild["spawn_count"])
     except:
         spawn_count = 0
     
