@@ -143,25 +143,10 @@ class Pokedex(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.daily_task.start()
-    self._free = commands.CooldownMapping.from_cooldown(1, 60.0, commands.BucketType.guild)
-    self._basic = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
-    self._premium = commands.CooldownMapping.from_cooldown(1, 15.0, commands.BucketType.guild)
-    self._unlimited = commands.CooldownMapping.from_cooldown(1, 1.0, commands.BucketType.guild)
+    self._free = commands.CooldownMapping.from_cooldown(1, 15.0, commands.BucketType.guild)
 
   def get_ratelimit(self, message):
         bucket = self._free.get_bucket(message)
-        return bucket.update_rate_limit()
-
-  def get_ratelimit_basic(self, message):
-        bucket = self._basic.get_bucket(message)
-        return bucket.update_rate_limit()
-    
-  def get_ratelimit_premium(self, message):
-        bucket = self._premium.get_bucket(message)
-        return bucket.update_rate_limit()
-    
-  def get_ratelimit_unlimited(self, message):
-        bucket = self._unlimited.get_bucket(message)
         return bucket.update_rate_limit()
     
   async def premium_identify(self, img_url, message, plan):
@@ -367,17 +352,15 @@ class Pokedex(commands.Cog):
       if "wild" in message.embeds[0].title:
         
         free = self.get_ratelimit(message)
-        basic = self.get_ratelimit_basic(message)
-        premium = self.get_ratelimit_premium(message)
-        unlimited = self.get_ratelimit_unlimited(message)
         
         total_servers = config.basic_premium + config.premium + config.unlimited_premium
         val = (message.guild.id in total_servers)
+        
         if val == False:
             if free is None:
                 await self.identify(message.embeds[0].image.url, message, "Free")
             else:
-                await self.identify(message.embeds[0].image.url, message, "Free")
+                return
         
         elif message.guild.id in config.basic_premium:
             if basic is None:
