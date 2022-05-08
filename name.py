@@ -1,6 +1,7 @@
 from PIL import Image, ImageOps
 from keras.models import load_model
 import numpy as np
+import random
 import requests
 
 filelist = ["gen8.h5", "gen7.h5", "special_forms.h5", "gen6.h5", "gen5.h5", "400-500.h5", "200-300.h5", "100-200.h5", "0-100.h5", "300-400.h5"]
@@ -18,11 +19,13 @@ def solve(url):
 
 def identifyy(url):
   
+  filenam = random.choice(["pokemon.png", "pok2.png", "pokemn.png", "pickom.png"])
+  
   r = requests.get(url)
-  open(f'pokemon.png', 'wb').write(r.content)
+  open(f'{filenam}.png', 'wb').write(r.content)
   
   data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-  image = Image.open("pokemon.png")
+  image = Image.open(f"{filenam}.png")
   size = (224, 224)
   image = ImageOps.fit(image, size, Image.ANTIALIAS)
   image_array = np.asarray(image)
