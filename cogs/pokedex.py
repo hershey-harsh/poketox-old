@@ -291,10 +291,10 @@ class Pokedex(commands.Cog):
         total_servers = config.basic_premium + config.premium + config.unlimited_premium
         val = (message.guild.id in total_servers)
         
-        elif message.guild.id in config.unlimited_premium:
+        if message.guild.id in config.unlimited_premium:
             await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
         
-        if val == False:
+        elif val == False:
             if free is None:
                 await self.identify(message.embeds[0].image.url, message, "Free")
             else:
