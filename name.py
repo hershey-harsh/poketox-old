@@ -18,11 +18,11 @@ def solve(url):
 
 def identifyy(url):
   
-  r = requests.get(url, allow_redirects=True)
-  open(f'pokemon.png', 'wb').write(r.content)
+  #r = requests.get(url)
+  #open(f'pokemon.png', 'wb').write(r.content)
   
   data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-  image = Image.open('pokemon.png')
+  im = Image.open(requests.get(url, stream=True).raw)
   size = (224, 224)
   image = ImageOps.fit(image, size, Image.ANTIALIAS)
   image_array = np.asarray(image)
@@ -40,17 +40,19 @@ def identifyy(url):
   predictions9 = model_list[8].predict(data)[0] #0-100
   predictions10 = model_list[9].predict(data)[0] #300-400
 
-  combined_1_2 = np.append(predictions1, predictions2)
-  combined_1_2_3 = np.append(combined_1_2, predictions3)
-  combined_1_2_3_4 = np.append(combined_1_2_3, predictions4)
-  combined_1_2_3_4_5 = np.append(combined_1_2_3_4, predictions5)
-  combined_1_2_3_4_5_6 = np.append(combined_1_2_3_4_5, predictions6)
-  combined_1_2_3_4_5_6_7 = np.append(combined_1_2_3_4_5_6, predictions7)
-  combined_1_2_3_4_5_6_7_8 = np.append(combined_1_2_3_4_5_6_7, predictions8)
-  combined_1_2_3_4_5_6_7_8_9 = np.append(combined_1_2_3_4_5_6_7_8, predictions9)
-  combined_1_2_3_4_5_6_7_8_9_10 = np.append(combined_1_2_3_4_5_6_7_8_9, predictions10)
+  #combined_1_2 = np.append(predictions1, predictions2)
+  #combined_1_2_3 = np.append(combined_1_2, predictions3)
+  #combined_1_2_3_4 = np.append(combined_1_2_3, predictions4)
+  #combined_1_2_3_4_5 = np.append(combined_1_2_3_4, predictions5)
+  #combined_1_2_3_4_5_6 = np.append(combined_1_2_3_4_5, predictions6)
+  #combined_1_2_3_4_5_6_7 = np.append(combined_1_2_3_4_5_6, predictions7)
+  #combined_1_2_3_4_5_6_7_8 = np.append(combined_1_2_3_4_5_6_7, predictions8)
+  #combined_1_2_3_4_5_6_7_8_9 = np.append(combined_1_2_3_4_5_6_7_8, predictions9)
+  #combined_1_2_3_4_5_6_7_8_9_10 = np.append(combined_1_2_3_4_5_6_7_8_9, predictions10)
+  
+  pred = np.concatenate((predictions1, predictions2, predictions3, predictions4, predictions5, predictions6, predictions7, predictions8, predictions9, predictions10), axis=None)
   
 
-  ind = np.argmax(combined_1_2_3_4_5_6_7_8_9_10)
+  ind = np.argmax(pred)
   
   return pokes[ind]
