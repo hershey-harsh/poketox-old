@@ -304,7 +304,6 @@ class Pokedex(commands.Cog):
                 await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
         
         elif message.guild.id in config.basic_premium:
-            if basic is None:
                 await self.premium_identify(message.embeds[0].image.url, message, "Basic")
             else:
                 embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(basic)}` seconds left till Cooldown expires\nYour current plan is **Premium**, you can upgrade your plan at https://poketox.me/pricing", color=0x2f3136)
@@ -313,11 +312,9 @@ class Pokedex(commands.Cog):
                 await message.channel.send(embed=embed)
             
         elif message.guild.id in config.premium:
-            if premium is None:
                 await self.premium_identify(message.embeds[0].image.url, message, "Premium")
             else:
                 embed=discord.Embed(title=":x: Cooldown Reached", description=f"`{int(premium)}` seconds left till Cooldown expires \nYour current plan is **Premium**, you can upgrade your plan at https://poketox.me/pricing", color=0x2f3136)
-                
                 await message.channel.send(embed=embed)
            
   time_to_execute_task = datetime.time(hour=4, minute=0)    
