@@ -201,7 +201,8 @@ class Pokedex(commands.Cog):
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
         
-          await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+          #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+          await message.reply(embed=embed1)
                 
           try:
                 await collectors.collectping(self, ctx, species)
@@ -283,7 +284,8 @@ class Pokedex(commands.Cog):
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'This server is currently on the {plan} Plan')
         
-          await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+          #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
+          await message.reply(embed=embed1)
                 
           try:
                 await collectors.collectping(self, ctx, species)
@@ -353,7 +355,8 @@ class Pokedex(commands.Cog):
 
           embed1.set_thumbnail(url=species.image_url)
         
-          await message.reply(embed=embed1, view=Confirm(message.content, pokemon, pokemon, self.bot))
+          #await message.reply(embed=embed1, view=Confirm(message.content, pokemon, pokemon, self.bot))
+          await message.reply(embed=embed1)
         
 
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
