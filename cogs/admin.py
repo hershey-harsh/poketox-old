@@ -37,6 +37,14 @@ class Admin(commands.Cog):
         )
         users_msg = ", ".join(f"**{x}**" for x in users)
         await ctx.send(f"Unsuspended {users_msg}.")
+        
+    @commands.is_owner()
+    @commands.command(aliases=["rsc"])
+    async def resetspawncount(self, ctx):
+                await self.bot.mongo.update_guild(
+                        ctx.guild, {"$set": {"spawn_count": "0"}}
+                )
+                await ctx.send(f"Reseted Spawn Count for {ctx.guild}")
     
     @commands.is_owner()
     @commands.command()
