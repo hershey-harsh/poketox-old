@@ -18,11 +18,11 @@ def solve(url):
 
 def identifyy(url):
   
-  #r = requests.get(url)
-  #open(f'pokemon.png', 'wb').write(r.content)
+  r = requests.get(url)
+  open(f'pokemon.png', 'wb').write(r.content)
   
   data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-  image = Image.open(requests.get(url, stream=True).raw)
+  image = Image.open("pokemon.png")
   size = (224, 224)
   image = ImageOps.fit(image, size, Image.ANTIALIAS)
   image_array = np.asarray(image)
