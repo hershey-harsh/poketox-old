@@ -9,7 +9,7 @@ class dex(commands.Cog):
         self.bot = bot
 
     @checks.has_started()
-    @commands.command(slash_command=True)
+    @commands.hybrid_command()
     async def dex(self, ctx, species):
         """Show Pokédex info"""
         
