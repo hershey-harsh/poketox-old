@@ -35,7 +35,7 @@ class comands(commands.Cog):
             voter_id = message.embeds[0].footer.value
             
     @checks.has_started()
-    @commands.command(brief="Suggest new features")
+    @commands.hybrid_command(brief="Suggest new features")
     async def suggest(self, ctx, *, args):
       chan = self.bot.get_channel(939162941536735292)
       
@@ -50,13 +50,13 @@ class comands(commands.Cog):
         
     @checks.has_started()
     @commands.is_owner()
-    @commands.command()
+    @commands.hybrid_command()
     async def dm(ctx, user: discord.User, *, message=None):
         await user.send(message)
         await ctx.send("Sent Message")
           
     @checks.has_started()
-    @commands.command()
+    @commands.hybrid_command()
     async def botstats(self, ctx):
         """Pokétox stats"""
 
@@ -81,7 +81,7 @@ class comands(commands.Cog):
         await ctx.send(embed = embed)
         
     @checks.has_started()
-    @commands.command()
+    @commands.hybrid_command()
     async def vote(self, ctx):
         """Vote for the Pokétox"""
 
@@ -95,7 +95,7 @@ class comands(commands.Cog):
         await ctx.send(embed=embed)
         
     @checks.has_started()
-    @commands.command(aliases=("sr",))
+    @commands.hybrid_command(aliases=("sr",))
     async def shinyrate(self, ctx, streak=1):
         """Check the shinyrate for a specific shiny hunt streak"""
         
@@ -120,7 +120,7 @@ class comands(commands.Cog):
         await ctx.send(embed = embed)
         
     @checks.has_started()
-    @commands.command()
+    @commands.hybrid_command()
     async def spawnrate(self, ctx, pokemon):
         
         pokemon = pokemon.capitalize()
@@ -193,7 +193,7 @@ class comands(commands.Cog):
         await ctx.send(embed=embed)
         
     @checks.has_started()
-    @commands.command(aliases=("wtp",))
+    @commands.hybrid_command(aliases=("wtp",))
     async def whosthatpokemon(self, ctx):
         num = random.randint(0, 890)
         
