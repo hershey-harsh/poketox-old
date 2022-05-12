@@ -96,7 +96,7 @@ class Collectors(commands.Cog):
     @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    @commands.group(invoke_without_command=True, case_insensitive=True, slash_command=True)
+    @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     async def whitelist(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel]):
 
         if len(channels) == 0:
@@ -162,7 +162,7 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.group(aliases=("cl",), invoke_without_command=True, slash_command=True)
+    @commands.hybrid_group(aliases=("cl",), invoke_without_command=True, slash_command=True)
     async def collectlist(self, ctx, *, member: discord.Member = None):
         if member is None:
             member = ctx.author
@@ -184,7 +184,7 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.command(slash_command=True)
+    @commands.hybrid_command()
     async def enable(self, ctx, guildid=None):
         """Adds a server to your pinging list"""
         guildid = guildid
@@ -214,7 +214,7 @@ class Collectors(commands.Cog):
        
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.command(slash_command=True)
+    @commands.hybrid_command(slash_command=True)
     async def disable(self, ctx):
         """Adds a server to your pinging list"""
         result = await self.bot.mongo.db.collector.update_one(
@@ -240,7 +240,7 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.command(slash_command=True)
+    @commands.hybrid_command()
     async def serverlist(self, ctx):
         """Adds a server to your pinging list"""
         result = await self.bot.mongo.db.collector.find_one(
@@ -347,7 +347,7 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.command(aliases = ["fr"], slash_command=True)
+    @commands.hybrid_command(aliases = ["fr"])
     async def forceremove(self, ctx, *, user: FetchUserConverter):
         """Allows moderators to remove a player from pinging list"""
 
@@ -370,7 +370,7 @@ class Collectors(commands.Cog):
 
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @collectlist.command(slash_command=True)
+    @collectlist.command()
     async def clear(self, ctx):
         """Clear your collecting list."""
 
@@ -438,7 +438,7 @@ class Collectors(commands.Cog):
 
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.command(aliases = ["config"], slash_command=True)
+    @commands.hybrid_command(aliases = ["config"], slash_command=True)
     async def configuration(self, ctx: commands.Context):
         
         guild = await self.bot.mongo.fetch_guild(ctx.guild)
