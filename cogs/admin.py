@@ -56,7 +56,7 @@ class Admin(commands.Cog):
               file.write(response.content)
               file.close()
               image = discord.File(f"pokemon.png", filename="pokemon.png")
-              embed=discord.Embed()
+              embed=discord.Embed(color=0x2F3136)
               embed.set_image(url="attachment://pokemon.png")
               await ctx.send(embed=embed, file=image)
     
