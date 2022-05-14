@@ -182,61 +182,7 @@ class Collectors(commands.Cog):
         except IndexError:
             await ctx.send("No pokémon or regions found.")
         
-    @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.hybrid_command()
-    async def enable(self, ctx, guildid=None):
-        """Adds a server to your pinging list"""
-        guildid = guildid
-        if guildid == None:
-          guildid = ctx.guild.id
-        
-        result = await self.bot.mongo.db.collector.update_one(
-            {"_id": ctx.author.id},
-            {"$set": {str(ctx.guild.id): True}},
-            upsert=True,
-        )
-        
-        result = await self.bot.mongo.db.shinyhunt.update_one(
-            {"_id": ctx.author.id},
-            {"$set": {str(ctx.guild.id): True}},
-            upsert=True,
-        )
 
-        if result.upserted_id or result.modified_count > 0:
-            embed=discord.Embed(title="Collector", description=f"You will get pinged when your shiny hunt spawns or what your collecting in **{ctx.guild}**", color=0x36393F)
-            embed.set_footer(text="Tip: You can always turn this feature of with a!disable")
-            await ctx.send(embed=embed)
-        else:
-            embed=discord.Embed(title="Collector", description=f"This feature is already enabled in **{ctx.guild}**! **Tip:** You can always turn this feature of with `a!disable`", color=0x36393F)
-            embed.set_footer(text=x)
-            await ctx.send(embed=embed)
-       
-    @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.hybrid_command(slash_command=True)
-    async def disable(self, ctx):
-        """Adds a server to your pinging list"""
-        result = await self.bot.mongo.db.collector.update_one(
-            {"_id": ctx.author.id},
-            {"$unset": {str(ctx.guild.id): 1}},
-            upsert=True,
-        )
-        
-        result = await self.bot.mongo.db.shinyhunt.update_one(
-            {"_id": ctx.author.id},
-            {"$unset": {str(ctx.guild.id): 1}},
-            upsert=True,
-        )
-
-        if result.upserted_id or result.modified_count > 0:
-            embed=discord.Embed(title="Ping", description=f"You will not get pinged when your shiny hunt or what your collecting spawns in **{ctx.guild}**", color=0x36393F)
-            embed.set_footer(text="Tip: You can always turn this feature on with a!enable")
-            await ctx.send(embed=embed)
-        else:
-            embed=discord.Embed(title="Ping", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-            embed.set_footer(text="Tip: You can always turn this feature on with a!enable")
-            await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
