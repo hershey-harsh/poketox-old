@@ -75,20 +75,20 @@ class dex(commands.Cog):
         
     @checks.has_started()
     @commands.hybrid_command()
-    async def dex(self, ctx, species):
+    async def dex(self, ctx, pokemon):
         """Show Pokédex info"""
         shiny = False
 
         if species.isdigit():
-            species = self.bot.data.species_by_number(int(species))
+            species = self.bot.data.species_by_number(int(pokemon))
         else:
             if species.lower().startswith("shiny "):
                 shiny = True
                 species = species[6:]
 
-            species = self.bot.data.species_by_name(species)
+            species = self.bot.data.species_by_name(pokemon)
             if species is None:
-                return await ctx.send(f"Could not find a pokemon matching `{species}`.")
+                return await ctx.send(f"Could not find a pokemon matching `{pokemon}`.")
 
         embed = discord.Embed(color=0x2F3136)
         embed.title = f"#{species.dex_number} — {species}"
@@ -124,7 +124,7 @@ class dex(commands.Cog):
             view = None
         else:
             embed.set_thumbnail(url=species.image_url)
-            view = Confirm(species, self.bot)
+            view = Confirm(pokemon, self.bot)
 
         base_stats = (
             f"**HP:** {species.base_stats.hp}",
