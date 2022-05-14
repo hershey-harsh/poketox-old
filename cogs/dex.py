@@ -79,10 +79,10 @@ class dex(commands.Cog):
         """Show Pokédex info"""
         shiny = False
 
-        if species.isdigit():
+        if pokemon.isdigit():
             species = self.bot.data.species_by_number(int(pokemon))
         else:
-            if species.lower().startswith("shiny "):
+            if pokemon.lower().startswith("shiny "):
                 shiny = True
                 species = species[6:]
 
