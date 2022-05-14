@@ -77,8 +77,8 @@ class dex(commands.Cog):
     async def dex(self, ctx, species):
         """Show Pokédex info"""
 
-        species = self.species
-
+        shiny = False
+        
         if species.isdigit():
             species = self.bot.data.species_by_number(int(species))
         else:
@@ -86,11 +86,9 @@ class dex(commands.Cog):
                 shiny = True
                 species = species[6:]
 
-
-            shiny = True
-            species = self.bot.data.species_by_name(species)
-            if species is None:
-                return await ctx.send(f"Could not find a pokemon matching `{species}`.")
+        species = self.bot.data.species_by_name(species)
+        if species is None:
+            return await ctx.send(f"Could not find a pokemon matching `{species}`.")
 
         embed = discord.Embed(color=0x2F3136)
         embed.title = f"#{species.dex_number} — {species}"
