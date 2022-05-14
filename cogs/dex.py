@@ -47,7 +47,10 @@ class Confirm(discord.ui.View):
 
         if species.evolution_text:
             embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
-            
+
+        if shiny:
+            embed.title = f"#{species.dex_number} — ✨ {species}"
+            embed.set_thumbnail(url=species.shiny_image_url)
         else:
             embed.set_thumbnail(url=species.image_url)
 
