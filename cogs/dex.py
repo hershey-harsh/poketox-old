@@ -1,3 +1,7 @@
+import discord
+from discord.ext import commands, menus
+from helpers import checks
+
 class Confirm(discord.ui.View):
     def __init__(self, species, bot):
         super().__init__()
@@ -64,6 +68,10 @@ class Confirm(discord.ui.View):
 
         await interaction.response.send_message(embed=embed,ephemeral=True)
 
+class dex(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        
     @checks.has_started()
     @commands.hybrid_command()
     async def dex(self, ctx, species):
