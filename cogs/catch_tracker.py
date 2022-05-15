@@ -32,7 +32,7 @@ class catch_log(commands.Cog):
         
     @checks.has_started()           
     @commands.hybrid_command(brief="Toggle server settings")
-    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup'] role: Optional[discord.Role] = None):
+    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup'], role: Optional[discord.Role] = None):
         if select == "Raredex Setup":
             if role is None:
                 return await ctx.send("Please use the Role option")
