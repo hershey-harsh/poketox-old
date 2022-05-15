@@ -55,6 +55,7 @@ class Bot(commands.Bot, events.EventsMixin):
         print("Loaded Check #4")
         
     async def setup_hook(self):
+        await self.load_extension("jishaku")
         for i in COGS:
             print("Loading")
             await self.load_extension(f"cogs.{i}")
