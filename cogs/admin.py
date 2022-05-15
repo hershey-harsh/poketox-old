@@ -20,8 +20,8 @@ class Admin(commands.Cog):
     
     @commands.is_owner()
     @commands.command()
-    async def sync(self, ctx, guilds: commands.Greedy[Object], spec: Optional[Literal["~", "*"]] = None) -> None:
-        if not guilds:
+    async def sync(self, ctx, spec: Optional[Literal["~", "*"]] = None) -> None:
+        
             if spec == "~":
                 fmt = await ctx.bot.tree.sync(guild=ctx.guild)
             elif spec == "*":
@@ -34,17 +34,6 @@ class Admin(commands.Cog):
                 f"Synced {len(fmt)} commands {'globally' if spec is None else 'to the current guild.'}"
             )
             return
-
-        fmt = 0
-        for guild in guilds:
-            try:
-                await ctx.bot.tree.sync(guild=guild)
-            except discord.HTTPException:
-                pass
-            else:
-                fmt += 1
-
-        await ctx.send(f"Synced the tree to {fmt}/{len(guilds)} guilds.")
 
     @commands.is_owner()
     @commands.command(aliases=["sp"])
