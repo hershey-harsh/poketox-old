@@ -33,7 +33,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Disable Pings and Catch Logs")
-    async def disable(self, ctx, select: Literal['Pings', 'Catch Logs'], ServerID: Optional[str] = None):
+    async def disable(self, ctx, select: Literal['Pings', 'Catch Logs'], serverid: Optional[str] = None):
 
         guildid = ServerID
       
