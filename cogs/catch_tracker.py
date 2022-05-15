@@ -49,7 +49,7 @@ class catch_log(commands.Cog):
                 ctx.guild, {"$set": {"name": str(mode)}}
             )
         
-            embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode]", color=0x36393F)
+            embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode}", color=0x36393F)
             await ctx.send(embed=embed)
         
     @checks.has_started()
