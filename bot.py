@@ -10,6 +10,7 @@ print("Loaded Check #1")
 COGS = [
     "data",
     "mongo",
+    "settings",
     "pokedex",
     "collectors",
     "shinyhunt",
