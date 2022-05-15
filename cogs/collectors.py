@@ -165,9 +165,9 @@ class Collectors(commands.Cog):
             ctx.guild, {"$set": {"ping_channels": [x.id for x in channels]}}
         )
 
-      embed=discord.Embed(title="<:pokeball:936773252913700894> Collect Whitelist", description=f"Now whitelisting Collect Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
-      embed.set_thumbnail(url=ctx.guild.icon.url)
-      await ctx.send(embed=embed)
+        embed=discord.Embed(title="<:pokeball:936773252913700894> Collect Whitelist", description=f"Now whitelisting Collect Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
+        embed.set_thumbnail(url=ctx.guild.icon.url)
+        await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
