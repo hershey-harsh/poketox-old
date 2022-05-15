@@ -66,8 +66,6 @@ class settings(commands.Cog):
               upsert=True,
           )
           
-          except:
-            return
         except:
             return
         
