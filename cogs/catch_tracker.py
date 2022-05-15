@@ -31,7 +31,7 @@ class catch_log(commands.Cog):
         self.bot = bot
         
   @checks.has_started()           
-  @commands.group(invoke_without_command=True)
+  @commands.hybrid_command(brief="Toggle server settings")
   async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup']):
     if select == "Naming":
       guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
@@ -54,7 +54,7 @@ class catch_log(commands.Cog):
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.hybrid_command(brief="Disable Pings and Catch Logs")
+    @commands.hybrid_command(brief="Disable your settings")
     async def disable(self, ctx, select: Literal['Pings', 'Raredex', 'Catch Logs'], serverid: Optional[str] = None):
 
         guildid = serverid
@@ -126,7 +126,7 @@ class catch_log(commands.Cog):
             
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.hybrid_command(brief="Enables Pings and Catch Logs")
+    @commands.hybrid_command(brief="Enable your settings")
     async def enable(self, ctx, select: Literal['Pings', 'Catch Logs'], serverid: Optional[str] = None):
 
         guildid = serverid
