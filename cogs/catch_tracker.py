@@ -45,7 +45,7 @@ class settings(commands.Cog):
         
         try:
           users = self.bot.mongo.db.catchlog.find({"_id": int(catch_msg)})
-          
+          print(users)
           if users == None:
             return
           
