@@ -224,40 +224,7 @@ class Pokedex(commands.Cog):
                 
                 except:
                     pass
-  @checks.has_started()           
-  @commands.group(invoke_without_command=True)
-  async def toggle(self, ctx):
-                return None
         
-  @checks.has_started()
-  @toggle.group(invoke_without_command=True)
-  async def spawn(self, ctx):
-                return None
-    
-  @checks.has_started()
-  @spawn.command()
-  async def enable(self, ctx):
-        mode = "On"
-        
-        await self.bot.mongo.update_guild(
-            ctx.guild, {"$set": {"name": str(mode)}}
-        )
-        
-        embed=discord.Embed(title="Spawn", description="I will start identifying spawn images", color=0x36393F)
-        await ctx.send(embed=embed)
-  
-  @checks.has_started()
-  @commands.has_permissions(manage_messages=True)     
-  @spawn.command()
-  async def disable(self, ctx):
-        mode = "Off"
-        
-        await self.bot.mongo.update_guild(
-            ctx.guild, {"$set": {"name": str(mode)}}
-        )
-        
-        embed=discord.Embed(title="Spawn", description="I will stop identifying spawn images", color=0x36393F)
-        await ctx.send(embed=embed)
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
   async def on_message(self, message):
