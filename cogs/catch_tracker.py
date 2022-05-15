@@ -26,7 +26,7 @@ import dbl
 from discord.ext import commands
 from typing import Literal
 
-class comands(commands.Cog):
+class catch_log(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
@@ -82,4 +82,4 @@ class comands(commands.Cog):
         
 async def setup(bot):
     print("Loaded Catch Logger")
-    await bot.add_cog(comands(bot))
+    await bot.add_cog(catch_log(bot))
