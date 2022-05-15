@@ -68,6 +68,8 @@ class settings(commands.Cog):
           
           except:
             return
+        except:
+            return
         
 async def setup(bot):
     print("Loaded Settings")
