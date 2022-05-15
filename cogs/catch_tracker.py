@@ -32,17 +32,31 @@ class catch_log(commands.Cog):
         
     @checks.has_started()           
     @commands.hybrid_command(brief="Toggle server settings")
-    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup']):
+    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup'] role: Optional[discord.Role] = None):
+        if select == "Raredex Setup":
+            if role is None:
+                return await ctx.send("Please use the Role option")
+            else:
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"rareping": str(role.id)}}
+                )
+      
+                embed=discord.Embed(title="Raredex", description=f"{role.mention} will be pinged when a Rare pokémon spawns", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
+            
         if select == "Naming":
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-    
-            try:
-                mode = guild["name"]
-                if mode is "On":
-                    mode = "Off"
-                elif mode is "Off":
+            
+            mode = guild["name"]
+            
+            if mode is "On":
+                mode = "Off"
+            
+            elif mode is "Off":
                     mode = "On"
-            except:
+            
+            elif mode is None:
                 mode = "Off"
       
             await self.bot.mongo.update_guild(
@@ -50,6 +64,29 @@ class catch_log(commands.Cog):
             )
         
             embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode}", color=0x36393F)
+            embed.set_thumbnail(url=ctx.guild.icon.url)
+            await ctx.send(embed=embed)
+        
+        if select == "Naming":
+            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+            
+            mode = guild["name"]
+            
+            if mode is "On":
+                mode = "Off"
+            
+            elif mode is "Off":
+                    mode = "On"
+            
+            elif mode is None:
+                mode = "Off"
+      
+            await self.bot.mongo.update_guild(
+                ctx.guild, {"$set": {"name": str(mode)}}
+            )
+        
+            embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode}", color=0x36393F)
+            embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
         
     @checks.has_started()
