@@ -143,7 +143,7 @@ class Collectors(commands.Cog):
     async def reset(self, ctx: commands.Context):
         """Clears all channels whitelist"""
 
-        embed=discord.Embed(title="Whitelist Reset", description=f"All whitelisted channels have been cleared, color=0x36393F)
+        embed=discord.Embed(title="Whitelist Reset", description=f"All whitelisted channels have been cleared", color=0x36393F)
         embed.set_thumbnail(url=ctx.guild.icon.url)
         await ctx.send(embed=embed)
 
