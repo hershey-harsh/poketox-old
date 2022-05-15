@@ -30,10 +30,32 @@ class catch_log(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
+  @checks.has_started()           
+  @commands.group(invoke_without_command=True)
+  async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup']):
+    if select == "Naming":
+      guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+    
+      try:
+        mode = guild["name"]
+        if mode is "On":
+            mode = "Off"
+        elif mode is "Off":
+            mode = "On"
+      except:
+        mode = "Off"
+      
+      await self.bot.mongo.update_guild(
+          ctx.guild, {"$set": {"name": str(mode)}}
+      )
+        
+      embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode]", color=0x36393F)
+      await ctx.send(embed=embed)
+        
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Disable Pings and Catch Logs")
-    async def disable(self, ctx, select: Literal['Pings', 'Catch Logs'], serverid: Optional[str] = None):
+    async def disable(self, ctx, select: Literal['Pings', 'Raredex', 'Catch Logs'], serverid: Optional[str] = None):
 
         guildid = serverid
       
@@ -62,6 +84,28 @@ class catch_log(commands.Cog):
             embed=discord.Embed(title="Ping", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
+            
+        if select == "Raredex"
+            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+            try:
+                roleid = guild["rareping"]
+            except:
+                roleid = None
+
+         
+            if roleid == None:
+                return await ctx.send(f"Ask an admin to run `{ctx.prefix}raredex setup <roleid>` since there is no Rare Ping role setup")
+      
+            roleid = guild["rareping"]
+            role = ctx.guild.get_role(int(roleid))
+            try:
+                await ctx.author.remove_roles(role)  
+                embed=discord.Embed(title="Rare Dex", description="You will not get pinged when a Rare Pokemon spawns", color=0x36393F)
+                await ctx.send(embed=embed)
+            except:
+                embed=discord.Embed(title="Raredex", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
             
         if select == "Catch Logs":
           
@@ -112,6 +156,28 @@ class catch_log(commands.Cog):
             embed=discord.Embed(title="Catch Logs", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
+            
+        if select == "Raredex"
+            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+            try:
+                roleid = guild["rareping"]
+            except:
+                roleid = None
+
+         
+            if roleid == None:
+                return await ctx.send(f"Ask an admin to run `{ctx.prefix}raredex setup <roleid>` since there is no Rare Ping role setup")
+      
+            roleid = guild["rareping"]
+            role = ctx.guild.get_role(int(roleid))
+            try:
+                await ctx.author.add_roles(role)  
+                embed=discord.Embed(title="Rare Dex", description="You **will** now get pinged whenever a Rare Pokemon spawns", color=0x36393F)
+                await ctx.send(embed=embed)
+            except:
+                embed=discord.Embed(title="Raredex", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)            
             
         if select == "Catch Logs":
           
