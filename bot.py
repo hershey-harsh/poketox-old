@@ -23,7 +23,6 @@ COGS = [
     "help",
     "comands",
     "admin",
-    "rep",
     "feedback",
     "economy",
     "catch_tracker"
