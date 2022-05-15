@@ -3,6 +3,7 @@ from discord.ext import commands
 import random
 import time
 import math
+from typing import Optional
 import config
 
 import asyncio
