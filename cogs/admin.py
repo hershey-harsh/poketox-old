@@ -20,7 +20,7 @@ class Admin(commands.Cog):
     
     @commands.is_owner()
     @commands.command()
-    async def sync(self, ctx, guilds: Greedy[Object], spec: Optional[Literal["~", "*"]] = None) -> None:
+    async def sync(self, ctx, guilds: commands.Greedy[Object], spec: Optional[Literal["~", "*"]] = None) -> None:
         if not guilds:
             if spec == "~":
                 fmt = await ctx.bot.tree.sync(guild=ctx.guild)
