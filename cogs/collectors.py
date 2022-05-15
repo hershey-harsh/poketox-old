@@ -454,7 +454,7 @@ class Collectors(commands.Cog):
             inline=False,
         )
                             
-        file = await make_spawn_limit(ctx)
+        file = await self.make_spawn_limit(ctx)
                             
         embed.set_image(url="attachment://poketox.png")
         
