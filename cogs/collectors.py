@@ -372,7 +372,7 @@ class Collectors(commands.Cog):
         except IndexError:
             await ctx.send("No users found.")
                             
-    def make_spawn_limit(ctx):
+    async def make_spawn_limit(ctx):
         try:
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             spawn_co = int(guild["spawn_count"])
@@ -454,7 +454,7 @@ class Collectors(commands.Cog):
             inline=False,
         )
                             
-        file = make_spawn_limit(ctx)
+        file = await make_spawn_limit(ctx)
                             
         embed.set_image(url="attachment://poketox.png")
         
