@@ -63,7 +63,7 @@ class catch_log(commands.Cog):
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
             
-        if select == "Catch Log":
+        if select == "Catch Logs":
           
           result = await self.bot.mongo.db.catchlog.update_one(
               {"_id": ctx.author.id},
