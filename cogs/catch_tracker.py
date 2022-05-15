@@ -56,29 +56,7 @@ class catch_log(commands.Cog):
             elif mode is "Off":
                     mode = "On"
             
-            elif mode is None:
-                mode = "Off"
-      
-            await self.bot.mongo.update_guild(
-                ctx.guild, {"$set": {"name": str(mode)}}
-            )
-        
-            embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode}", color=0x36393F)
-            embed.set_thumbnail(url=ctx.guild.icon.url)
-            await ctx.send(embed=embed)
-        
-        if select == "Naming":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            
-            mode = guild["name"]
-            
-            if mode is "On":
-                mode = "Off"
-            
-            elif mode is "Off":
-                    mode = "On"
-            
-            elif mode is None:
+            else:
                 mode = "Off"
       
             await self.bot.mongo.update_guild(
