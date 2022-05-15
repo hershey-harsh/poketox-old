@@ -61,7 +61,7 @@ class settings(commands.Cog):
           
           result = await self.bot.mongo.db.catchlog.update_one(
               {"_id": catch_msg},
-              {"$unset": "count": str(count)}},
+              {"$unset": {"count": str(count)}},
               {"$unset": {"recent_catch": str(pokemon)}},
               upsert=True,
           )
