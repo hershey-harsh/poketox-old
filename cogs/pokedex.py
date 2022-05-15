@@ -292,25 +292,39 @@ class Pokedex(commands.Cog):
         val = (message.guild.id in total_servers)
         
         if message.guild.id in config.unlimited_premium:
-            await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+            try:
+                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+            except:
+                return
         
         elif val == False:
             if free is None:
-                await self.identify(message.embeds[0].image.url, message, "Free")
+                try:
+                    await self.identify(message.embeds[0].image.url, message, "Free")
+                except:
+                    return
             else:
                 return
             
         elif message.guild.id in config.unlimited_premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+                try:
+                    await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+                except:
+                    return
         
         elif message.guild.id in config.basic_premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Basic")
+                try:
+                    await self.premium_identify(message.embeds[0].image.url, message, "Basic")
+                except:
+                    return
             
         elif message.guild.id in config.premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Premium")
+                try:
+                    await self.premium_identify(message.embeds[0].image.url, message, "Premium")
+                except:
+                    return
            
-  time_to_execute_task = datetime.time(hour=4, minute=0)    
-            
+  time_to_execute_task = datetime.time(hour=4, minute=0) 
   @tasks.loop(time=time_to_execute_task)
   async def daily_task(self):
         await self.bot.mongo.db.guild.update_many(
