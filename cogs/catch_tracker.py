@@ -44,14 +44,14 @@ class settings(commands.Cog):
         pokemon = catch_mesg[7].replace('!', '')
         
         try:
-          users = self.bot.mongo.db.catchlog.find({"_id": int(catch_msg)})
-          print(users)
-          if users == None:
+          users = self.bot.mongo.db.catchlog.find({"_id": int(catch_msg), str(ctx.guild.id): True})
+            
+          if users["_id"] != catch_msg:
             return
           
           try:
             start_count = int(users["count"])
-            if count == None:
+            if start_count == None:
               return
             count = start_count + 1
           except:
