@@ -3,6 +3,8 @@ from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
 from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers import checks
+from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
+from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
 
 seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
@@ -113,19 +115,21 @@ class Collectors(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
     async def shiny(self, ctx, channels: commands.Greedy[discord.TextChannel]):
-      """Whitelist Shiny Hunt in certain channels"""
+      """Whitelist shiny hunt in certain channels"""
 
       await self.bot.mongo.update_guild(
             ctx.guild, {"$set": {"sh_channels": [x.id for x in channels]}}
         )
 
-      await ctx.send("Now whitelisting Shiny pings in " + ", ".join(x.mention for x in channels))  
+      embed=discord.Embed(title=":sparkles: Shiny Whitelist", description=f"Now whitelisting Shiny Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
+      embed.set_thumbnail(url=ctx.guild.icon.url)
+      await ctx.send(embed=embed)
 
     @checks.has_started()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
     async def all(self, ctx: commands.Context):
-        """Reset channel whitelist."""
+        """Reset channels whitelist"""
 
         await ctx.send(f"All channels have been whitelisted.")
 
@@ -137,9 +141,11 @@ class Collectors(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
     async def reset(self, ctx: commands.Context):
-        """Clears all channels whitelist."""
+        """Clears all channels whitelist"""
 
-        await ctx.send(f"All channels have been cleared.")
+        embed=discord.Embed(title="Whitelist Reset", description=f"All whitelisted channels have been cleared, color=0x36393F)
+        embed.set_thumbnail(url=ctx.guild.icon.url)
+        await ctx.send(embed=embed)
 
         await self.bot.mongo.update_guild(ctx.guild, {"$set": {"ping_channels": [877637271929647125]}})
 
@@ -150,7 +156,7 @@ class Collectors(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
     async def collect(self, ctx, channels: commands.Greedy[discord.TextChannel]):
-        """Whitelist Collecting List in certain channels"""
+        """Whitelist collecting list in certain channels"""
 
         if len(channels) == 0:
             return await ctx.send("Please specify channels to whitelist collect pings")
@@ -158,7 +164,10 @@ class Collectors(commands.Cog):
         await self.bot.mongo.update_guild(
             ctx.guild, {"$set": {"ping_channels": [x.id for x in channels]}}
         )
-        await ctx.send("Now whitelisting collect pings in " + ", ".join(x.mention for x in channels))
+
+      embed=discord.Embed(title="<:pokeball:936773252913700894> Collect Whitelist", description=f"Now whitelisting Collect Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
+      embed.set_thumbnail(url=ctx.guild.icon.url)
+      await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -362,25 +371,94 @@ class Collectors(commands.Cog):
             await pages.start(ctx)
         except IndexError:
             await ctx.send("No users found.")
+                            
+    def make_spawn_limit(ctx):
+        try:
+            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+            spawn_co = int(guild["spawn_count"])
+        except:
+            spawn_co = 1
+            
+        if spawn_co >= 750:
+            percentage = 100
+        else:
+            x = spawn_co / 750
+            percentage = int((x % 1) * 100 // 1)
+        #file = make_card(ctx.guild, spawn_co, percentage, ctx.guild.icon.url)
+        
+        user_data = {  # Most likely coming from database or calculation
+            "name": ctx.guild.name,  # The user's name
+            "xp": spawn_co,
+            "percentage": percentage,
+        }
 
-    def make_config_embed(self, ctx, guild, commands={}):
+        background = Editor(Canvas((934, 282), "#8F9296"))
+        
+        profile_image = load_image(str(ctx.guild.icon.url))
+        profile = Editor(profile_image).resize((190, 190)).circle_image()
+
+        poppins = Font.poppins(size=30)
+
+        background.rectangle((20, 20), 894, 242, "#2a2e35")
+        background.paste(profile, (50, 50))
+        background.ellipse((42, 42), width=206, height=206, outline="#43b581", stroke_width=10)
+        background.rectangle((260, 180), width=630, height=40, fill="#484b4e", radius=20)
+        background.bar(
+            (260, 180),
+            max_width=630,
+            height=40,
+            percentage=user_data["percentage"],
+            fill="#00fa81",
+            radius=20,
+        )
+        background.text((270, 120), user_data["name"], font=poppins, color="#FFFFFF")
+        background.text(
+            (870, 125),
+            f"{user_data['xp']} / 750",
+            font=poppins,
+            color="#00fa81",
+            align="right",
+        )
+        
+        rank_level_texts = [
+            Text("Used ", color="#00fa81", font=poppins),
+            Text(f"{user_data['xp']}", color="#1EAAFF", font=poppins),
+            Text("   Total ", color="#00fa81", font=poppins),
+            Text(f"500", color="#1EAAFF", font=poppins),
+        ]
+
+        background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
+        file = discord.File(fp=background.image_bytes, filename="poketox.png")
+
+    async def make_config_embed(self, ctx, guild, commands={}):
         embed = discord.Embed(color=0x36393F)
         embed.title = f"Server Configuration"
         embed.set_thumbnail(url=ctx.guild.icon.url)
-
+                            
+        pingchannel = "\n".join(f"<#{x}>" for x in guild.ping_channels) or "All Channels"
+        shinychannel = "\n".join(f"<#{x}>" for x in guild.sh_channels) or "All Channels"
+                                
+        if "877637271929647125" in pingchannel:
+                pingchannel = "None"
+                shinychannel = "None"
+        
         embed.add_field(
-            name=f"Pinging Channels {commands.get('whitelist_command', '')}",
-            value="\n".join(f"<#{x}>" for x in guild.ping_channels) or "All Channels",
+            name=f"Collecting Channels {commands.get('whitelist_command', '')}",
+            value=pingchannel,
             inline=True,
         )
 
         embed.add_field(
             name=f"Shiny Hunt Channels {commands.get('whitelist_command', '')}",
-            value="\n".join(f"<#{x}>" for x in guild.sh_channels) or "All Channels",
+            value=shinychannel,
             inline=False,
         )
+                            
+        file = make_spawn_limit(ctx)
+                            
+        embed.set_image(url="attachment://poketox.png")
         
-        return embed
+        await ctx.send(embed=embed, file=file)
 
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -389,15 +467,7 @@ class Collectors(commands.Cog):
         
         guild = await self.bot.mongo.fetch_guild(ctx.guild)
 
-        embed = self.make_config_embed(ctx, guild)
-        
-        await ctx.send(embed=embed)
-        
-    @commands.Cog.listener()
-    async def on_guild_leave(self, guild):
-      del db[db[str(guild.id)]]
-      
-
+        embed = await self.make_config_embed(ctx, guild)
 
 async def setup(bot):
     print("Loaded Collectors")
