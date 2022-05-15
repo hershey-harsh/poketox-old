@@ -50,11 +50,11 @@ class catch_log(commands.Cog):
             
             mode = guild["name"]
             
-            if mode is "On":
+            if mode == "On":
                 mode = "Off"
             
-            elif mode is "Off":
-                    mode = "On"
+            if mode == "Off":
+                mode = "On"
             
             else:
                 mode = "Off"
