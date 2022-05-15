@@ -82,7 +82,7 @@ class catch_log(commands.Cog):
             
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.hybrid_command(brief="Disable Pings and Catch Logs")
+    @commands.hybrid_command(brief="Enables Pings and Catch Logs")
     async def enable(self, ctx, select: Literal['Pings', 'Catch Logs'], serverid: Optional[str] = None):
 
         guildid = serverid
@@ -105,15 +105,15 @@ class catch_log(commands.Cog):
           )
 
           if result.upserted_id or result.modified_count > 0:
-            embed=discord.Embed(title="Collector", description=f"You will get pinged when your shiny hunt spawns or what your collecting in **{ctx.guild}**", color=0x36393F)
+            embed=discord.Embed(title="Catch Logs", description=f"You will get pinged when your shiny hunt spawns or what your collecting in **{ctx.guild}**", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
           else:
-            embed=discord.Embed(title="Ping", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+            embed=discord.Embed(title="Catch Logs", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
             
-        if select == "Catch Log":
+        if select == "Catch Logs":
           
           result = await self.bot.mongo.db.catchlog.update_one(
               {"_id": ctx.author.id},
@@ -122,11 +122,11 @@ class catch_log(commands.Cog):
           )
 
           if result.upserted_id or result.modified_count > 0:
-            embed=discord.Embed(title="Catch Log", description=f"Your spawns will be tracked in in **{ctx.guild}**", color=0x36393F)
+            embed=discord.Embed(title="Catch Logs", description=f"Your spawns will be tracked in in **{ctx.guild}**", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
           else:
-            embed=discord.Embed(title="Ping", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+            embed=discord.Embed(title="Catch Logs", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
         
