@@ -7,6 +7,8 @@ from helpers import checks
 import math
 import requests
 
+from typing import Literal, Optional
+
 class Admin(commands.Cog):
     """Admin"""
 
@@ -15,6 +17,34 @@ class Admin(commands.Cog):
     
     async def is_banker(self, ctx):
         return ctx.guild.get_role(929227238166114306) in ctx.author.roles
+    
+    @commands.is_owner()
+    @commands.command()
+    async def sync(self, ctx: Context, guilds: Greedy[Object], spec: Optional[Literal["~", "*"]] = None) -> None:
+        if not guilds:
+            if spec == "~":
+                fmt = await ctx.bot.tree.sync(guild=ctx.guild)
+            elif spec == "*":
+                ctx.bot.tree.copy_global_to(guild=ctx.guild)
+                fmt = await ctx.bot.tree.sync(guild=ctx.guild)
+            else:
+                fmt = await ctx.bot.tree.sync()
+
+            await ctx.send(
+                f"Synced {len(fmt)} commands {'globally' if spec is None else 'to the current guild.'}"
+            )
+            return
+
+        fmt = 0
+        for guild in guilds:
+            try:
+                await ctx.bot.tree.sync(guild=guild)
+            except discord.HTTPException:
+                pass
+            else:
+                fmt += 1
+
+        await ctx.send(f"Synced the tree to {fmt}/{len(guilds)} guilds.")
 
     @commands.is_owner()
     @commands.command(aliases=["sp"])
