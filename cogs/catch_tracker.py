@@ -157,7 +157,7 @@ class catch_log(commands.Cog):
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
             
-        if select == "Raredex"
+        if select == "Raredex":
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             try:
                 roleid = guild["rareping"]
