@@ -198,7 +198,7 @@ class catch_log(commands.Cog):
           
           result = await self.bot.mongo.db.catchlog.update_one(
               {"_id": ctx.author.id},
-              {"$unset": {str(ctx.guild.id): 1}},
+              {"$unset": {str(ctx.guild.id): True}},
               upsert=True,
           )
 
