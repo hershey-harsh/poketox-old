@@ -30,27 +30,27 @@ class catch_log(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-  @checks.has_started()           
-  @commands.hybrid_command(brief="Toggle server settings")
-  async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup']):
-    if select == "Naming":
-      guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+    @checks.has_started()           
+    @commands.hybrid_command(brief="Toggle server settings")
+    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup']):
+        if select == "Naming":
+            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
     
-      try:
-        mode = guild["name"]
-        if mode is "On":
-            mode = "Off"
-        elif mode is "Off":
-            mode = "On"
-      except:
-        mode = "Off"
+            try:
+                mode = guild["name"]
+                if mode is "On":
+                    mode = "Off"
+                elif mode is "Off":
+                    mode = "On"
+            except:
+                mode = "Off"
       
-      await self.bot.mongo.update_guild(
-          ctx.guild, {"$set": {"name": str(mode)}}
-      )
+            await self.bot.mongo.update_guild(
+                ctx.guild, {"$set": {"name": str(mode)}}
+            )
         
-      embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode]", color=0x36393F)
-      await ctx.send(embed=embed)
+            embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode]", color=0x36393F)
+            await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
