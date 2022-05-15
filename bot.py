@@ -25,7 +25,8 @@ COGS = [
     "admin",
     "rep",
     "feedback",
-    "economy"
+    "economy",
+    "catch_tracker"
 ]
 
 intents = discord.Intents.default()
