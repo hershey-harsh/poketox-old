@@ -53,7 +53,7 @@ class catch_log(commands.Cog):
             if mode == "On":
                 mode = "Off"
             
-            if mode == "Off":
+            elif mode == "Off":
                 mode = "On"
             
             else:
