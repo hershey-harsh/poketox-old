@@ -371,8 +371,9 @@ class Collectors(commands.Cog):
             await pages.start(ctx)
         except IndexError:
             await ctx.send("No users found.")
-                            
-    async def make_spawn_limit(self, ctx):
+
+    async def make_config_embed(self, ctx, guild, commands={}):
+        
         try:
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             spawn_co = int(guild["spawn_count"])
@@ -429,8 +430,7 @@ class Collectors(commands.Cog):
 
         background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
         file = discord.File(fp=background.image_bytes, filename="poketox.png")
-
-    async def make_config_embed(self, ctx, guild, commands={}):
+        
         embed = discord.Embed(color=0x36393F)
         embed.title = f"Server Configuration"
         embed.set_thumbnail(url=ctx.guild.icon.url)
@@ -453,8 +453,6 @@ class Collectors(commands.Cog):
             value=shinychannel,
             inline=False,
         )
-                            
-        file = await self.make_spawn_limit(ctx)
                             
         embed.set_image(url="attachment://poketox.png")
         
