@@ -425,7 +425,7 @@ class Collectors(commands.Cog):
             Text("Used ", color="#00fa81", font=poppins),
             Text(f"{user_data['xp']}", color="#1EAAFF", font=poppins),
             Text("   Total ", color="#00fa81", font=poppins),
-            Text(f"500", color="#1EAAFF", font=poppins),
+            Text(f"750", color="#1EAAFF", font=poppins),
         ]
 
         background.multicolor_text((850, 30), texts=rank_level_texts, align="right")
