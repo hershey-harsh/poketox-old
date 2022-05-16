@@ -438,8 +438,10 @@ class Collectors(commands.Cog):
         pingchannel = "\n".join(f"<#{x}>" for x in guild.ping_channels) or "All Channels"
         shinychannel = "\n".join(f"<#{x}>" for x in guild.sh_channels) or "All Channels"
                                 
-        if "877637271929647125" in pingchannel:
+        if str(pingchannel) == "<#877637271929647125>":
                 pingchannel = "None"
+        
+        if str(shinychannel) == "<#877637271929647125>":
                 shinychannel = "None"
         
         embed.add_field(
