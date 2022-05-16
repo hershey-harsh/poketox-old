@@ -372,7 +372,7 @@ class Collectors(commands.Cog):
         except IndexError:
             await ctx.send("No users found.")
                             
-    async def make_spawn_limit(ctx):
+    async def make_spawn_limit(self, ctx):
         try:
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             spawn_co = int(guild["spawn_count"])
