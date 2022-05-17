@@ -70,7 +70,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Disable your settings")
-    async def disable(self, ctx, select: Literal['Pings', 'Raredex', 'Catch Logs'], serverid: Optional[str] = None):
+    async def disable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None):
 
         guildid = serverid
       
@@ -100,7 +100,7 @@ class catch_log(commands.Cog):
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
             
-        if select == "Raredex":
+        if select == "Rare Dex":
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             try:
                 roleid = guild["rareping"]
@@ -142,7 +142,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Enable your settings")
-    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs'], serverid: Optional[str] = None):
+    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None):
 
         guildid = serverid
       
@@ -164,15 +164,15 @@ class catch_log(commands.Cog):
           )
 
           if result.upserted_id or result.modified_count > 0:
-            embed=discord.Embed(title="Catch Logs", description=f"You will get pinged when your shiny hunt spawns or what your collecting in **{ctx.guild}**", color=0x36393F)
+            embed=discord.Embed(title="Pings", description=f"You will get pinged when your shiny hunt spawns or what your collecting in **{ctx.guild}**", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
           else:
-            embed=discord.Embed(title="Catch Logs", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+            embed=discord.Embed(title="Pings", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
             
-        if select == "Raredex":
+        if select == "Rare Dex":
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
             try:
                 roleid = guild["rareping"]
@@ -190,7 +190,7 @@ class catch_log(commands.Cog):
                 embed=discord.Embed(title="Rare Dex", description="You **will** now get pinged whenever a Rare Pokemon spawns", color=0x36393F)
                 await ctx.send(embed=embed)
             except:
-                embed=discord.Embed(title="Raredex", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+                embed=discord.Embed(title="Rare dex", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
                 embed.set_thumbnail(url=ctx.guild.icon.url)
                 await ctx.send(embed=embed)            
             
