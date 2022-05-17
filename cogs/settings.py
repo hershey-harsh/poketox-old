@@ -153,13 +153,13 @@ class catch_log(commands.Cog):
           
           result = await self.bot.mongo.db.collector.update_one(
               {"_id": ctx.author.id},
-              {"$unset": {str(ctx.guild.id): True}},
+              {"$set": {str(ctx.guild.id): True}},
               upsert=True,
           )
         
           result = await self.bot.mongo.db.shinyhunt.update_one(
               {"_id": ctx.author.id},
-              {"$unset": {str(ctx.guild.id): True}},
+              {"$set": {str(ctx.guild.id): True}},
               upsert=True,
           )
 
@@ -198,7 +198,7 @@ class catch_log(commands.Cog):
           
           result = await self.bot.mongo.db.catchlog.update_one(
               {"_id": ctx.author.id},
-              {"$unset": {str(ctx.guild.id): True}},
+              {"$set": {str(ctx.guild.id): True}},
               upsert=True,
           )
 
