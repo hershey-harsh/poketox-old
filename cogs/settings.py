@@ -70,7 +70,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Disable your settings")
-    async def disable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None):
+    async def disable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None, shinyhunt: Optional[Literal['Disable']] = None, collectlist: Optional[Literal['Disable']] = None):
 
         guildid = serverid
       
@@ -78,6 +78,37 @@ class catch_log(commands.Cog):
           guildid = ctx.guild.id      
       
         if select == "Pings":
+          if shinyhunt == "Disable":
+                result = await self.bot.mongo.db.shinyhunt.update_one(
+                    {"_id": ctx.author.id},
+                    {"$unset": {str(ctx.guild.id): 1}},
+                    upsert=True,
+                )
+
+                if result.upserted_id or result.modified_count > 0:
+                    embed=discord.Embed(title="Shinyhunt Ping", description=f"You will not get pinged when your shiny hunt spawns in **{ctx.guild}**", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    await ctx.send(embed=embed)
+                else:
+                    embed=discord.Embed(title="Shinyhunt Ping", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    return await ctx.send(embed=embed)
+                
+          if collectlist == "Disable":
+                result = await self.bot.mongo.db.collector.update_one(
+                    {"_id": ctx.author.id},
+                    {"$unset": {str(ctx.guild.id): 1}},
+                    upsert=True,
+                )
+
+                if result.upserted_id or result.modified_count > 0:
+                    embed=discord.Embed(title="Collect List Ping", description=f"You will not get pinged when your collecting spawns in **{ctx.guild}**", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    await ctx.send(embed=embed)
+                else:
+                    embed=discord.Embed(title="Collect List Ping", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    return await ctx.send(embed=embed)
           
           result = await self.bot.mongo.db.collector.update_one(
               {"_id": ctx.author.id},
@@ -92,7 +123,7 @@ class catch_log(commands.Cog):
           )
 
           if result.upserted_id or result.modified_count > 0:
-            embed=discord.Embed(title="Ping", description=f"You will not get pinged when your shiny hunt or what your collecting spawns in **{ctx.guild}**", color=0x36393F)
+            embed=discord.Embed(title="Ping", description=f"You will not get pinged when your shiny hunt and what your collecting spawns in **{ctx.guild}**", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
           else:
@@ -142,7 +173,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Enable your settings")
-    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None):
+    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None, serverid: Optional[str] = None, shinyhunt: Optional[Literal['Enable']] = None, collectlist: Optional[Literal['Enable']] = None):
 
         guildid = serverid
       
@@ -150,6 +181,38 @@ class catch_log(commands.Cog):
           guildid = ctx.guild.id      
       
         if select == "Pings":
+            
+          if shinyhunt == "Enable":
+                result = await self.bot.mongo.db.shinyhunt.update_one(
+                    {"_id": ctx.author.id},
+                    {"$set": {str(ctx.guild.id): True}},
+                    upsert=True,
+                )
+
+                if result.upserted_id or result.modified_count > 0:
+                    embed=discord.Embed(title="Shinyhunt Ping", description=f"You will pinged when your shiny hunt spawns in **{ctx.guild}**", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    await ctx.send(embed=embed)
+                else:
+                    embed=discord.Embed(title="Shinyhunt Ping", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    return await ctx.send(embed=embed)
+                
+          if collectlist == "Enable":
+                result = await self.bot.mongo.db.collector.update_one(
+                    {"_id": ctx.author.id},
+                    {"$set": {str(ctx.guild.id): True}},
+                    upsert=True,
+                )
+
+                if result.upserted_id or result.modified_count > 0:
+                    embed=discord.Embed(title="Collect List Ping", description=f"You will get pinged when your collecting spawns in **{ctx.guild}**", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    await ctx.send(embed=embed)
+                else:
+                    embed=discord.Embed(title="Collect List Ping", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
+                    embed.set_thumbnail(url=ctx.guild.icon.url)
+                    return await ctx.send(embed=embed)
           
           result = await self.bot.mongo.db.collector.update_one(
               {"_id": ctx.author.id},
