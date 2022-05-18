@@ -192,7 +192,7 @@ class catch_log(commands.Cog):
                 if result.upserted_id or result.modified_count > 0:
                     embed=discord.Embed(title="Shinyhunt Ping", description=f"You will pinged when your shiny hunt spawns in **{ctx.guild}**", color=0x36393F)
                     embed.set_thumbnail(url=ctx.guild.icon.url)
-                    await ctx.send(embed=embed)
+                    return await ctx.send(embed=embed)
                 else:
                     embed=discord.Embed(title="Shinyhunt Ping", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
                     embed.set_thumbnail(url=ctx.guild.icon.url)
@@ -208,7 +208,7 @@ class catch_log(commands.Cog):
                 if result.upserted_id or result.modified_count > 0:
                     embed=discord.Embed(title="Collect List Ping", description=f"You will get pinged when your collecting spawns in **{ctx.guild}**", color=0x36393F)
                     embed.set_thumbnail(url=ctx.guild.icon.url)
-                    await ctx.send(embed=embed)
+                    return await ctx.send(embed=embed)
                 else:
                     embed=discord.Embed(title="Collect List Ping", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
                     embed.set_thumbnail(url=ctx.guild.icon.url)
