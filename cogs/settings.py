@@ -173,7 +173,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Enable your settings")
-    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None, serverid: Optional[str] = None, shinyhunt: Optional[Literal['Enable']] = None, collectlist: Optional[Literal['Enable']] = None):
+    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None, shinyhunt: Optional[Literal['Enable']] = None, collectlist: Optional[Literal['Enable']] = None):
 
         guildid = serverid
       
