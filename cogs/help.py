@@ -181,55 +181,102 @@ class Help(commands.Cog):
     
     await ctx.send(embed=embed)
     
-  @commands.hybrid_command(brief="Shows the help page", invoke_without_command=True)
-  async def help(self, ctx, command: Optional[Literal['Collect List', 'Dex', 'Disable', 'Enable', 'Identify', 'Moveset', 'Nature', 'Price', 'Shiny Hunt', 'Shiny Rate', 'Spawnrate', 'Stats', 'Toggle', "Who's that Pokémon", 'Weakness', 'Whitelist']]):
-    embed=discord.Embed(title="Pokétox", description="Use the menu below to see how to use commands! Checkout Pokétox [Terms of Service](http://poketox.me/tos)", color=0x2F3136)
-    embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png")
-    embed.add_field(name="About Me", value="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more.", inline=False)
-    embed.add_field(name="<:developer:964340773367726101> Developer", value="[Future#0811](https://discord.com/users/790788488983085056)", inline=True)
-    embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/YmVA2ah5tE)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
-    await ctx.send(embed=embed, view=DropdownView(ctx))
-    
-    if command.capitalize() == "Collect List": #Done
+  @commands.command()
+  async def run_help(self, ctx, command):
+    command = command.title()
+        
+    if command == "Collect List": #Done
         await self.collectlist(ctx)
         
-    if command.capitalize() == "Dex": #Done
+    if command == "Dex": #Done
         await self.dex(ctx)
         
-    if command.capitalize() == "Disable": #Done
+    if command == "Disable": #Done
         await self.disable(ctx)
         
-    if command.capitalize() == "Enable": #Done
+    if command == "Enable": #Done
         await self.enable(ctx)
         
-    if command.capitalize() == "Identify": #Done
+    if command == "Identify": #Done
         await self.identify(ctx)
         
-    if command.capitalize() == "Moveset": #Done
+    if command == "Moveset": #Done
         await self.moveset(ctx)
         
-    if command.capitalize() == "Nature": #Done
+    if command == "Nature": #Done
         await self.nature(ctx)
         
-    if command.capitalize() == "Price": #Done
+    if command == "Price": #Done
         await self.price(ctx)
         
-    if command.capitalize() == "Shiny Hunt": #Done
+    if command == "Shiny Hunt": #Done
         await self.shinyhunt(ctx)
         
-    if command.capitalize() == "Shiny Rate": #Done
+    if command == "Shiny Rate": #Done
         await self.shinyrate(ctx)
         
-    if command.capitalize() == "Spawn Rate":
+    if command == "Spawn Rate":
         await self.spawnrate(ctx) #Done
         
-    if command.capitalize() == "Stats": #Done
+    if command == "Stats": #Done
         await self.stats(ctx)
         
-    if command.capitalize() == "Toggle": #Done
+    if command == "Toggle": #Done
         await self.toggle(ctx)
         
-    if command.capitalize() == "Weakness": #Done
+    if command == "Weakness": #Done
+        await self.weakness(ctx)
+    
+  @commands.hybrid_command(brief="Shows the help page", invoke_without_command=True)
+  async def help(self, ctx, command: Optional[Literal['Collect List', 'Dex', 'Disable', 'Enable', 'Identify', 'Moveset', 'Nature', 'Price', 'Shiny Hunt', 'Shiny Rate', 'Spawnrate', 'Stats', 'Toggle', "Who's that Pokémon", 'Weakness', 'Whitelist']]):
+    if command == None:
+        embed=discord.Embed(title="Pokétox", description="Use the menu below to see how to use commands! Checkout Pokétox [Terms of Service](http://poketox.me/tos)", color=0x2F3136)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png")
+        embed.add_field(name="About Me", value="Poketwo reimagined — Assists you with catching, price checks pokémons, automatically pings Shiny Hunters, and much more.", inline=False)
+        embed.add_field(name="<:developer:964340773367726101> Developer", value="[Future#0811](https://discord.com/users/790788488983085056)", inline=True)
+        embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/YmVA2ah5tE)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
+        await ctx.send(embed=embed, view=DropdownView(ctx))
+    
+    if command == "Collect List": #Done
+        await self.collectlist(ctx)
+        
+    if command == "Dex": #Done
+        await self.dex(ctx)
+        
+    if command == "Disable": #Done
+        await self.disable(ctx)
+        
+    if command == "Enable": #Done
+        await self.enable(ctx)
+        
+    if command == "Identify": #Done
+        await self.identify(ctx)
+        
+    if command == "Moveset": #Done
+        await self.moveset(ctx)
+        
+    if command == "Nature": #Done
+        await self.nature(ctx)
+        
+    if command == "Price": #Done
+        await self.price(ctx)
+        
+    if command == "Shiny Hunt": #Done
+        await self.shinyhunt(ctx)
+        
+    if command == "Shiny Rate": #Done
+        await self.shinyrate(ctx)
+        
+    if command == "Spawn Rate":
+        await self.spawnrate(ctx) #Done
+        
+    if command == "Stats": #Done
+        await self.stats(ctx)
+        
+    if command == "Toggle": #Done
+        await self.toggle(ctx)
+        
+    if command == "Weakness": #Done
         await self.weakness(ctx)
         
     if command.capitalize() == "Whitelist": #Done
