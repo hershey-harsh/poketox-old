@@ -76,6 +76,26 @@ class Error_Hand(commands.Cog):
         seconds = (message.created_at - ctx.message.created_at).total_seconds()
         await message.edit(content=f"Pong! **{seconds * 1000:.0f} ms**")
 
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def cleanup(self, ctx, search=100):
+        """Cleans up the bot's messages from the channel."""
+
+        def check(m):
+            return m.author == ctx.me or m.content.startswith(ctx.prefix)
+
+        deleted = await ctx.channel.purge(limit=search, check=check, before=ctx.message)
+        spammers = Counter(m.author.display_name for m in deleted)
+        count = len(deleted)
+
+        messages = [f'{count} message{" was" if count == 1 else "s were"} removed.']
+        if len(deleted) > 0:
+            messages.append("")
+            spammers = sorted(spammers.items(), key=lambda t: t[1], reverse=True)
+            messages.extend(f"– **{author}**: {count}" for author, count in spammers)
+
+        await ctx.send("\n".join(messages), delete_after=5)
+        
 async def setup(bot):
     print("Loaded Error")
     await bot.add_cog(Error_Hand(bot))
