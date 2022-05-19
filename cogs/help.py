@@ -11,7 +11,7 @@ class Dropdown(discord.ui.Select):
         options = [
             discord.SelectOption(label='Miscellaneous', description='View Pokétwo Miscellaneous commands', emoji='<:poketwo:964311966384554025>'),
             discord.SelectOption(label='Fun', description='View Fun commands', emoji='🥳'),
-            discord.SelectOption(label='Whitelist', description='View whitelist commands', emoji='✅')
+            discord.SelectOption(label='Whitelist', description='View whitelist commands', emoji='✅'),
             discord.SelectOption(label='Settings', description='Customize settings', emoji='⚙️'),
             discord.SelectOption(label='Collectors', description='View Collectors commands', emoji='<:pokeball:936773252913700894>'),
             discord.SelectOption(label='Shiny Hunt', description='View Shiny Hunt commands', emoji='✨'),
