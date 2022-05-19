@@ -190,52 +190,52 @@ class Help(commands.Cog):
     embed.add_field(name="🔗 Links", value="[Pokétox Website](http://poketox.me/)\n[Support Server](https://discord.gg/YmVA2ah5tE)\n[Bot Invite](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=True)
     await ctx.send(embed=embed, view=DropdownView(ctx))
     
-    if command == "Collect List": #Done
+    if command.capitalize() == "Collect List": #Done
         await self.collectlist(ctx)
         
-    if command == "Dex": #Done
+    if command.capitalize() == "Dex": #Done
         await self.dex(ctx)
         
-    if command == "Disable": #Done
+    if command.capitalize() == "Disable": #Done
         await self.disable(ctx)
         
-    if command == "Enable": #Done
+    if command.capitalize() == "Enable": #Done
         await self.enable(ctx)
         
-    if command == "Identify": #Done
+    if command.capitalize() == "Identify": #Done
         await self.identify(ctx)
         
-    if command == "Moveset": #Done
+    if command.capitalize() == "Moveset": #Done
         await self.moveset(ctx)
         
-    if command == "Nature": #Done
+    if command.capitalize() == "Nature": #Done
         await self.nature(ctx)
         
-    if command == "Price": #Done
+    if command.capitalize() == "Price": #Done
         await self.price(ctx)
         
-    if command == "Shiny Hunt": #Done
+    if command.capitalize() == "Shiny Hunt": #Done
         await self.shinyhunt(ctx)
         
-    if command == "Shiny Rate": #Done
+    if command.capitalize() == "Shiny Rate": #Done
         await self.shinyrate(ctx)
         
-    if command == "Spawn Rate":
+    if command.capitalize() == "Spawn Rate":
         await self.spawnrate(ctx) #Done
         
-    if command == "Stats": #Done
+    if command.capitalize() == "Stats": #Done
         await self.stats(ctx)
         
-    if command == "Toggle": #Done
+    if command.capitalize() == "Toggle": #Done
         await self.toggle(ctx)
         
-    if command == "Weakness": #Done
+    if command.capitalize() == "Weakness": #Done
         await self.weakness(ctx)
         
-    if command == "Whitelist": #Done
+    if command.capitalize() == "Whitelist": #Done
         await self.whitelist(ctx)
         
-    if command == "Who's that Pokémon":
+    if command.capitalize() == "Who's that Pokémon":
         await self.wtp(ctx)
 
 async def setup(bot):
