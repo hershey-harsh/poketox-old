@@ -45,7 +45,7 @@ class Error_Hand(commands.Cog):
                 
         elif isinstance(error, commands.MissingRequiredArgument):
             con = copy.copy(ctx)
-            con.content = f'{ctx.prefix}help {ctx.command}'
+            con.content = f'{ctx.prefix}run_help {ctx.command}'
             
             await self.bot.process_commands(con)
         elif isinstance(error, commands.CheckFailure):
