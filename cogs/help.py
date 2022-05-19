@@ -181,7 +181,7 @@ class Help(commands.Cog):
     
     await ctx.send(embed=embed)
     
-  @commands.hybrid_command(brief="Shows the help page")
+  @commands.hybrid_command(brief="Shows the help page", invoke_without_command=True)
   async def help(self, ctx, command: Optional[Literal['Collect List', 'Dex', 'Disable', 'Enable', 'Identify', 'Moveset', 'Nature', 'Price', 'Shiny Hunt', 'Shiny Rate', 'Spawnrate', 'Stats', 'Toggle', "Who's that Pokémon", 'Weakness', 'Whitelist']]):
     embed=discord.Embed(title="Pokétox", description="Use the menu below to see how to use commands! Checkout Pokétox [Terms of Service](http://poketox.me/tos)", color=0x2F3136)
     embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png")
