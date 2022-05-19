@@ -140,7 +140,7 @@ class Help(commands.Cog):
     
   async def price(self, ctx):
     embed=discord.Embed(title="Price Check", color=0x36393F)
-    embed.add_field(name="Usage & Description", value=f"Shows estimated price about the pokémon\n```\n{ctx.prefix}price <pokémon>```", inline=False)
+    embed.add_field(name="Usage & Description", value=f"Shows estimated price of the pokémon\n```\n{ctx.prefix}price <pokémon>```", inline=False)
     await ctx.send(embed=embed)
     
   async def shinyrate(self, ctx):
@@ -279,10 +279,10 @@ class Help(commands.Cog):
     if command == "Weakness": #Done
         await self.weakness(ctx)
         
-    if command.capitalize() == "Whitelist": #Done
+    if command == "Whitelist": #Done
         await self.whitelist(ctx)
         
-    if command.capitalize() == "Who's that Pokémon":
+    if command == "Who's that Pokémon":
         await self.wtp(ctx)
 
 async def setup(bot):
