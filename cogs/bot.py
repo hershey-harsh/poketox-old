@@ -22,15 +22,11 @@ class Error_Hand(commands.Cog):
         if isinstance(error, commands.NoPrivateMessage):
             await ctx.send("This command cannot be used in private messages.")
         elif isinstance(error, commands.CommandOnCooldown):
-
-            embed = discord.Embed(
-                title=f"Slow it down!",
-                description=f"Try again in {round(error.retry_after, 2)} seconds",
-                color=0x99A7F9
-            )
-            await ctx.send(embed=embed)
+            await ctx.message.add_reaction("\N{HOURGLASS}")
+            
         elif isinstance(error, commands.DisabledCommand):
             await ctx.send("Sorry. This command is disabled and cannot be used.")
+            
         elif isinstance(error, commands.BotMissingPermissions):
             missing = [
                 "> **" + perm.replace("_", " ").replace("guild", "server").title() + "**"
@@ -38,15 +34,17 @@ class Error_Hand(commands.Cog):
             ]
             fmt = "\n".join(missing)
             message = f"Something went wrong! I am missing the following permissions to run this command:\n\n{fmt}\n\n Please fix this and try again."
+            
             try:
                 await ctx.send(message)
             except:
                 pass
+            
+        elif isinstance(error, commands.ConversionError):
+            await ctx.send(error.original)
                 
         elif isinstance(error, commands.MissingRequiredArgument):
-            con = copy.copy(ctx)
-            con.content = f'{ctx.prefix}run_help {ctx.command}'
-            await self.bot.process_commands(con)
+            await ctx.send_help(ctx.command)
             
         elif isinstance(error, commands.CheckFailure):
             await ctx.send(error)
