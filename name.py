@@ -33,16 +33,16 @@ def identifyy(url):
   normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
   data[0] = normalized_image_array
 
-  predictions1 = model_list[0].predict(data)[0] #Gen 8
-  predictions2 = model_list[1].predict(data)[0] #Gen 7
-  predictions3 = model_list[2].predict(data)[0] #Special Forms
-  predictions4 = model_list[3].predict(data)[0] #Gen 6
-  predictions5 = model_list[4].predict(data)[0] #Gen 5
-  predictions6 = model_list[5].predict(data)[0] #400-493
-  predictions7 = model_list[6].predict(data)[0] #200-300
-  predictions8 = model_list[7].predict(data)[0] #100-200
-  predictions9 = model_list[8].predict(data)[0] #0-100
-  predictions10 = model_list[9].predict(data)[0] #300-400
+  predictions1 = model_list[0].predict(data, verbose=0)[0] #Gen 8
+  predictions2 = model_list[1].predict(data, verbose=0)[0] #Gen 7
+  predictions3 = model_list[2].predict(data, verbose=0)[0] #Special Forms
+  predictions4 = model_list[3].predict(data, verbose=0)[0] #Gen 6
+  predictions5 = model_list[4].predict(data, verbose=0)[0] #Gen 5
+  predictions6 = model_list[5].predict(data, verbose=0)[0] #400-493
+  predictions7 = model_list[6].predict(data, verbose=0)[0] #200-300
+  predictions8 = model_list[7].predict(data, verbose=0)[0] #100-200
+  predictions9 = model_list[8].predict(data, verbose=0)[0] #0-100
+  predictions10 = model_list[9].predict(data, verbose=0)[0] #300-400
 
   #combined_1_2 = np.append(predictions1, predictions2)
   #combined_1_2_3 = np.append(combined_1_2, predictions3)
