@@ -66,7 +66,7 @@ class stats(commands.Cog):
         self.bot = bot
 
     @checks.has_started()
-    @commands.command()
+    @commands.hybrid_command(brief="Shows shiny rate of a pokémon")
     async def nature(self, ctx, poke : str):
         vote=voted(ctx.author.id)
         if vote == False:
@@ -77,7 +77,7 @@ class stats(commands.Cog):
         await ctx.send(embed=reply)
   
     @checks.has_started()
-    @commands.command()
+    @commands.hybrid_command()
     async def stats(self, ctx, pokemon:str):
         """Shows statistics needed for an duelish pokémon"""
         vote=voted(ctx.author.id)
@@ -89,7 +89,7 @@ class stats(commands.Cog):
         await ctx.reply(embed=reply)
 
     @checks.has_started()
-    @commands.command()
+    @commands.hybrid_command()
     async def moveset(self, ctx, pokemon):
         """Shows the pokémons moves"""
         vote=voted(ctx.author.id)
@@ -101,7 +101,7 @@ class stats(commands.Cog):
         await ctx.reply(embed=reply)
 
     @checks.has_started()
-    @commands.command(brief="Price check pokémons")
+    @commands.hybrid_command(brief="Shows estimated price of the pokémon")
     async def price(self, ctx, *, pokemon):
         vote=voted(ctx.author.id)
         if vote == False:
