@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands, menus
 import typing
+from typing import Literal, Optional
 
 class Dropdown(discord.ui.Select):
     def __init__(self, ctx):
