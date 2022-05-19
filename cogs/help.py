@@ -232,10 +232,10 @@ class Help(commands.Cog):
     if command == "Weakness": #Done
         await self.weakness(ctx)
         
-     if command == "Whitelist": #Done
+    if command == "Whitelist": #Done
         await self.whitelist(ctx)
         
-     if command == "Who's that Pokémon":
+    if command == "Who's that Pokémon":
         await self.wtp(ctx)
 
 async def setup(bot):
