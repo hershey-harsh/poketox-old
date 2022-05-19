@@ -232,9 +232,7 @@ class Collectors(commands.Cog):
     @collectlist.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
 
-        """Allows members to keep track of the collectors for a pokémon or region
-        If no subcommand is called, lists the pokémon or regions collected by you or someone else.
-        """
+        """Allows members to keep track of the collectors for a pokémon or region"""
       
         if member is None:
             member = ctx.author
@@ -462,7 +460,7 @@ class Collectors(commands.Cog):
 
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.hybrid_command(aliases = ["config"], slash_command=True)
+    @commands.hybrid_command(aliases = ["config"], slash_command=True, brief="Shows server configuration")
     async def configuration(self, ctx: commands.Context):
         
         guild = await self.bot.mongo.fetch_guild(ctx.guild)
