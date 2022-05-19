@@ -47,13 +47,6 @@ class comands(commands.Cog):
       await chan.send(embed=embed) 
         
       embed=discord.Embed(title="Suggestion Sent", color=0x2F3136)
-        
-    @checks.has_started()
-    @commands.is_owner()
-    @commands.hybrid_command()
-    async def dm(ctx, user: discord.User, *, message=None):
-        await user.send(message)
-        await ctx.send("Sent Message")
           
     @checks.has_started()
     @commands.hybrid_command()
@@ -120,7 +113,7 @@ class comands(commands.Cog):
         await ctx.send(embed = embed)
         
     @checks.has_started()
-    @commands.hybrid_command()
+    @commands.hybrid_command(brief="Shows shiny rate of a pokémon")
     async def spawnrate(self, ctx, pokemon):
         
         pokemon = pokemon.capitalize()
@@ -193,7 +186,7 @@ class comands(commands.Cog):
         await ctx.send(embed=embed)
         
     @checks.has_started()
-    @commands.hybrid_command(aliases=("wtp",))
+    @commands.hybrid_command(aliases=("wtp",), brief="Sends a \"Who's that Pokémon\" image with a answer")
     async def whosthatpokemon(self, ctx):
         num = random.randint(0, 890)
         
