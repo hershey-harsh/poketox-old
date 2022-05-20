@@ -226,8 +226,8 @@ class Collectors(commands.Cog):
 
         guilds = get_guild(result)
         
-        pages = menus.MenuPages(
-            source=AsyncListPageSource(
+        pages = ViewMenuPages(
+            source=AsyncEmbedListPageSource(
                 guilds,
                 title=f"{ctx.author}'s Server Pinging List",
                 format_item=lambda x: f"{x}",
@@ -253,8 +253,8 @@ class Collectors(commands.Cog):
 
         result = await self.bot.mongo.db.collector.find_one({"_id": member.id})
 
-        pages = menus.MenuPages(
-            source=AsyncListPageSource(
+        pages = ViewMenuPages(
+            source=AsyncEmbedListPageSource(
                 self.doc_to_species(result or {}),
                 title=str(member),
                 format_item=lambda x: x.name,
@@ -356,8 +356,8 @@ class Collectors(commands.Cog):
         """Lists the collectors of a pokémon species or regions"""
 
         users = self.bot.mongo.db.collector.find({str(species.id): True})
-        pages = menus.MenuPages(
-            source=AsyncListPageSource(
+        pages = ViewMenuPages(
+            source=AsyncEmbedListPageSource(
                 users,
                 title=f"All {species} Collectors using the bot",
                 color=0x36393F,
@@ -376,8 +376,8 @@ class Collectors(commands.Cog):
         """Lists the collectors of a pokémon species or regions in the server"""
 
         users = self.bot.mongo.db.collector.find({str(species.id): True, str(ctx.guild.id): True})
-        pages = menus.MenuPages(
-            source=AsyncListPageSource(
+        pages = ViewMenuPages(
+            source=AsyncEmbedListPageSource(
                 users,
                 title=f"{species} Collectors in this server",
                 color=0x36393F,
