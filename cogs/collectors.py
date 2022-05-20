@@ -99,6 +99,8 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def whitelist(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel]):
 
         if len(channels) == 0:
@@ -114,6 +116,8 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def shiny(self, ctx, channels: commands.Greedy[discord.TextChannel]):
       """Whitelist shiny hunt in certain channels"""
 
@@ -126,8 +130,11 @@ class Collectors(commands.Cog):
       await ctx.send(embed=embed)
 
     @checks.has_started()
+    @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def all(self, ctx: commands.Context):
         """Reset channels whitelist"""
 
@@ -138,8 +145,11 @@ class Collectors(commands.Cog):
         await self.bot.mongo.update_guild(ctx.guild, {"$set": {"sh_channels": []}})
 
     @checks.has_started()
+    @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def reset(self, ctx: commands.Context):
         """Clears all channels whitelist"""
 
@@ -155,6 +165,8 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def collect(self, ctx, channels: commands.Greedy[discord.TextChannel]):
         """Whitelist collecting list in certain channels"""
 
@@ -170,8 +182,8 @@ class Collectors(commands.Cog):
         await ctx.send(embed=embed)
         
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_group(aliases=("cl",), invoke_without_command=True, slash_command=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def collectlist(self, ctx, *, member: discord.Member = None):
         if member is None:
             member = ctx.author
@@ -194,8 +206,9 @@ class Collectors(commands.Cog):
 
         
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command()
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def serverlist(self, ctx):
         """Adds a server to your pinging list"""
         result = await self.bot.mongo.db.collector.find_one(
@@ -228,6 +241,7 @@ class Collectors(commands.Cog):
             await ctx.send(embed=embed)
                 
     @checks.has_started()
+    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
@@ -253,8 +267,9 @@ class Collectors(commands.Cog):
             await ctx.send("No pokémon or regions found.")
         
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, species: SpeciesConverter):
         """Adds a pokémon species or region to your collecting list"""
 
@@ -276,8 +291,9 @@ class Collectors(commands.Cog):
             return await ctx.send(embed=embed2, ephemeral=True)
 
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def remove(self, ctx, *, species: SpeciesConverter):
         """Remove a pokémon species or region from your collecting list"""
 
@@ -299,8 +315,9 @@ class Collectors(commands.Cog):
     @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(aliases = ["fr"])
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def forceremove(self, ctx, *, user: FetchUserConverter):
         """Allows moderators to remove a player from pinging list"""
 
@@ -322,8 +339,9 @@ class Collectors(commands.Cog):
             return await ctx.send(f"**{user}** is not on the **{ctx.guild}** pinging list!")
 
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command()
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def clear(self, ctx):
         """Clear your collecting list."""
 
@@ -331,8 +349,9 @@ class Collectors(commands.Cog):
         await ctx.send("Cleared your collecting list.")
 
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def globalsearch(self, ctx, *, species: SpeciesConverter):
         """Lists the collectors of a pokémon species or regions"""
 
@@ -350,8 +369,9 @@ class Collectors(commands.Cog):
         await pages.start(ctx)
         
     @checks.has_started()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def search(self, ctx, *, species: SpeciesConverter):
         """Lists the collectors of a pokémon species or regions in the server"""
 
