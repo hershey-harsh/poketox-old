@@ -27,7 +27,7 @@ def voted(userid):
         else:
                 return False
 
-async def get_nature_embed(poke: str):
+async def get_nature_embed(poke):
         with open('data/nature.json') as f:
           nature = json.load(f)
         mature = nature[poke.lower()]
@@ -68,42 +68,45 @@ class stats(commands.Cog):
 
     @checks.has_started()
     @commands.hybrid_command(brief="Shows shiny rate of a pokémon")
-    async def nature(self, ctx, pokemon : SpeciesConverter):
+    async def nature(self, ctx, pokemon):
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
+        pokemon = self.bot.data.species_by_name(pokemon)
         reply = await get_nature_embed(pokemon)
         await ctx.send(embed=reply)
   
     @checks.has_started()
     @commands.hybrid_command()
-    async def stats(self, ctx, pokemon : SpeciesConverter):
+    async def stats(self, ctx, pokemon):
         """Shows statistics needed for an duelish pokémon"""
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
+        pokemon = self.bot.data.species_by_name(pokemon)
         reply = await get_stats_embed(pokemon)
         await ctx.reply(embed=reply)
 
     @checks.has_started()
     @commands.hybrid_command()
-    async def moveset(self, ctx, pokemon : SpeciesConverter):
+    async def moveset(self, ctx, pokemon):
         """Shows the pokémons moves"""
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
+        pokemon = self.bot.data.species_by_name(pokemon)
         reply = await get_moveset_embed(pokemon)
         await ctx.reply(embed=reply)
 
     @checks.has_started()
     @commands.hybrid_command(brief="Shows estimated price of the pokémon")
-    async def price(self, ctx, *, pokemon : SpeciesConverter):
+    async def price(self, ctx, *, pokemon):
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
