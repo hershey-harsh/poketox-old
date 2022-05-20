@@ -23,6 +23,7 @@ from replit import db
 import discord,random,os
 import dbl
 from discord.ext import commands
+from helpers.converters import FetchUserConverter, SpeciesConverter
 
 class comands(commands.Cog):
     def __init__(self, bot):
@@ -114,7 +115,7 @@ class comands(commands.Cog):
         
     @checks.has_started()
     @commands.hybrid_command(brief="Shows shiny rate of a pokémon")
-    async def spawnrate(self, ctx, pokemon):
+    async def spawnrate(self, ctx, pokemon: SpeciesConverter):
         
         pokemon = pokemon.capitalize()
         
