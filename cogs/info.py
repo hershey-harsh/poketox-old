@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from helpers import checks
+from helpers.converters import FetchUserConverter, SpeciesConverter
 import config
 import json
 import requests
@@ -67,18 +68,18 @@ class stats(commands.Cog):
 
     @checks.has_started()
     @commands.hybrid_command(brief="Shows shiny rate of a pokémon")
-    async def nature(self, ctx, poke : str):
+    async def nature(self, ctx, pokemon : SpeciesConverter):
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
-        reply = await get_nature_embed(poke)
+        reply = await get_nature_embed(pokemon)
         await ctx.send(embed=reply)
   
     @checks.has_started()
     @commands.hybrid_command()
-    async def stats(self, ctx, pokemon:str):
+    async def stats(self, ctx, pokemon : SpeciesConverter):
         """Shows statistics needed for an duelish pokémon"""
         vote=voted(ctx.author.id)
         if vote == False:
@@ -90,7 +91,7 @@ class stats(commands.Cog):
 
     @checks.has_started()
     @commands.hybrid_command()
-    async def moveset(self, ctx, pokemon):
+    async def moveset(self, ctx, pokemon : SpeciesConverter):
         """Shows the pokémons moves"""
         vote=voted(ctx.author.id)
         if vote == False:
@@ -102,7 +103,7 @@ class stats(commands.Cog):
 
     @checks.has_started()
     @commands.hybrid_command(brief="Shows estimated price of the pokémon")
-    async def price(self, ctx, *, pokemon):
+    async def price(self, ctx, *, pokemon : SpeciesConverter):
         vote=voted(ctx.author.id)
         if vote == False:
                 embed=discord.Embed(title="Vote Required", description="Please vote for Pokétox below before using this command", color=0x2F3136)
