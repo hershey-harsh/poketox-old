@@ -115,8 +115,9 @@ class comands(commands.Cog):
         
     @checks.has_started()
     @commands.hybrid_command(brief="Shows shiny rate of a pokémon")
-    async def spawnrate(self, ctx, pokemon: SpeciesConverter):
+    async def spawnrate(self, ctx, pokemon):
         
+        pokemon = self.bot.data.species_by_name(pokemon)
         pokemon = pokemon.capitalize()
         
         zero_set = ["Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
