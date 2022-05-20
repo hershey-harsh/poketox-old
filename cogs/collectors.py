@@ -360,7 +360,6 @@ class Collectors(commands.Cog):
             source=AsyncEmbedListPageSource(
                 users,
                 title=f"All {species} Collectors using the bot",
-                color=0x36393F,
                 format_item=lambda x: f"<@{x['_id']}>",
             )
         )
@@ -380,7 +379,6 @@ class Collectors(commands.Cog):
             source=AsyncEmbedListPageSource(
                 users,
                 title=f"{species} Collectors in this server",
-                color=0x36393F,
                 format_item=lambda x: f"<@{x['_id']}>",
             )
         )
