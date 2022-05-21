@@ -44,7 +44,7 @@ class Minigame(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command()
+    @commands.hybrid_command(brief="Register you to Pokétox")
     async def start(self, ctx):
         member = await self.bot.mongo.fetch_member_info(ctx.author)
 
@@ -78,7 +78,7 @@ class Minigame(commands.Cog):
 
         
     @checks.has_started()
-    @commands.command(aliases=["bal"])
+    @commands.hybrid_command(brief="View your balance", aliases=["bal"])
     async def balance(self, ctx):
         member = await self.bot.mongo.fetch_member_info(ctx.author)
         amount = member.balance
@@ -91,7 +91,7 @@ class Minigame(commands.Cog):
 
     @checks.has_started()
     @commands.max_concurrency(1, commands.BucketType.user)
-    @commands.command(aliases=["dr", "dice"])
+    @commands.hybrid_command(brief="Gamble your tokens using a Dice", aliases=["dr", "dice"])
     async def diceroll(self, ctx, start="about", amount=10):
         
         if ctx.guild.id != 968956231064625172:
@@ -149,7 +149,7 @@ class Minigame(commands.Cog):
 
     @checks.has_started()
     @commands.max_concurrency(1, commands.BucketType.user)
-    @commands.command(aliases=["cf", "coin"])
+    @commands.hybrid_command(brief="Gamble your tokens using a Coin", aliases=["cf", "coin"])
     async def coinflip(self, ctx, start="about", amount=10, choice="heads"):
         
         if ctx.guild.id != 968956231064625172:
@@ -388,7 +388,7 @@ class Minigame(commands.Cog):
     @checks.has_started()
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    @commands.group(invoke_without_command=True)
+    @commands.hybrid_command(brief="Guess the pokémon")
     async def spawn(self, ctx, mode: Literal['Easy', 'Medium', 'Hard'], practice: Optional[Literal['Enable']] ="n"):
         if ctx.guild.id != 968956231064625172:
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
