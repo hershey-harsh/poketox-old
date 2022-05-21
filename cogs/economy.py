@@ -94,7 +94,7 @@ class Minigame(commands.Cog):
     @commands.command(aliases=["dr", "dice"])
     async def diceroll(self, ctx, start="about", amount=10):
         
-        if ctx.guild.id != 815598238820335668:
+        if ctx.guild.id != 968956231064625172:
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
@@ -152,7 +152,7 @@ class Minigame(commands.Cog):
     @commands.command(aliases=["cf", "coin"])
     async def coinflip(self, ctx, start="about", amount=10, choice="heads"):
         
-        if ctx.guild.id != 815598238820335668:
+        if ctx.guild.id != 968956231064625172:
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
@@ -270,7 +270,7 @@ class Minigame(commands.Cog):
         return await message.reply(embed=embed)
     
     async def medium(self, ctx, practice="n"):
-        if ctx.guild.id != 815598238820335668 and practice != "practice":
+        if ctx.guild.id != 968956231064625172 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
@@ -325,7 +325,7 @@ class Minigame(commands.Cog):
         return await message.reply(embed=embed)
     
     async def hard(self, ctx, practice="n"):
-        if ctx.guild.id != 815598238820335668 and practice != "practice":
+        if ctx.guild.id != 968956231064625172 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
@@ -390,7 +390,7 @@ class Minigame(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.group(invoke_without_command=True)
     async def spawn(self, ctx, mode: Literal['Easy', 'Medium', 'Hard'], practice: Optional[Literal['Enable']] ="n"):
-        if ctx.guild.id != 815598238820335668:
+        if ctx.guild.id != 968956231064625172:
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
