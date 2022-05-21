@@ -11,6 +11,8 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import asyncio
 import math
 import random
+from typing import Literal
+from typing import Optional
 from datetime import datetime, timedelta
 
 import config
