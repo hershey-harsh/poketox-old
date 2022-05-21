@@ -230,6 +230,7 @@ class Minigame(commands.Cog):
         # puzzle = Puzzle(self.bot, PuzzleType.Scramble)
 
         species = self.bot.data.random_spawn()
+        print(species.name)
         embed = discord.Embed(
             title=f"Spawn",
             description=f"Hint: The first letter is **{species.name[0]}**. Unscramble this pokemon for **{amount}** tokens **{helper.scramble(species.name)}**",
@@ -281,7 +282,7 @@ class Minigame(commands.Cog):
             amount = random.randint(30, 40)
 
         species = self.bot.data.random_spawn()
-
+        print(species.name)
         gamemode = 1
 
         if gamemode == 1:
@@ -336,7 +337,7 @@ class Minigame(commands.Cog):
             amount = random.randint(50, 100)
 
         species = self.bot.data.random_spawn()
-
+        print(species.name)
         gamemode = 1
 
         if gamemode == 1:
