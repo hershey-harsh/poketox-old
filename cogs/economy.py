@@ -91,6 +91,16 @@ class Minigame(commands.Cog):
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.command(aliases=["dr", "dice"])
     async def diceroll(self, ctx, start="about", amount=10):
+        
+        if ctx.guild.id != 815598238820335668:
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
+            return await ctx.send(embed=embed)
+        
+        if message.channel.id != 977347516343418940:
+            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977347516343418940>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
+            return await ctx.send(embed=embed)
+        
         if amount <= 0:
             return await ctx.send("Nice Try")
 
@@ -99,9 +109,12 @@ class Minigame(commands.Cog):
             bal = member.balance
 
             if bal < amount:
-                return await ctx.send(
-                    f"You don't have enough tokens to play (min: {amount})"
-                )
+            
+                embed = discord.Embed(color=0xFF0000)
+                embed.title = f"Not enough amount"
+                embed.description = f"You don't have enough tokens to play. You need atleast {amount}"
+                
+                return await ctx.send(embed=embed)
 
             outcome = config.RATES(amount)
             if outcome:
@@ -109,31 +122,26 @@ class Minigame(commands.Cog):
             else:
                 dice_roll = random.randint(1, 3)
 
-            embed = discord.Embed(color=0xEB4634)
-            embed.title = f"Dice Roll — {amount}"
+            embed = discord.Embed(color=0x5865F2)
+            embed.title = f"Dice Roll"
+            embed.add_field(name="Bet Amount", value=f"{amount}")
             embed.add_field(name="Roll", value=f"You rolled a **{dice_roll}**.")
             if dice_roll >= 4:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": amount}}
                 )
-                embed.add_field(
-                    name="Winnings",
-                    value=f"You won **{amount*2} tokens**!",
-                    inline=False,
-                )
+                embed.add_field(name="Win Amount", value=f"{amount*2}")
             else:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": -1 * amount}}
                 )
-                embed.add_field(
-                    name="Winnings", value=f"You won **0 tokens.**", inline=False
-                )
-            return await ctx.send(f"> <@!{ctx.author.id}>", embed=embed)
+                embed.add_field(name="Win Amount", value=f"0", inline=False)
+            return await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
                 title=f"Dice Roll",
                 description=f"You roll a 6 sided dice. If the dice is at least 4, you win 2x the amount you entered with. Do `{ctx.prefix}diceroll start <amount>` to play!",
-                color=0xEB4634,
+                color=0x5865F2,
             )
             return await ctx.send(embed=embed)
 
@@ -141,6 +149,16 @@ class Minigame(commands.Cog):
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.command(aliases=["cf", "coin"])
     async def coinflip(self, ctx, start="about", amount=10, choice="heads"):
+        
+        if ctx.guild.id != 815598238820335668:
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
+            return await ctx.send(embed=embed)
+        
+        if message.channel.id != 977348530924580884:
+            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977348530924580884>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
+            return await ctx.send(embed=embed)
+        
         choice = choice.lower()
         if amount <= 0:
             return await ctx.send("Nice Try")
@@ -158,9 +176,11 @@ class Minigame(commands.Cog):
             bal = member.balance
 
             if bal < amount:
-                return await ctx.send(
-                    f"You don't have enough tokens to play (min: {amount})"
-                )
+                embed = discord.Embed(color=0xFF0000)
+                embed.title = f"Not enough amount"
+                embed.description = f"You don't have enough tokens to play. You need atleast {amount}"
+                
+                return await ctx.send(embed=embed)
 
             outcome = config.RATES(amount)
             if outcome:
@@ -168,8 +188,9 @@ class Minigame(commands.Cog):
             else:
                 flip = "tails" if choice == "heads" else "heads"
 
-            embed = discord.Embed(color=0xEB4634)
-            embed.title = f"Coinflip — {amount}"
+            embed = discord.Embed(color=0x5865F2)
+            embed.title = f"Coinflip"
+            embed.add_field(name="Bet Amount", value=f"{amount}")
             embed.add_field(
                 name="Win Condition", value=f"{choice.capitalize()}", inline=False
             )
@@ -180,19 +201,15 @@ class Minigame(commands.Cog):
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": amount}}
                 )
-                embed.add_field(
-                    name="Winnings",
-                    value=f"You won **{amount*2} tokens**!",
-                    inline=False,
-                )
+                embed.add_field(name="Win Amount", value=f"{amount*2}", inline=False)
             else:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": -1 * amount}}
                 )
                 embed.add_field(
-                    name="Winnings", value=f"You won **0 tokens.**", inline=False
+                    name="Winnings", value=f"0", inline=False
                 )
-            return await ctx.send(f"> <@!{ctx.author.id}>", embed=embed)
+            return await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
                 title=f"Coin Flip",
@@ -200,22 +217,10 @@ class Minigame(commands.Cog):
                 color=0xEB4634,
             )
             return await ctx.send(embed=embed)
-    
-    @commands.group(invoke_without_command=True)
-    async def spawn(self, ctx):
-        return None
         
-    @checks.has_started()
-    @commands.guild_only()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    @spawn.command(invoke_without_command=True)
     async def easy(self, ctx, practice="n"):
-        if ctx.guild.id != 815598238820335668 and practice != "practice":
-            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
-            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
-            return await ctx.send(embed=embed)
 
-        if practice == "practice":
+        if practice == "Enable":
             amount = 0
         else:
             amount = random.randint(10, 30)
@@ -226,7 +231,7 @@ class Minigame(commands.Cog):
         embed = discord.Embed(
             title=f"Spawn",
             description=f"Hint: The first letter is **{species.name[0]}**. Unscramble this pokemon for **{amount}** tokens **{helper.scramble(species.name)}**",
-            color=0x36393F,
+            color=0x5865F2,
         )
         await ctx.reply(content=f"> <@!{ctx.author.id}>", embed=embed)
 
@@ -241,20 +246,20 @@ class Minigame(commands.Cog):
                 "message", timeout=30, check=lambda m: check_winner(m)
             )
         except:
-            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x5865F2)
             return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
             not in species.correct_guesses
         ):
-            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x36393F)
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn easy`", color=0x5865F2)
             return await message.channel.send(embed=embed)
 
         embed = discord.Embed(
             title=f"Correct",
             description=f"You have been awarded **{amount}**",
-            color=0x36393F,
+            color=0x5865F2,
         )
         await self.bot.mongo.update_member(
             ctx.author,
@@ -262,10 +267,6 @@ class Minigame(commands.Cog):
         )
         return await message.reply(embed=embed)
     
-    @checks.has_started()
-    @commands.guild_only()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    @spawn.command()
     async def medium(self, ctx, practice="n"):
         if ctx.guild.id != 815598238820335668 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
@@ -285,7 +286,7 @@ class Minigame(commands.Cog):
             embed = discord.Embed(
                 title=f"Spawn | Medium",
                 description=f"Hint: The first letter is **{species.name[0]}**. Guess this pokemon for {amount} tokens\n{helper.homoglyph_convert(species.name, species.description)}",
-                color=0x36393F,
+                color=0x5865F2,
             )
 
         await ctx.send(content=f"> <@!{ctx.author.id}>", embed=embed)
@@ -301,19 +302,19 @@ class Minigame(commands.Cog):
                 "message", timeout=30, check=lambda m: check_winner(m)
             )
         except:
-            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x36393F)
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x5865F2)
             return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
             not in species.correct_guesses
         ):
-            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x36393F)
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn medium`", color=0x5865F2)
             return await message.channel.send(embed=embed)
         embed = discord.Embed(
             title=f"Correct",
             description=f"You have been awarded **{amount}**",
-            color=0x36393F,
+            color=0x5865F2,
         )
         await self.bot.mongo.update_member(
             ctx.author,
@@ -321,10 +322,6 @@ class Minigame(commands.Cog):
         )
         return await message.reply(embed=embed)
     
-    @checks.has_started()
-    @commands.guild_only()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    @spawn.command()
     async def hard(self, ctx, practice="n"):
         if ctx.guild.id != 815598238820335668 and practice != "practice":
             embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
@@ -344,7 +341,7 @@ class Minigame(commands.Cog):
             embed = discord.Embed(
                 title=f"Spawn | Hard",
                 description=f"Guess this pokemon for {amount} tokens",
-                color=0x36393F,
+                color=0x5865F2,
             )
             embed.add_field(
                 name="Appearance",
@@ -365,20 +362,20 @@ class Minigame(commands.Cog):
                 "message", timeout=30, check=lambda m: check_winner(m)
             )
         except:
-            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x36393F)
+            embed=discord.Embed(title="Times Up", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x5865F2)
             return await ctx.send(embed=embed)
 
         if (
             models.deaccent(message.content.lower().replace("′", "'"))
             not in species.correct_guesses
         ):
-            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x36393F)
+            embed=discord.Embed(title="Wrong", description=f"The pokemon was **{species.name}**. You can start another one with `{ctx.prefix}spawn hard`", color=0x5865F2)
             return await message.channel.send(embed=embed)
 
         embed = discord.Embed(
             title=f"Correct",
             description=f"You have been awarded **{amount}**",
-            color=0x36393F,
+            color=0x5865F2,
         )
         await self.bot.mongo.update_member(
             ctx.author,
@@ -386,5 +383,41 @@ class Minigame(commands.Cog):
         )
         return await message.reply(embed=embed)
       
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.group(invoke_without_command=True)
+    async def spawn(self, ctx, mode: Literal['Easy', 'Medium', 'Hard'], practice: Optional[Literal['Enable']] ="n"):
+        if ctx.guild.id != 815598238820335668:
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
+            return await ctx.send(embed=embed)
+        
+        if message.channel.id != 977349442359418941 and practice == "n":
+            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977349442359418941>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
+            return await ctx.send(embed=embed)
+
+        if practice == "Enable":
+            
+            if mode == "Easy":
+                await self.easy(ctx, "practice")
+                
+            elif mode == "Medium":
+                await self.medium(ctx, "practice")
+                
+            elif mode == "Hard":
+                await self.hard(ctx, "practice")
+                
+        if practice != "Enable":
+            
+            if mode == "Easy":
+                await self.easy(ctx, "practice")
+                
+            elif mode == "Medium":
+                await self.medium(ctx, "practice")
+                
+            elif mode == "Hard":
+                await self.hard(ctx, "practice")
+        
 async def setup(bot):
     await bot.add_cog(Minigame(bot))
