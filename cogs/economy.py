@@ -397,7 +397,7 @@ class Minigame(commands.Cog):
             return await ctx.send(embed=embed)
         
         if ctx.channel.id != 977349442359418941 and practice == "n":
-            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977349442359418941>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
+            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977349442359418941>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>", color=0x5865F2)
             return await ctx.send(embed=embed)
 
         if practice == "Enable":
