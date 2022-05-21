@@ -95,12 +95,12 @@ class Minigame(commands.Cog):
     async def diceroll(self, ctx, start="about", amount=10):
         
         if ctx.guild.id != 968956231064625172:
-            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for diceroll!", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
         
         if ctx.channel.id != 977347516343418940:
-            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977347516343418940>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
+            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977347516343418940>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>", color=0x5865F2)
             return await ctx.send(embed=embed)
         
         if amount <= 0:
@@ -153,12 +153,12 @@ class Minigame(commands.Cog):
     async def coinflip(self, ctx, start="about", amount=10, choice="heads"):
         
         if ctx.guild.id != 968956231064625172:
-            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for spawns! If you want to play without the rewards you can run`{ctx.prefix}spawn practice`", color=0x36393F)
+            embed=discord.Embed(title="Wrong Server", description=f"Please use the [Official Pokétox Server](https://discord.gg/mhcjdJkxn6) for coinflip!", color=0x36393F)
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
         
         if ctx.channel.id != 977348530924580884:
-            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977348530924580884>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
+            embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977348530924580884>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>", color=0x5865F2)
             return await ctx.send(embed=embed)
         
         choice = choice.lower()
@@ -395,7 +395,7 @@ class Minigame(commands.Cog):
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
         
-        if message.channel.id != 977349442359418941 and practice == "n":
+        if ctx.channel.id != 977349442359418941 and practice == "n":
             embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977349442359418941>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
             return await ctx.send(embed=embed)
 
