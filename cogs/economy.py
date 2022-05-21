@@ -99,7 +99,7 @@ class Minigame(commands.Cog):
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
         
-        if message.channel.id != 977347516343418940:
+        if ctx.channel.id != 977347516343418940:
             embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977347516343418940>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
             return await ctx.send(embed=embed)
         
@@ -157,7 +157,7 @@ class Minigame(commands.Cog):
             embed.add_field(name="Official Pokétox Server", value="https://discord.gg/mhcjdJkxn6", inline=False)
             return await ctx.send(embed=embed)
         
-        if message.channel.id != 977348530924580884:
+        if ctx.channel.id != 977348530924580884:
             embed=discord.Embed(title="Wrong Channel", description="Please use this command in <#977348530924580884>. If you don't have the <@&977272112723161181> role, you can get it at <#977272960266154074>")
             return await ctx.send(embed=embed)
         
