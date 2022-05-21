@@ -83,7 +83,7 @@ class Minigame(commands.Cog):
         member = await self.bot.mongo.fetch_member_info(ctx.author)
         amount = member.balance
 
-        embed = discord.Embed(color=0x36393F)
+        embed = discord.Embed(color=0x5865F2)
         embed.title = f"Balance"
         embed.add_field(name="Tokens", value=f"{amount:,}")
 
