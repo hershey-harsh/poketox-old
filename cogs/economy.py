@@ -222,7 +222,7 @@ class Minigame(commands.Cog):
         
     async def easy(self, ctx, practice="n"):
 
-        if practice == "Enable":
+        if practice == "practice":
             amount = 0
         else:
             amount = random.randint(10, 30)
@@ -414,13 +414,13 @@ class Minigame(commands.Cog):
         if practice != "Enable":
             
             if mode == "Easy":
-                await self.easy(ctx, "practice")
+                await self.easy(ctx)
                 
             elif mode == "Medium":
-                await self.medium(ctx, "practice")
+                await self.medium(ctx)
                 
             elif mode == "Hard":
-                await self.hard(ctx, "practice")
+                await self.hard(ctx)
         
 async def setup(bot):
     await bot.add_cog(Minigame(bot))
