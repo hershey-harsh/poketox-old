@@ -126,13 +126,13 @@ class Minigame(commands.Cog):
 
             embed = discord.Embed(color=0x5865F2)
             embed.title = f"Dice Roll"
-            embed.add_field(name="Bet Amount", value=f"{amount}")
-            embed.add_field(name="Roll", value=f"You rolled a **{dice_roll}**.")
+            embed.add_field(name="Bet", value=f"{amount}")
             if dice_roll >= 4:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": amount}}
                 )
-                embed.add_field(name="Win Amount", value=f"{amount*2}")
+                embed.add_field(name="Won", value=f"{amount*2}")
+                embed.add_field(name="Roll", value=f"You rolled a **{dice_roll}**.")
             else:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": -1 * amount}}
@@ -192,18 +192,14 @@ class Minigame(commands.Cog):
 
             embed = discord.Embed(color=0x5865F2)
             embed.title = f"Coinflip"
-            embed.add_field(name="Bet Amount", value=f"{amount}")
-            embed.add_field(
-                name="Win Condition", value=f"{choice.capitalize()}", inline=False
-            )
-            embed.add_field(
-                name="Flip", value=f"You flipped a **{flip}**.", inline=False
-            )
+            embed.add_field(name="Bet", value=f"{amount}")
+            
             if flip == choice:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": amount}}
                 )
-                embed.add_field(name="Win Amount", value=f"{amount*2}", inline=False)
+                embed.add_field(name="Won", value=f"{amount*2}", inline=False)
+
             else:
                 await self.bot.mongo.update_member(
                     ctx.author, {"$inc": {"balance": -1 * amount}}
@@ -211,6 +207,9 @@ class Minigame(commands.Cog):
                 embed.add_field(
                     name="Winnings", value=f"0", inline=False
                 )
+                
+                embed.add_field(name="Flip", value=f"You flipped a **{flip}** but the coin landed on {choice.capitalize()}", inline=False)
+                
             return await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
