@@ -10,7 +10,7 @@ class Error_Hand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.edit_entrants.start()
+        self.edit_status.start()
         
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
