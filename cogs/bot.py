@@ -126,7 +126,6 @@ class Error_Hand(commands.Cog):
         """
         
         await self.message.edit(content=msg)
-        print("Updated Status")
         
     @edit_status.before_loop
     async def before_edit_status(self):
