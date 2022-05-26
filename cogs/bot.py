@@ -96,6 +96,10 @@ class Error_Hand(commands.Cog):
 
         await ctx.send("\n".join(messages), delete_after=5)
         
+    @commands.command()
+    async def send_status_message(self, ctx):
+        await ctx.send(".", view=self.view)
+        
 async def setup(bot):
     print("Loaded Error")
     await bot.add_cog(Error_Hand(bot))
