@@ -128,9 +128,10 @@ class Error_Hand(commands.Cog):
         """
         
         await self.message.edit(msg)
+        print("Updated Status")
         
     @edit_status.before_loop
-    async def before_edit_entrants(self):
+    async def before_edit_status(self):
         await self.bot.wait_until_ready()
         
 async def setup(bot):
