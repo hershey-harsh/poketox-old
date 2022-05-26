@@ -129,7 +129,7 @@ class Error_Hand(commands.Cog):
         Registered Users: {total_registred}
         """
         
-        await self.message.edit(msg)
+        await self.message.edit(content=msg)
         print("Updated Status")
         
     @edit_status.before_loop
