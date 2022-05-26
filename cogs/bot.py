@@ -121,7 +121,7 @@ class Error_Hand(commands.Cog):
         
         msg = f"""
         **Live Status**
-        Next update {discord.utils.format_dt(self.edit_entrants.next_iteration, 'R')}
+        Next update {discord.utils.format_dt(self.edit_status.next_iteration, 'R')}
         
         Ping: {round (bot.latency * 1000)}ms
         Servers: {len(self.bot.guilds)}
