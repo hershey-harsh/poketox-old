@@ -98,7 +98,34 @@ class Error_Hand(commands.Cog):
         
     @commands.command()
     async def send_status_message(self, ctx):
-        await ctx.send(".", view=self.view)
+        await ctx.send(".")
+        
+    @tasks.loop(seconds=30)
+    async def edit_status(self):
+        if self.message is None:
+            channel = self.bot.get_guild(716390832034414685).get_channel(717883936314753045)
+            message = await channel.fetch_message(channel.last_message_id)
+            if message.author != self.bot.user:
+                return
+            self.message = message
+
+        if self.message is None:
+            return
+        
+        total_members = 0
+        for guild in self.bot.guilds:
+            total_members += guild.member_count
+        
+        msg = f"""
+        **Live Status**
+        Next update {discord.utils.format_dt(self.edit_entrants.next_iteration, 'R')}
+        
+        Ping: {round (bot.latency * 1000)}ms
+        Servers: {len(self.bot.guilds)}
+        Members: {total_members}
+        """
+        
+        await self.message.edit(msg)
         
 async def setup(bot):
     print("Loaded Error")
