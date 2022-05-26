@@ -123,7 +123,7 @@ class Error_Hand(commands.Cog):
         **Live Status**
         Next update {discord.utils.format_dt(self.edit_status.next_iteration, 'R')}
         
-        Ping: {round (bot.latency * 1000)}ms
+        Ping: {round (self.bot.latency * 1000)}ms
         Servers: {len(self.bot.guilds)}
         Members: {total_members + 200000}
         Registered Users: {total_registred}
