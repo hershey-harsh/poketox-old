@@ -115,6 +115,7 @@ class Error_Hand(commands.Cog):
         total_members = 0
         for guild in self.bot.guilds:
             total_members += guild.member_count
+            total_members = str(total_members)
             total_members = "{:,}".format(int(total_members))
             
         registered = await self.bot.mongo.db.member.estimated_document_count()
