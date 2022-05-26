@@ -10,6 +10,7 @@ class Error_Hand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.message = None
         self.edit_status.start()
         
     @commands.Cog.listener()
@@ -99,11 +100,15 @@ class Error_Hand(commands.Cog):
         
     @tasks.loop(seconds=30)
     async def edit_status(self):
-        
-        channel = self.bot.get_guild(968956231064625172).get_channel(979173373991067658)
-        message = await channel.fetch_message(channel.last_message_id)
-        
-        self.message = message
+        if self.message is None:
+            channel = self.bot.get_guild(968956231064625172).get_channel(979173373991067658)
+            message = await channel.fetch_message(channel.last_message_id)
+            if message.author != self.bot.user:
+                return
+            self.message = message
+
+        if self.message is None:
+            return
         
         total_members = 0
         for guild in self.bot.guilds:
