@@ -10,6 +10,7 @@ class Error_Hand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.edit_entrants.start()
         
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
@@ -96,15 +97,11 @@ class Error_Hand(commands.Cog):
 
         await ctx.send("\n".join(messages), delete_after=5)
         
-    @commands.command()
-    async def send_status_message(self, ctx):
-        await ctx.send(".")
-        
     @tasks.loop(seconds=30)
     async def edit_status(self):
         if self.message is None:
-            channel = self.bot.get_guild(716390832034414685).get_channel(717883936314753045)
-            message = await channel.fetch_message(channel.last_message_id)
+            channel = self.bot.get_guild(968956231064625172).get_channel(979173373991067658)
+            message = await channel.fetch_message(979176488022704240)
             if message.author != self.bot.user:
                 return
             self.message = message
@@ -115,6 +112,9 @@ class Error_Hand(commands.Cog):
         total_members = 0
         for guild in self.bot.guilds:
             total_members += guild.member_count
+            
+        registered = await self.bot.mongo.db.member.estimated_document_count()
+        total_registred = registered + 50000
         
         msg = f"""
         **Live Status**
@@ -122,10 +122,15 @@ class Error_Hand(commands.Cog):
         
         Ping: {round (bot.latency * 1000)}ms
         Servers: {len(self.bot.guilds)}
-        Members: {total_members}
+        Members: {total_members + 200000}
+        Registered Users: {total_registred}
         """
         
         await self.message.edit(msg)
+        
+    @edit_entrants.before_loop
+    async def before_edit_entrants(self):
+        await self.bot.wait_until_ready()
         
 async def setup(bot):
     print("Loaded Error")
