@@ -115,14 +115,15 @@ class Error_Hand(commands.Cog):
         total_members = 0
         for guild in self.bot.guilds:
             total_members += guild.member_count
-            total_members = str(total_members)
-            total_members = "{:,}".format(int(total_members))
+        
+        total_members = total_members + 200000
+        total_members = "{:,}".format(int(total_members))
             
         registered = await self.bot.mongo.db.member.estimated_document_count()
         total_registred = registered + 200000
         total_registred = "{:,}".format(int(total_registred))
         
-        msg = f"**Live Status**\nNext update {discord.utils.format_dt(self.edit_status.next_iteration, 'R')}\n\nPing: {round (self.bot.latency * 1000)}ms\nServers: {len(self.bot.guilds)}\nMembers: {total_members + 200000}\nRegistered Users: {total_registred}"
+        msg = f"**Live Status**\nNext update {discord.utils.format_dt(self.edit_status.next_iteration, 'R')}\n\nPing: {round (self.bot.latency * 1000)}ms\nServers: {len(self.bot.guilds)}\nMembers: {total_members}\nRegistered Users: {total_registred}"
         
         await self.message.edit(content=msg)
         
