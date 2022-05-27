@@ -20,6 +20,7 @@ COGS = [
     "bot",
     "raredex",
     "help",
+    "logging",
     "comands",
     "admin",
     "feedback",
