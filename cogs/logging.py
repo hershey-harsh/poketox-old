@@ -10,9 +10,6 @@ class Logging(commands.Cog):
 
   def __init__(self, bot):
         self.bot = bot
-        self.edit_commands.start()
-  
-  
         
   @commands.Cog.listener()
   async def on_command(self, ctx):
