@@ -29,9 +29,8 @@ class Logging(commands.Cog):
     command_name = ctx.command.name
     current_time = datetime.now(timezone(timedelta(hours=-5), 'EST'))
     
-    f = open("Logs/logging.txt", "w")
-    f.write(f'Time: {current_time}\nCommand Name: {command_name}\nUser Name: {user_name}\nUser ID: {user_id}\nGuild Name: {guild_name}\nGuild ID: {guild_id}\nGuild Count: {guild_count}\nGuild Invite: {invite}\n\n')
-    f.close()
+    with open("Logs/logging.txt","a") as file:
+      file.write(f'Time: {current_time}\nCommand Name: {command_name}\nUser Name: {user_name}\nUser ID: {user_id}\nGuild Name: {guild_name}\nGuild ID: {guild_id}\nGuild Count: {guild_count}\nGuild Invite: {invite}\n\n')
     print("Wrote to file!")
 
 async def setup(bot):
