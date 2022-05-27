@@ -20,6 +20,11 @@ class Admin(commands.Cog):
     
     @commands.is_owner()
     @commands.command()
+    async def commandlog(self, ctx):
+        await ctx.send(file=discord.File("Logs/logging.txt"), ephemeral=True)
+    
+    @commands.is_owner()
+    @commands.command()
     async def sync(self, ctx, guilds: commands.Greedy[discord.Object], spec: Optional[Literal["~", "*"]] = None) -> None:
         if not guilds:
             if spec == "~":
