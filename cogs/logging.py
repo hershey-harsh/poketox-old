@@ -12,10 +12,7 @@ class Logging(commands.Cog):
         self.bot = bot
         self.edit_commands.start()
   
-  @tasks.loop(seconds=60)
-  async def edit_commands(self):
-        channel = self.bot.get_channel(979544096278478858)
-        await channel.send(file=discord.File("Logs/logging.txt"))
+  
         
   @commands.Cog.listener()
   async def on_command(self, ctx):
