@@ -14,12 +14,7 @@ class Logging(commands.Cog):
   
   @tasks.loop(seconds=60)
   async def edit_commands(self):
-        try:
-          channel = self.bot.get_channel(979544096278478858)
-        except:
-          print("Error")
-          return
-        await channel.purge(limit=1)
+        channel = self.bot.get_channel(979544096278478858)
         await channel.send(file=discord.File("Logs/logging.txt"))
         
   @commands.Cog.listener()
