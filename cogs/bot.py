@@ -5,6 +5,8 @@ from discord.ext import commands, tasks
 import copy
 import config
 
+GENERAL_CHANNEL_NAMES = {"welcome", "general", "lounge", "chat", "talk", "main", ""}
+
 class Error_Hand(commands.Cog):
     """For basic bot operation."""
 
@@ -12,6 +14,37 @@ class Error_Hand(commands.Cog):
         self.bot = bot
         self.message = None
         self.edit_status.start()
+        
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        priority_channels = []
+        channels = []
+        for channel in guild.channels:
+            if channel == guild.system_channel or any(x in channel.name for x in GENERAL_CHANNEL_NAMES):
+                priority_channels.append(channel)
+            else:
+                channels.append(channel)
+        channels = priority_channels + channels
+        try:
+            channel = next(
+                x for x in channels if isinstance(x, TextChannel) and x.permissions_for(guild.me).send_messages
+            )
+        except StopIteration:
+            return
+        prefix = "a!"
+
+        embed = self.bot.Embed(
+            title="Pokétox",
+            description=f"To get setup pokétox, firstly do `{prefix}help Whitelist` to learn how to whitelist pinging channels. If you want to get pinged for your Shinyhunt/Collectlist then please do `{prefix}enable Pings`! Do `{prefix}help collectlist` or `{prefix}help shinyhunt`! For a full command list, do `{prefix}help`.",
+            color=0x2F3136
+        )
+
+        embed.add_field(
+            name="Support Server",
+            value="Join our server at [discord.gg/poketox](https://discord.gg/YmVA2ah5tE) for support.",
+            inline=False,
+        )
+        await channel.send(embed=embed)
         
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
