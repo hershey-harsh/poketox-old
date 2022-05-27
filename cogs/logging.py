@@ -13,18 +13,6 @@ class Logging(commands.Cog):
         self.bot = bot
         self.message = None
         self.edit_commands.start()
-        self.log = logging.getLogger(f"Support")
-        handler = logging.FileHandler(f"logs/support.log")
-        handler.setFormatter(formatter)
-        self.log.handlers = [handler]
-
-        dlog = logging.getLogger("discord")
-        dhandler = logging.FileHandler(f"logs/discord.log")
-        dhandler.setFormatter(formatter)
-        dlog.handlers = [dhandler]
-
-        self.log.setLevel(logging.DEBUG)
-        dlog.setLevel(logging.INFO)
   
   @tasks.loop(seconds=60)
   async def edit_commands(self):
