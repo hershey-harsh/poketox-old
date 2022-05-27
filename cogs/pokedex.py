@@ -117,13 +117,7 @@ class Pokedex(commands.Cog):
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
-                
-          try:
-                await collectors.collectping(self, ctx, species)
-                await collectors.shinyping(self, ctx, species)
-          except:
-                pass
-            
+
           if pokemon in rare_pokes:
                         
                 ctx = await self.bot.get_context(message)
