@@ -7,7 +7,6 @@ from discord.ext import commands
 formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
 
 class Logging(commands.Cog):
-    """For logging."""
 
   def __init__(self, bot):
         self.bot = bot
