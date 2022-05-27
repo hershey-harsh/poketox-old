@@ -124,12 +124,6 @@ class Pokedex(commands.Cog):
           except:
                 pass
             
-          total_count = spawn_count + 1
-
-          await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"spawn_count": str(total_count)}}
-          )
-        
           if pokemon in rare_pokes:
                         
                 ctx = await self.bot.get_context(message)
@@ -141,6 +135,16 @@ class Pokedex(commands.Cog):
                 
                 except:
                     pass
+                
+          try:
+                await collectors.shinyping(self, ctx, species)
+                await collectors.collectping(self, ctx, species)
+          except:
+                pass
+
+          await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"spawn_count": str(total_count)}}
+          )
     
   async def identify(self, img_url, message, plan):
     
@@ -200,18 +204,6 @@ class Pokedex(commands.Cog):
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
-                
-          try:
-                await collectors.collectping(self, ctx, species)
-                await collectors.shinyping(self, ctx, species)
-          except:
-                pass
-            
-          total_count = spawn_count + 1
-
-          await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"spawn_count": str(total_count)}}
-          )
         
           if pokemon in rare_pokes:
                         
@@ -224,6 +216,19 @@ class Pokedex(commands.Cog):
                 
                 except:
                     pass
+                
+          try:
+                await collectors.shinyping(self, ctx, species)
+                await collectors.collectping(self, ctx, species)
+          except:
+                pass
+            
+          total_count = spawn_count + 1
+
+          await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"spawn_count": str(total_count)}}
+          )
+        
         
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
