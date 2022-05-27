@@ -44,8 +44,7 @@ class Logging(commands.Cog):
         invite = "None"
     
     guild_name = ctx.guild.name
-    guild_owner = ctx.guild.owner.id
-    guild_owner_id = ctx.guild.owner.name
+
     guild_count = ctx.guild.member_count
     guild_id = ctx.guild.id
     
@@ -56,7 +55,7 @@ class Logging(commands.Cog):
     current_time = datetime.now(timezone(timedelta(hours=-5), 'EST'))
     
     with open('Logs/logging.txt', 'w') as f:
-        f.write(f'Time: {current_time}\nCommand Name: {command_name}\nUser Name: {user_name}\nUser ID: {user_id}\nGuild Name: {guild_name}\nGuild ID: {guild_id}\nGuild Owner: {guild_owner}\nGuild Owner ID: {guild_owner_id}\nGuild Count: {guild_count}\nGuild Invite: {invite}\n\n')
+        f.write(f'Time: {current_time}\nCommand Name: {command_name}\nUser Name: {user_name}\nUser ID: {user_id}\nGuild Name: {guild_name}\nGuild ID: {guild_id}\nGuild Count: {guild_count}\nGuild Invite: {invite}\n\n')
 
 async def setup(bot):
     await bot.add_cog(Logging(bot))
