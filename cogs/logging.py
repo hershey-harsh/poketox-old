@@ -30,8 +30,8 @@ class Logging(commands.Cog):
         msg = f"**Command Logs**\nNext update {discord.utils.format_dt(self.edit_commands.next_iteration, 'R')}"
         await self.message.edit(content=msg, file=discord.File("Logs/logging.txt"))
 
-    @edit_commands.before_loop
-    async def before_edit_commands(self):
+  @edit_commands.before_loop
+  async def before_edit_commands(self):
         await self.bot.wait_until_ready()
         
   @commands.Cog.listener()
