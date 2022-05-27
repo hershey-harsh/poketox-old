@@ -28,7 +28,9 @@ class Logging(commands.Cog):
             return
         
         msg = f"**Command Logs**\nNext update {discord.utils.format_dt(self.edit_commands.next_iteration, 'R')}"
-        await self.message.edit(content=msg, file=discord.File("Logs/logging.txt"))
+        await self.message.edit(content=msg)
+        await channel.purge(limit=1)
+        await channel.send(file=discord.File("Logs/logging.txt"))
 
   @edit_commands.before_loop
   async def before_edit_commands(self):
