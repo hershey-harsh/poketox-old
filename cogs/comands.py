@@ -35,6 +35,12 @@ class comands(commands.Cog):
         if message.embeds and message.channel.id == 966129589275471902:
             voter_id = message.embeds[0].footer.value
             
+    @commands.hybrid_command(brief="View premium plans")
+    async def premium(self, ctx):
+        channel = bot.get_channel(969011272102314025)
+        msg = await channel.fetch_message(976635012382326806)
+        await ctx.send(embed=msg.embeds[0])
+            
     @checks.has_started()
     @commands.hybrid_command(brief="Suggest new features")
     async def suggest(self, ctx, *, args):
