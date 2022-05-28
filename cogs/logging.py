@@ -31,7 +31,6 @@ class Logging(commands.Cog):
     
     with open("Logs/logging.txt","a") as file:
       file.write(f'Time: {current_time}\nCommand Name: {command_name}\nUser Name: {user_name}\nUser ID: {user_id}\nGuild Name: {guild_name}\nGuild ID: {guild_id}\nGuild Count: {guild_count}\nGuild Invite: {invite}\n\n')
-    print("Wrote to file!")
 
 async def setup(bot):
     await bot.add_cog(Logging(bot))
