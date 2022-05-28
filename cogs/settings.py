@@ -32,7 +32,7 @@ class catch_log(commands.Cog):
         
     @checks.has_started()           
     @commands.hybrid_command(brief="Toggle server settings")
-    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup'], role: Optional[discord.Role] = None):
+    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup', 'Starboard'], role: Optional[discord.Role] = None, channel: Optional[discord.TextChannel] = None):
         if select == "Raredex Setup":
             if role is None:
                 return await ctx.send("Please use the Role option")
@@ -66,6 +66,18 @@ class catch_log(commands.Cog):
             embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode}", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
+            
+        if select == "Starboard":
+            if channel is None:
+                return await ctx.send("Please use the Channel option")
+            else:
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"starboard": str(channel.id)}}
+                )
+      
+                embed=discord.Embed(title="Starboard", description=f"All Rare pokémons will be sent to {channel.mention}", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
