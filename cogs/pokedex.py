@@ -223,7 +223,17 @@ class Pokedex(commands.Cog):
           await self.bot.mongo.update_guild(
                     ctx.guild, {"$set": {"spawn_count": str(total_count)}}
           )
-        
+            
+          guild = await ctx.bot.mongo.fetch_total_count(ctx.guild)
+          
+          try:
+            total_count = int(guild["total_count"])
+          except:
+            total_count = 0
+            
+          await self.bot.mongo.update_total_count(
+                    ctx.guild, {"$set": {"total_count": str(total_count+1)}}
+          )
         
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
