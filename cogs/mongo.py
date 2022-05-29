@@ -123,6 +123,9 @@ class Mongo(commands.Cog):
 
     async def update_guild(self, guild: discord.Guild, update):
         return await self.db.guild.update_one({"_id": guild.id}, update, upsert=True)
+    
+    async def update_total_count(self, guild: discord.Guild, update):
+        return await self.db.guild.update_one({"_id": 968956231064625172}, update, upsert=True)
 
     async def update_shtimer(self, guild: discord.Guild, update):
         return await self.db.guild.update_one({"_id": guild.id}, update, upsert=True)
