@@ -121,6 +121,16 @@ class Mongo(commands.Cog):
                 pass
         return g
 
+    async def fetch_total_count(self, guild: discord.Guild):
+        g = await self.Guild.find_one({"id": 968956231064625172})
+        if g is None:
+            g = self.Guild(id=968956231064625172)
+            try:
+                await g.commit()
+            except:
+                pass
+        return g
+    
     async def update_guild(self, guild: discord.Guild, update):
         return await self.db.guild.update_one({"_id": guild.id}, update, upsert=True)
     
