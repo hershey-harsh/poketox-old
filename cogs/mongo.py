@@ -67,6 +67,7 @@ class Guild(Document):
     ping_channels = fields.ListField(fields.IntegerField, default=list)
     prefix = fields.StringField(default=config.DEFAULT_PREFIX)
     rareping = fields.StringField()
+    total_count = fields.StringField()
     sh_channels = fields.ListField(fields.IntegerField, default=list)
     name = fields.StringField()
     starboard = fields.StringField()
