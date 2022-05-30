@@ -34,6 +34,9 @@ async def collectping(self, ctx, species: SpeciesConverter):
         except:
                 time = None
         
+        if ctx.guild.id == 968956231064625172:
+                print(time)
+        
         if time != None:
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
