@@ -34,27 +34,25 @@ async def collectping(self, ctx, species: SpeciesConverter):
         except Exception as e:
                 time = None
         
-        try:
+        if time != None:
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 timestamp = discord.utils.format_dt(x, 'R')
-        except:
-                pass
         
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
                 
-            if time == None:
+            if time != None:
+                await ctx.send(
+                        f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
+                )  
+            elif time == None:
                 await ctx.send(
                         f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
                 )
-                
-            elif time != None:
-                await ctx.send(
-                        f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
-                )
+               
         
             try:
                 await asyncio.sleep(int(time))
