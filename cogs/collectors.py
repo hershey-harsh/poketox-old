@@ -43,15 +43,9 @@ async def collectping(self, ctx, species: SpeciesConverter):
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
-                
-            if time != None:
-                await ctx.send(
-                        f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
-                )  
-            elif time == None:
-                await ctx.send(
-                        f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
-                )
+            await ctx.send(
+                   f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
+            )  
                
         
             try:
