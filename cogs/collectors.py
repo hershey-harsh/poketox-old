@@ -25,6 +25,11 @@ async def collectping(self, ctx, species: SpeciesConverter):
         )
 
         try:
+                guild = await bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+        except:
+                pass
+        
+        try:
                 time = guild[str(ctx.channel.id)]
         except:
                 time = None
@@ -35,7 +40,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 timestamp = discord.utils.format_dt(x, 'R')
                 
         else:
-                timestamp = None
+                timestamp = " "
         
         collector_pings = []
         async for user in users:
