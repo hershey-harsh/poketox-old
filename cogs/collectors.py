@@ -49,13 +49,16 @@ async def collectping(self, ctx, species: SpeciesConverter):
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
             if time != None:
+                print("Passed Check 3")
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 time = discord.utils.format_dt(x, 'R')
+             else:
+                time = " "
                 
-            await ctx.send(
-                   f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings)
-            )  
+            print("Passed Check 4")
+                
+            await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings))  
                
         
             try:
