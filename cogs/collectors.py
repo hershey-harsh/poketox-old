@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
 from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers import checks
+import datetime
 from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
@@ -50,14 +51,14 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 timestamp = discord.utils.format_dt(x, 'R')
-                print(timestamp)
+                print(time)
         
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
             await ctx.send(
-                   f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
+                   f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings)
             )  
                
         
@@ -178,7 +179,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def whitelist(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel]):
 
@@ -195,7 +195,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def shiny(self, ctx, channels: commands.Greedy[discord.TextChannel]):
       """Whitelist shiny hunt in certain channels"""
@@ -212,7 +211,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def all(self, ctx: commands.Context):
         """Reset channels whitelist"""
@@ -227,7 +225,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def reset(self, ctx: commands.Context):
         """Clears all channels whitelist"""
@@ -244,7 +241,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def collect(self, ctx, channels: commands.Greedy[discord.TextChannel]):
         """Whitelist collecting list in certain channels"""
@@ -286,7 +282,6 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @commands.hybrid_command()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def serverlist(self, ctx):
         """Adds a server to your pinging list"""
@@ -320,7 +315,6 @@ class Collectors(commands.Cog):
             await ctx.send(embed=embed)
                 
     @checks.has_started()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
@@ -347,7 +341,6 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @collectlist.command(slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, species: SpeciesConverter):
         """Adds a pokémon species or region to your collecting list"""
