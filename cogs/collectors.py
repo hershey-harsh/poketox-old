@@ -33,6 +33,8 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 time = str(guild[str(ctx.channel.id)])
         except Exception as e:
                 if ctx.guild.id == 968956231064625172:
+                        time = str(guild[str(ctx.channel.id)])
+                        print(time)
                         print(e)
                 time = None
         
