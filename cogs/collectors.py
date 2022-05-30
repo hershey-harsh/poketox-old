@@ -31,11 +31,10 @@ async def collectping(self, ctx, species: SpeciesConverter):
         
         try:
                 time = guild[str(ctx.channel.id)]
-        except:
+        except Exception as e:
+                if ctx.guild.id == 968956231064625172:
+                        print(e)
                 time = None
-        
-        if ctx.guild.id == 968956231064625172:
-                print(time)
         
         if time != None:
                 x = datetime.now() + timedelta(seconds=3)
