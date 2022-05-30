@@ -94,6 +94,26 @@ class Collectors(commands.Cog):
             if x != "_id":
                 if self.bot.data.species_by_number(int(x)):
                     yield self.bot.data.species_by_number(int(x))
+                
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def timer(self, ctx: commands.Context, seconds, channel: discord.TextChannel=None):
+                
+        if channel == None:
+                return await ctx.send("Please include channel!")
+        
+        if seconds == None:
+                return await ctx.send("Please include seconds!")
+
+        await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {channel.id: str(seconds)}}
+        )
+        
+        await ctx.send(f"Now set Shiny Timer to {seconds} for <#{channel.id}>")    
+        
+    
         
     @checks.has_started()
     @commands.guild_only()
