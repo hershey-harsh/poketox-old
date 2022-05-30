@@ -50,6 +50,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 timestamp = discord.utils.format_dt(x, 'R')
+                print(timestamp)
         
         collector_pings = []
         async for user in users:
