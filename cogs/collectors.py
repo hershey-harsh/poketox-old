@@ -25,17 +25,13 @@ async def collectping(self, ctx, species: SpeciesConverter):
         )
 
         try:
-                guild = await bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+                guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
         except:
                 pass
         
         try:
                 time = str(guild[str(ctx.channel.id)])
         except Exception as e:
-                if ctx.guild.id == 968956231064625172:
-                        time = str(guild[str(ctx.channel.id)])
-                        print(time)
-                        print(e)
                 time = None
         
         if time != None:
@@ -85,7 +81,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
         )
         
         try:
-                guild = await bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+                guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
         except:
                 pass
         
