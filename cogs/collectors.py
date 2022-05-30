@@ -107,7 +107,7 @@ class Collectors(commands.Cog):
         if seconds == None:
                 return await ctx.send("Please include seconds!")
         
-        await self.bot.mongo.db.shinyhunt.update_one(
+        await self.bot.mongo.db.shtimer.update_one(
                 {"_id": ctx.guild.id},
                 {"$set": {str(channel.id): str(seconds)}},
         )
