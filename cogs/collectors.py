@@ -44,25 +44,22 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 time = None
                 pass
         
-        
-        
-        if time != None:
-                print(time)
-                x = datetime.now() + timedelta(seconds=3)
-                x += timedelta(seconds=int(time))
-                timestamp = discord.utils.format_dt(x, 'R')
-                print(time)
-        
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
+            if time != None:
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                time = discord.utils.format_dt(x, 'R')
+                
             await ctx.send(
                    f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings)
             )  
                
         
             try:
+                time = str(guild[str(ctx.channel.id)])
                 await asyncio.sleep(int(time))
                 embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
                 await ctx.send(embed=embed)
