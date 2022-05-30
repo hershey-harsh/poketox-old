@@ -26,7 +26,11 @@ async def collectping(self, ctx, species: SpeciesConverter):
 
         try:
                 guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
-        except:
+                print("Worked")
+        except Exception as e:
+                if ctx.guild.id == 968956231064625172:
+                        print("Didn't Work")
+                        print(e)
                 pass
         
         try:
