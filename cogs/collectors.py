@@ -24,13 +24,34 @@ async def collectping(self, ctx, species: SpeciesConverter):
             {str(species.id): True, str(ctx.guild.id): True}
         )
 
+        try:
+                time = guild[str(ctx.channel.id)]
+        except:
+                time = None
+        
+        if time != None:
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
+                
+        else:
+                timestamp = None
+        
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
             await ctx.send(
-                f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
+                f"**Pinging {species} Collectors**\n You may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
             )
+        
+            try:
+                await asyncio.sleep(int(time))
+                embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                await ctx.send(embed=embed)
+            except:
+                pass
+        
         else:
             mess = await ctx.send(
                 f"No one is collecting {species}"
@@ -46,23 +67,35 @@ async def shinyping(self, ctx, species: SpeciesConverter):
         users = self.bot.mongo.db.shinyhunt.find(
             {str(ctx.guild.id): True, 'shinyhunt': species.id}
         )
-
+        
+        try:
+                guild = await bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+        except:
+                pass
+        
+        try:
+                time = guild[str(ctx.channel.id)]
+        except:
+                time = None
+        
+        if time != None:
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
+                
+        else:
+                timestamp = None
+                
         shinyhunt_pings = []
         async for user in users:
             shinyhunt_pings.append(f"<@{user['_id']}> ")
         if len(shinyhunt_pings) > 0:
             await ctx.send(
-                f"**Pinging {species} Shiny Hunters** \n \n" + " ".join(shinyhunt_pings)
+                f"**Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
             )
-        
-            if ctx.channel.id in seconds_90:
-                        server_timer = 90  
-                        
-            if ctx.channel.id in seconds_120:
-                        server_timer = 120  
             
             try:
-                await asyncio.sleep(int(server_timer))
+                await asyncio.sleep(int(time))
                 embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
                 await ctx.send(embed=embed)
             except:
@@ -102,10 +135,13 @@ class Collectors(commands.Cog):
     async def timer(self, ctx: commands.Context, seconds, channel: discord.TextChannel=None):
                 
         if channel == None:
-                return await ctx.send("Please include channel!")
+                return
         
         if seconds == None:
-                return await ctx.send("Please include seconds!")
+                return
+        
+        if int(seconds) >= 120:
+                return await ctx.send("Seconds have to be less than 120 seconds!")
         
         try:
                 await self.bot.mongo.db.shtimer.insert_one(
@@ -119,9 +155,8 @@ class Collectors(commands.Cog):
                         {"$set": {str(channel.id): str(seconds)}},
                 )
         
-        await ctx.send(f"Now set Shiny Timer to {seconds} for <#{channel.id}>")    
-        
-    
+        embed=discord.Embed(title="<:notify:965755380812611614> Ping Timer", description=f"**{seconds}** seconds ping timer has been set for <#{channel.id}>", color=0x36393F)
+        await ctx.send(embed=embed) 
         
     @checks.has_started()
     @commands.guild_only()
