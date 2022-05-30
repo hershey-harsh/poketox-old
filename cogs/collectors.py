@@ -108,7 +108,7 @@ class Collectors(commands.Cog):
                 return await ctx.send("Please include seconds!")
 
         await self.bot.mongo.update_guild(
-            ctx.guild, {"$set": {channel.id: str(seconds)}}
+            ctx.guild, {"$set": {str(channel.id): str(seconds)}}
         )
         
         await ctx.send(f"Now set Shiny Timer to {seconds} for <#{channel.id}>")    
