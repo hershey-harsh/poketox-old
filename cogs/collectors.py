@@ -53,7 +53,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 time = discord.utils.format_dt(x, 'R')
-             else:
+            else:
                 time = " "
                 
             print("Passed Check 4")
