@@ -31,17 +31,15 @@ async def collectping(self, ctx, species: SpeciesConverter):
         
         try:
                 time = str(guild[str(ctx.channel.id)])
-                if ctx.guild.id == 968956231064625172:
-                        print("Worked")
         except Exception as e:
-                if ctx.guild.id == 968956231064625172:
-                        print(e)
                 time = None
         
-        if time != None:
+        try:
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 timestamp = discord.utils.format_dt(x, 'R')
+        except:
+                pass
         
         collector_pings = []
         async for user in users:
@@ -53,7 +51,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                         f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
                 )
                 
-            if time != None:
+            elif time != None:
                 await ctx.send(
                         f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
                 )
