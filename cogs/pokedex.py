@@ -249,7 +249,7 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1, view=Confirm(message.content, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
         
-    """
+    
     if message.author.id == 716390085896962058 and "The pokémon is" in message.content:
         solution = hint_solve(message.content)
    
@@ -257,7 +257,7 @@ class Pokedex(commands.Cog):
         species = self.bot.data.species_by_name(solution[0])
         embed1.set_thumbnail(url=species.image_url)
         await message.channel.send(embed=embed1)
-    """
+    
   
         
     if message.embeds and message.author.id == 716390085896962058:
