@@ -26,7 +26,8 @@ async def collectping(self, ctx, species: SpeciesConverter):
 
         try:
                 guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
-                print("Worked")
+                if ctx.guild.id == 968956231064625172:
+                        print("Worked")
         except Exception as e:
                 if ctx.guild.id == 968956231064625172:
                         print("Didn't Work")
@@ -42,21 +43,18 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
                 timestamp = discord.utils.format_dt(x, 'R')
-                
-        else:
-                timestamp = None
         
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
         if len(collector_pings) > 0:
                 
-            if timestamp == None:
+            if time == None:
                 await ctx.send(
                         f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
                 )
                 
-            if timestamp != None:
+            if time != None:
                 await ctx.send(
                         f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings)
                 )
