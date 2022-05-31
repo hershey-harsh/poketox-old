@@ -43,16 +43,16 @@ def blocked(filenam):
   
   print("Predicting #2")
   try:
-    predictions1 = model_list[0].predict(data, verbose=10)[0] #Gen 8
-    predictions2 = model_list[1].predict(data, verbose=10)[0] #Gen 7
-    predictions3 = model_list[2].predict(data, verbose=10)[0] #Special Forms
-    predictions4 = model_list[3].predict(data, verbose=10)[0] #Gen 6
-    predictions5 = model_list[4].predict(data, verbose=10)[0] #Gen 5
-    predictions6 = model_list[5].predict(data, verbose=10)[0] #400-493
-    predictions7 = model_list[6].predict(data, verbose=10)[0] #200-300
-    predictions8 = model_list[7].predict(data, verbose=10)[0] #100-200
-    predictions9 = model_list[8].predict(data, verbose=10)[0] #0-100
-    predictions10 = model_list[9].predict(data, verbose=10)[0] #300-400
+    predictions1 = model_list[0].predict(data, verbose=1)[0] #Gen 8
+    predictions2 = model_list[1].predict(data, verbose=1)[0] #Gen 7
+    predictions3 = model_list[2].predict(data, verbose=1)[0] #Special Forms
+    predictions4 = model_list[3].predict(data, verbose=1)[0] #Gen 6
+    predictions5 = model_list[4].predict(data, verbose=1)[0] #Gen 5
+    predictions6 = model_list[5].predict(data, verbose=1)[0] #400-493
+    predictions7 = model_list[6].predict(data, verbose=1)[0] #200-300
+    predictions8 = model_list[7].predict(data, verbose=1)[0] #100-200
+    predictions9 = model_list[8].predict(data, verbose=1)[0] #0-100
+    predictions10 = model_list[9].predict(data, verbose=1)[0] #300-400
   except Exception as e:
     print(e)
     
