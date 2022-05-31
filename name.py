@@ -22,6 +22,7 @@ def name(url):
 def solve(url):
   return None
   
+  
 def blocked(filenam):
  
   #r = requests.get(url)
