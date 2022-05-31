@@ -42,19 +42,17 @@ def blocked(filenam):
   data[0] = normalized_image_array
   
   print("Predicting #2")
-  try:
-    predictions1 = model_list[0].predict(data, verbose=2)[0] #Gen 8
-    predictions2 = model_list[1].predict(data, verbose=2)[0] #Gen 7
-    predictions3 = model_list[2].predict(data, verbose=2)[0] #Special Forms
-    predictions4 = model_list[3].predict(data, verbose=2)[0] #Gen 6
-    predictions5 = model_list[4].predict(data, verbose=2)[0] #Gen 5
-    predictions6 = model_list[5].predict(data, verbose=2)[0] #400-493
-    predictions7 = model_list[6].predict(data, verbose=2)[0] #200-300
-    predictions8 = model_list[7].predict(data, verbose=2)[0] #100-200
-    predictions9 = model_list[8].predict(data, verbose=2)[0] #0-100
-    predictions10 = model_list[9].predict(data, verbose=2)[0] #300-400
-  except Exception as e:
-    print(e)
+  
+  predictions1 = model_list[0].predict(data, verbose=2)[0] #Gen 8
+  predictions2 = model_list[1].predict(data, verbose=2)[0] #Gen 7
+  predictions3 = model_list[2].predict(data, verbose=2)[0] #Special Forms
+  predictions4 = model_list[3].predict(data, verbose=2)[0] #Gen 6
+  predictions5 = model_list[4].predict(data, verbose=2)[0] #Gen 5
+  predictions6 = model_list[5].predict(data, verbose=2)[0] #400-493
+  predictions7 = model_list[6].predict(data, verbose=2)[0] #200-300
+  predictions8 = model_list[7].predict(data, verbose=2)[0] #100-200
+  predictions9 = model_list[8].predict(data, verbose=2)[0] #0-100
+  predictions10 = model_list[9].predict(data, verbose=2)[0] #300-400
     
   print("Predicting #3")
   
@@ -77,19 +75,13 @@ def blocked(filenam):
   
 async def identifyy(url):
   filenam = random.choice(["pokemon.png", "pok2.png", "pokemn.png", "pickom.png", "poketwo_spawn.png", "spawn.png"])
-  print("Working")
   async with aiohttp.ClientSession() as session:
     async with session.get(url) as resp:
         if resp.status == 200:
             f = await aiofiles.open(filenam, mode='wb')
             await f.write(await resp.read())
             await f.close()
-            
-  print("Check 2 Worked")
-  
-  loop = asyncio.get_running_loop()
-  thing = functools.partial(blocked, filenam)
-  with concurrent.futures.ProcessPoolExecutor() as pool:
-    result = await loop.run_in_executor(pool, thing)
-  print(result)
+
+  await asyncio.to_thread(blocked, filenam)
+
   return result
