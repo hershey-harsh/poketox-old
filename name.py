@@ -31,7 +31,7 @@ def blocked(filenam):
   data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
   image = Image.open(filenam)
   
-  print("Predicting")
+  print("Predicting #1")
   
   size = (224, 224)
   image = ImageOps.fit(image, size, Image.ANTIALIAS)
@@ -40,6 +40,8 @@ def blocked(filenam):
   image_array = image_array[:,:,:3]
   normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
   data[0] = normalized_image_array
+  
+  print("Predicting #2")
 
   predictions1 = model_list[0].predict(data, verbose=0)[0] #Gen 8
   predictions2 = model_list[1].predict(data, verbose=0)[0] #Gen 7
@@ -52,6 +54,8 @@ def blocked(filenam):
   predictions9 = model_list[8].predict(data, verbose=0)[0] #0-100
   predictions10 = model_list[9].predict(data, verbose=0)[0] #300-400
 
+  print("Predicting #3")
+  
   #combined_1_2 = np.append(predictions1, predictions2)
   #combined_1_2_3 = np.append(combined_1_2, predictions3)
   #combined_1_2_3_4 = np.append(combined_1_2_3, predictions4)
