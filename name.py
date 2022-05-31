@@ -68,7 +68,7 @@ async def blocked(filenam):
   
 async def identifyy(url):
   filenam = random.choice(["pokemon.png", "pok2.png", "pokemn.png", "pickom.png", "poketwo_spawn.png", "spawn.png"])
-  
+  print("Working")
   async with aiohttp.ClientSession() as session:
     async with session.get(url) as resp:
         if resp.status == 200:
@@ -80,5 +80,5 @@ async def identifyy(url):
   thing = functools.partial(blocked, filenam)
   with concurrent.futures.ProcessPoolExecutor() as pool:
     result = await loop.run_in_executor(pool, thing)
-    
+  print(result)
   return result
