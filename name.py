@@ -29,7 +29,7 @@ def blocked(filenam):
   #open(f'{filenam}.png', 'wb').write(r.content)
   
   data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-  image = Image.open(f"{filenam}.png")
+  image = Image.open(filenam)
   
   print("Predicting")
   
