@@ -111,7 +111,7 @@ class identifyy(commands.Cog):
     @checks.has_started()
     @commands.command()
     async def identify(self, ctx, *, url):
-          pokemon = name.identifyy(url)
+          pokemon = await name.identifyy(url)
       
           species = pokemon
             
