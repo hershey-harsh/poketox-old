@@ -57,7 +57,7 @@ class Pokedex(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.daily_task.start()
-    self._free = commands.CooldownMapping.from_cooldown(1, 15.0, commands.BucketType.guild)
+    self._free = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
 
   def get_ratelimit(self, message):
         bucket = self._free.get_bucket(message)
@@ -268,19 +268,20 @@ class Pokedex(commands.Cog):
         total_servers = config.basic_premium + config.premium + config.unlimited_premium
         val = (message.guild.id in total_servers)
         
-        if message.guild.id in config.unlimited_premium:
-            try:
-                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
-            except:
-                return
         
-        elif val == False:
+        if val == False:
             if free is None:
                 try:
                     await self.identify(message.embeds[0].image.url, message, "Free")
                 except:
                     return
             else:
+                return
+            
+        elif message.guild.id in config.unlimited_premium:
+            try:
+                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+            except:
                 return
             
         elif message.guild.id in config.unlimited_premium:
