@@ -31,6 +31,8 @@ def blocked(filenam):
   data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
   image = Image.open(f"{filenam}.png")
   
+  print("Predicting")
+  
   size = (224, 224)
   image = ImageOps.fit(image, size, Image.ANTIALIAS)
   
