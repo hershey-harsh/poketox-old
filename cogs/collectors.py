@@ -8,6 +8,12 @@ from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
 
+def make_time(time):
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                time = discord.utils.format_dt(x, 'R')
+                return time
+
 seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
 seconds_120 = [937716757387444294]
 
@@ -27,33 +33,22 @@ async def collectping(self, ctx, species: SpeciesConverter):
 
         try:
                 guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
-                if ctx.guild.id == 968956231064625172:
-                        print("Passed Check 1")
         except Exception as e:
-                if ctx.guild.id == 968956231064625172:
-                        print("Passed Non-Check 1")
                 pass
         
         try:
                 time = str(guild[str(ctx.channel.id)])
-                if ctx.guild.id == 968956231064625172:
-                        print("Passed Check 2")
         except Exception as e:
-                if ctx.guild.id == 968956231064625172:
-                        print("Passed Non-Check 2")
                 time = None
                 pass
         
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
+        
         if len(collector_pings) > 0:
             if time != None:
-                print("Passed Check 3")
-                x = datetime.now() + timedelta(seconds=3)
-                x += timedelta(seconds=int(time))
-                time = discord.utils.format_dt(x, 'R')
-                await ctx.send(time)
+                timestamp = make_time(time)
             else:
                 time = " "
                 
@@ -61,7 +56,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 
             await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings))  
                
-        
+            print("Passed Check 5")
             try:
                 time = str(guild[str(ctx.channel.id)])
                 await asyncio.sleep(int(time))
