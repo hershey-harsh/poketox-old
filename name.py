@@ -81,7 +81,8 @@ async def identifyy(url):
             f = await aiofiles.open(filenam, mode='wb')
             await f.write(await resp.read())
             await f.close()
-
-  await asyncio.to_thread(blocked, filenam)
-
+            
+  loop = asyncio.get_running_loop()   
+  result = await loop.run_in_executor(None, blocked, filenam)
+  
   return result
