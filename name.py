@@ -26,7 +26,7 @@ def do_stuff(image):
   image = ImageOps.fit(image, size, Image.ANTIALIAS)
   return image
   
-def identifyy(url):
+async def identifyy(url):
   
   filenam = random.choice(["pokemon.png", "pok2.png", "pokemn.png", "pickom.png"])
   
