@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands, events
 from discord.ext.events import member_kick
 import datetime
+import aiohttp
 import config
 
 COGS = [
@@ -43,6 +44,7 @@ class Bot(commands.Bot, events.EventsMixin):
         self.remove_command("help")
         
     async def setup_hook(self):
+        self.http_session = aiohttp.ClientSession()
         await self.load_extension("jishaku")
         for i in COGS:
             await self.load_extension(f"cogs.{i}")
