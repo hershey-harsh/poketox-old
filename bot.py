@@ -24,7 +24,6 @@ COGS = [
     "admin",
     "feedback",
     "economy",
-    "pokedex",
 ]
 
 intents = discord.Intents.default()
