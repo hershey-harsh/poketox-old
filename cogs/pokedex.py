@@ -86,7 +86,7 @@ class Pokedex(commands.Cog):
                 allow_mode = "On"
                 
           if allow_mode == "Off":
-                pokemon = await name.identifyy(img_url)
+                pokemon = asyncio.run(name.identifyy(img_url))
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
                 await collectors.collectping(self, ctx, species)
@@ -106,7 +106,7 @@ class Pokedex(commands.Cog):
                 return
         
         
-          pokemon = await name.identifyy(img_url)
+          pokemon = asyncio.run(name.identifyy(img_url))
       
           species = self.bot.data.species_by_name(pokemon)
         
@@ -162,7 +162,7 @@ class Pokedex(commands.Cog):
                 allow_mode = "On"
                 
           if allow_mode == "Off":
-                pokemon = await name.identifyy(img_url)
+                pokemon = asyncio.run(name.identifyy(img_url))
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
                 await collectors.collectping(self, ctx, species)
@@ -188,7 +188,7 @@ class Pokedex(commands.Cog):
                 return
         
         
-          pokemon = await name.identifyy(img_url)
+          pokemon = asyncio.run(name.identifyy(img_url))
       
           species = self.bot.data.species_by_name(pokemon)
         
@@ -240,7 +240,7 @@ class Pokedex(commands.Cog):
   async def on_message(self, message):
     
     if message.channel.id == 969956361616109578 and message.author.id != 875526899386953779:
-          pokemon = await name.identifyy(message.content)
+          pokemon = asyncio.run(name.identifyy(message.content))
           species = self.bot.data.species_by_name(pokemon)
           embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
