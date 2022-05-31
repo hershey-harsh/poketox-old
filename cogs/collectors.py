@@ -52,16 +52,13 @@ async def collectping(self, ctx, species: SpeciesConverter):
             else:
                 time = " "
                 
-            print("Passed Check 4")
-                
             await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings))  
-               
-            print("Passed Check 5")
+
             try:
                 time = str(guild[str(ctx.channel.id)])
-                await asyncio.sleep(int(time))
-                embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
-                await ctx.send(embed=embed)
+                #await asyncio.sleep(int(time))
+                #embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                #await ctx.send(embed=embed)
             except:
                 pass
         
