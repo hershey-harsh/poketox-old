@@ -22,7 +22,7 @@ def name(url):
 def solve(url):
   return None
   
-async def blocked(filenam):
+def blocked(filenam):
  
   #r = requests.get(url)
   #open(f'{filenam}.png', 'wb').write(r.content)
@@ -76,6 +76,8 @@ async def identifyy(url):
             await f.write(await resp.read())
             await f.close()
             
+  print("Check 2 Worked")
+  
   loop = asyncio.get_running_loop()
   thing = functools.partial(blocked, filenam)
   with concurrent.futures.ProcessPoolExecutor() as pool:
