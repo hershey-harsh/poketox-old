@@ -20,12 +20,10 @@ COGS = [
     "bot",
     "raredex",
     "help",
-    "logging",
     "comands",
     "admin",
     "feedback",
     "economy",
-    "catch_tracker"
 ]
 
 intents = discord.Intents.default()
