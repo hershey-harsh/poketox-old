@@ -10,7 +10,6 @@ COGS = [
     "data",
     "mongo",
     "settings",
-    "pokedex",
     "collectors",
     "shinyhunt",
     "identify",
