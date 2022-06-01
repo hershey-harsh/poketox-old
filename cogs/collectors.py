@@ -44,7 +44,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
             if time != None:
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
-                timestamp = discord.utils.format_dt(x, 'R')
+                time = discord.utils.format_dt(x, 'R')
             else:
                 time = " "
                 
