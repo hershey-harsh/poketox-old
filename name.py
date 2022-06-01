@@ -22,61 +22,9 @@ def name(url):
 def solve(url):
   return None
   
-  
-def blocked(filenam):
- 
-  #r = requests.get(url)
-  #open(f'{filenam}.png', 'wb').write(r.content)
-  
-  data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-  image = Image.open(filenam)
-  
-  size = (224, 224)
-  image = ImageOps.fit(image, size, Image.ANTIALIAS)
-  
-  image_array = np.asarray(image)
-  image_array = image_array[:,:,:3]
-  normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
-  data[0] = normalized_image_array
-  
-  predictions1 = model_list[0].predict(data, verbose=0)[0] #Gen 8
-  predictions2 = model_list[1].predict(data, verbose=0)[0] #Gen 7
-  predictions3 = model_list[2].predict(data, verbose=0)[0] #Special Forms
-  predictions4 = model_list[3].predict(data, verbose=0)[0] #Gen 6
-  predictions5 = model_list[4].predict(data, verbose=0)[0] #Gen 5
-  predictions6 = model_list[5].predict(data, verbose=0)[0] #400-493
-  predictions7 = model_list[6].predict(data, verbose=0)[0] #200-300
-  predictions8 = model_list[7].predict(data, verbose=0)[0] #100-200
-  predictions9 = model_list[8].predict(data, verbose=0)[0] #0-100
-  predictions10 = model_list[9].predict(data, verbose=0)[0] #300-400
-  
-  #combined_1_2 = np.append(predictions1, predictions2)
-  #combined_1_2_3 = np.append(combined_1_2, predictions3)
-  #combined_1_2_3_4 = np.append(combined_1_2_3, predictions4)
-  #combined_1_2_3_4_5 = np.append(combined_1_2_3_4, predictions5)
-  #combined_1_2_3_4_5_6 = np.append(combined_1_2_3_4_5, predictions6)
-  #combined_1_2_3_4_5_6_7 = np.append(combined_1_2_3_4_5_6, predictions7)
-  #combined_1_2_3_4_5_6_7_8 = np.append(combined_1_2_3_4_5_6_7, predictions8)
-  #combined_1_2_3_4_5_6_7_8_9 = np.append(combined_1_2_3_4_5_6_7_8, predictions9)
-  #combined_1_2_3_4_5_6_7_8_9_10 = np.append(combined_1_2_3_4_5_6_7_8_9, predictions10)
-  
-  pred = np.concatenate((predictions1, predictions2, predictions3, predictions4, predictions5, predictions6, predictions7, predictions8, predictions9, predictions10), axis=None)
-  
-
-  ind = np.argmax(pred)
-  
-  return pokes[ind]
-  
 async def identifyy(url):
-  filenam = random.choice(["pokemon.png", "pok2.png", "pokemn.png", "pickom.png", "poketwo_spawn.png", "spawn.png"])
   async with aiohttp.ClientSession() as session:
-    async with session.get(url) as resp:
-        if resp.status == 200:
-            f = await aiofiles.open(filenam, mode='wb')
-            await f.write(await resp.read())
-            await f.close()
-            
-  loop = asyncio.get_running_loop()   
-  result = await loop.run_in_executor(None, blocked, filenam)
-  
-  return result
+        pokemon_url = f'http://137.184.156.29:8080/identify/{url}'
+        async with session.get(pokemon_url) as resp:
+            pokemon = await resp.text()
+            return pokemon
