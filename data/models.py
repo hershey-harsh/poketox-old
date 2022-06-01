@@ -507,9 +507,9 @@ class Species:
     height: int
     weight: int
     dex_number: int
-    catchable: bool
+    catchable: bool = None
     types: typing.List[str]
-    abundance: int
+    abundance: int = None
     description: str = None
     mega_id: int = None
     mega_x_id: int = None
