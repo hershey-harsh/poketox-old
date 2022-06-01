@@ -8,12 +8,6 @@ from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
 
-def make_time(time):
-                x = datetime.now() + timedelta(seconds=3)
-                x += timedelta(seconds=int(time))
-                time = discord.utils.format_dt(x, 'R')
-                return time
-
 seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
 seconds_120 = [937716757387444294]
 
@@ -48,7 +42,9 @@ async def collectping(self, ctx, species: SpeciesConverter):
         
         if len(collector_pings) > 0:
             if time != None:
-                timestamp = make_time(time)
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
             else:
                 time = " "
                 
