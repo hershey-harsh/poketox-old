@@ -44,7 +44,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
         if len(collector_pings) > 0:
 
             if time != None:
-                x = datetime.now() + timedelta(seconds=3)
+                x = datetime.now() + timedelta(seconds=1)
                 x += timedelta(seconds=int(time))
                 time = discord.utils.format_dt(x, 'R')
             else:
@@ -54,9 +54,9 @@ async def collectping(self, ctx, species: SpeciesConverter):
 
             try:
                 time = str(guild[str(ctx.channel.id)])
-                #await asyncio.sleep(int(time))
-                #embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
-                #await ctx.send(embed=embed)
+                await asyncio.sleep(int(time))
+                embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                await ctx.send(embed=embed)
             except:
                 pass
         
