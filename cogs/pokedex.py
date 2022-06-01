@@ -263,19 +263,20 @@ class Pokedex(commands.Cog):
     if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title:
         
-        #free = self.get_ratelimit(message)
+        free = self.get_ratelimit(message)
         
         total_servers = config.basic_premium + config.premium + config.unlimited_premium
         val = (message.guild.id in total_servers)
         
         
         if val == False:
-
+            if free == None:
                 try:
                     await self.identify(message.embeds[0].image.url, message, "Free")
                 except:
                     return
-
+            else:
+                return
             
         elif message.guild.id in config.unlimited_premium:
             try:
