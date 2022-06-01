@@ -1,10 +1,13 @@
-import typing
 import random
+import typing
 import unicodedata
 from abc import ABC
+from collections import defaultdict
 from dataclasses import dataclass
-from functools import cached_property
+from functools import cached_property, lru_cache
 from typing import Union
+from urllib.parse import urljoin
+
 from . import constants
 
 
@@ -40,9 +43,7 @@ class StatChange:
 
     @cached_property
     def stat(self):
-        return ("hp", "atk", "defn", "satk", "sdef", "spd", "evasion", "accuracy")[
-            self.stat_id - 1
-        ]
+        return ("hp", "atk", "defn", "satk", "sdef", "spd", "evasion", "accuracy")[self.stat_id - 1]
 
 
 @dataclass
@@ -163,18 +164,10 @@ class Move:
 
             if self.damage_class_id == 2:
                 atk = pokemon.atk * constants.STAT_STAGE_MULTIPLIERS[pokemon.stages.atk]
-                defn = (
-                    opponent.defn
-                    * constants.STAT_STAGE_MULTIPLIERS[opponent.stages.defn]
-                )
+                defn = opponent.defn * constants.STAT_STAGE_MULTIPLIERS[opponent.stages.defn]
             else:
-                atk = (
-                    pokemon.satk * constants.STAT_STAGE_MULTIPLIERS[pokemon.stages.satk]
-                )
-                defn = (
-                    opponent.sdef
-                    * constants.STAT_STAGE_MULTIPLIERS[opponent.stages.sdef]
-                )
+                atk = pokemon.satk * constants.STAT_STAGE_MULTIPLIERS[pokemon.stages.satk]
+                defn = opponent.sdef * constants.STAT_STAGE_MULTIPLIERS[opponent.stages.sdef]
 
             damage = int((2 * pokemon.level / 5 + 2) * self.power * atk / defn / 50 + 2)
 
@@ -224,17 +217,11 @@ class Move:
             # elif ailment == "Silence":
             #     pass
 
-        ailment = (
-            self.meta.meta_ailment
-            if random.randrange(100) < self.meta.ailment_chance
-            else None
-        )
+        ailment = self.meta.meta_ailment if random.randrange(100) < self.meta.ailment_chance else None
 
         typ_mult = 1
         for typ in opponent.species.types:
-            typ_mult *= constants.TYPE_EFFICACY[self.type_id][
-                constants.TYPES.index(typ)
-            ]
+            typ_mult *= constants.TYPE_EFFICACY[self.type_id][constants.TYPES.index(typ)]
 
         damage *= typ_mult
         messages = []
@@ -255,7 +242,7 @@ class Move:
             if random.randrange(100) < self.meta.stat_chance:
                 changes.append(change)
 
-        if self.type in pokemon.types:
+        if self.type in pokemon.species.types:
             damage *= 1.5
 
         return MoveResult(
@@ -507,9 +494,9 @@ class Species:
     height: int
     weight: int
     dex_number: int
-    catchable: bool = None
+    catchable: bool
     types: typing.List[str]
-    abundance: int = None
+    abundance: int
     description: str = None
     mega_id: int = None
     mega_x_id: int = None
@@ -524,6 +511,7 @@ class Species:
     form_item: int = None
     moves: typing.List[PokemonMove] = None
     region: str = None
+    art_credit: str = None
 
     instance: typing.Any = UnregisteredDataManager()
 
@@ -562,19 +550,23 @@ class Species:
 
     @cached_property
     def image_url(self):
-        return f"https://assets.poketwo.net/images/{self.id}.png?v=26"
+        base_url = getattr(self.instance, "assets_base_url", "https://assets.poketwo.net")
+        return urljoin(base_url, f"/images/{self.id}.png?v=26")
 
     @cached_property
     def shiny_image_url(self):
-        return f"https://assets.poketwo.net/shiny/{self.id}.png?v=26"
+        base_url = getattr(self.instance, "assets_base_url", "https://assets.poketwo.net")
+        return urljoin(base_url, f"/shiny/{self.id}.png?v=26")
 
     @cached_property
     def correct_guesses(self):
         extra = []
-        if self.is_form:
+        if self.is_form or self.event:
             extra.extend(self.instance.pokemon[self.dex_number].correct_guesses)
         if "nidoran" in self.slug:
             extra.append("nidoran")
+        if self.id == 50053:
+            extra.extend(self.instance.pokemon[10159].correct_guesses)
         return extra + [deaccent(x.lower()) for _, x in self.names] + [self.slug]
 
     @cached_property
@@ -598,15 +590,16 @@ class Species:
             return f"{self.name} transforms from {species} when given a {item.name}."
 
         if self.evolution_from is not None and self.evolution_to is not None:
-            return (
-                f"{self.name} {self.evolution_from.text} and {self.evolution_to.text}."
-            )
+            return f"{self.name} {self.evolution_from.text} and {self.evolution_to.text}."
         elif self.evolution_from is not None:
             return f"{self.name} {self.evolution_from.text}."
         elif self.evolution_to is not None:
             return f"{self.name} {self.evolution_to.text}."
         else:
             return None
+
+    def __repr__(self):
+        return f"<Species: {self.name}>"
 
 
 @dataclass
@@ -644,6 +637,31 @@ class DataManagerBase:
         ]
 
     @cached_property
+    def list_galarian(self):
+        return [
+            10158,
+            10159,
+            10160,
+            10161,
+            10162,
+            10163,
+            10164,
+            10165,
+            10166,
+            10167,
+            10168,
+            10169,
+            10170,
+            10171,
+            10172,
+            10173,
+            10174,
+            10175,
+            10176,
+            10177,
+        ]
+
+    @cached_property
     def list_mythical(self):
         return [v.id for v in self.pokemon.values() if v.mythical]
 
@@ -667,31 +685,47 @@ class DataManagerBase:
             + [v.mega_y_id for v in self.pokemon.values() if v.mega_y_id is not None]
         )
 
+    @cached_property
+    def species_id_by_type_index(self):
+        ret = defaultdict(list)
+        for pokemon in self.pokemon.values():
+            for type in pokemon.types:
+                ret[type.lower()].append(pokemon.id)
+        return dict(ret)
+
     def list_type(self, type: str):
-        return [v.id for v in self.pokemon.values() if type.title() in v.types]
+        return self.species_id_by_type_index.get(type.lower(), [])
+
+    @cached_property
+    def species_id_by_region_index(self):
+        ret = defaultdict(list)
+        for pokemon in self.pokemon.values():
+            ret[pokemon.region.lower()].append(pokemon.id)
+        return dict(ret)
 
     def list_region(self, region: str):
-        return [v.id for v in self.pokemon.values() if v.region == region.lower()]
+        return self.species_id_by_region_index.get(region.lower(), [])
 
     def all_items(self):
         return self.items.values()
 
+    @cached_property
+    def species_by_dex_number_index(self):
+        ret = defaultdict(list)
+        for pokemon in self.pokemon.values():
+            ret[pokemon.id].append(pokemon)
+            if pokemon.id != pokemon.dex_number:
+                ret[pokemon.dex_number].append(pokemon)
+        return dict(ret)
+
     def all_species_by_number(self, number: int) -> Species:
-        return [x for x in self.pokemon.values() if x.dex_number == number]
+        return self.species_by_dex_number_index.get(number, [])
 
     def all_species_by_name(self, name: str) -> Species:
-        return [
-            x
-            for x in self.pokemon.values()
-            if deaccent(name.lower().replace("′", "'")) in x.correct_guesses
-        ]
+        return self.species_by_name_index.get(deaccent(name.lower().replace("′", "'")), [])
 
     def find_all_matches(self, name: str) -> Species:
-        return [
-            y.id
-            for x in self.all_species_by_name(name)
-            for y in self.all_species_by_number(x.id)
-        ]
+        return [y.id for x in self.all_species_by_name(name) for y in self.all_species_by_number(x.id)]
 
     def species_by_number(self, number: int) -> Species:
         try:
@@ -699,29 +733,19 @@ class DataManagerBase:
         except KeyError:
             return None
 
-    def closest_species_by_name(self, name: str) -> [Species]:
-        potential_names = []
-        for poke in self.pokemon.values():
-            for guess in poke.correct_guesses:
-                cleaned_up_name = (deaccent(name.lower().replace("′", "'")))
-                if guess in cleaned_up_name or cleaned_up_name in guess:
-                    if (len(potential_names) > 5):
-                        return potential_names
-                    potential_names.append(guess)
-                    break
+    @cached_property
+    def species_by_name_index(self):
+        ret = defaultdict(list)
+        for pokemon in self.pokemon.values():
+            for name in pokemon.correct_guesses:
+                ret[name].append(pokemon)
+        return dict(ret)
 
-        return potential_names
-        
     def species_by_name(self, name: str) -> Species:
         try:
-            return next(
-                filter(
-                    lambda x: deaccent(name.lower().replace("′", "'"))
-                    in x.correct_guesses,
-                    self.pokemon.values(),
-                )
-            )
-        except StopIteration:
+            st = deaccent(name.lower().replace("′", "'"))
+            return self.species_by_name_index[st][0]
+        except (KeyError, IndexError):
             return None
 
     def item_by_number(self, number: int) -> Item:
@@ -730,17 +754,12 @@ class DataManagerBase:
         except KeyError:
             return None
 
+    @cached_property
+    def item_by_name_index(self):
+        return {item.name.lower(): item for item in self.items.values()}
+
     def item_by_name(self, name: str) -> Item:
-        try:
-            return next(
-                filter(
-                    lambda x: deaccent(name.lower().replace("′", "'"))
-                    == x.name.lower(),
-                    self.items.values(),
-                )
-            )
-        except StopIteration:
-            return None
+        return self.item_by_name_index.get(deaccent(name.lower().replace("′", "'")))
 
     def move_by_number(self, number: int) -> Move:
         try:
@@ -748,17 +767,12 @@ class DataManagerBase:
         except KeyError:
             return None
 
+    @cached_property
+    def move_by_name_index(self):
+        return {move.name.lower(): move for move in self.moves.values()}
+
     def move_by_name(self, name: str) -> Move:
-        try:
-            return next(
-                filter(
-                    lambda x: deaccent(name.lower().replace("′", "'"))
-                    == x.name.lower(),
-                    self.moves.values(),
-                )
-            )
-        except StopIteration:
-            return None
+        return self.move_by_name_index.get(deaccent(name.lower().replace("′", "'")))
 
     def random_spawn(self, rarity="normal"):
         if rarity == "mythical":
@@ -777,12 +791,3 @@ class DataManagerBase:
     @cached_property
     def spawn_weights(self):
         return [p.abundance for p in self.pokemon.values()]
-
-@dataclass
-class Duel:
-    id: int
-    names: typing.List[typing.Tuple[str, str]]
-    duel: Stats
-    
-    def __str__(self):
-        return self.name
