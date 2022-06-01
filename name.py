@@ -24,7 +24,7 @@ def solve(url):
   
 async def identifyy(url):
   async with aiohttp.ClientSession() as session:
-        pokemon_url = f'http://68.183.61.195:8080/identify/{url}'
+        pokemon_url = f'http://127.0.0.1:8000/identify/{url}'
         async with session.get(pokemon_url) as resp:
             pokemon = await resp.text()
             return pokemon
