@@ -3,9 +3,16 @@ from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
 from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers import checks
+import datetime
 from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
+
+def make_time(time):
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                time = discord.utils.format_dt(x, 'R')
+                return time
 
 seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
 seconds_120 = [937716757387444294]
@@ -24,13 +31,37 @@ async def collectping(self, ctx, species: SpeciesConverter):
             {str(species.id): True, str(ctx.guild.id): True}
         )
 
+        try:
+                guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+        except Exception as e:
+                pass
+        
+        try:
+                time = str(guild[str(ctx.channel.id)])
+        except Exception as e:
+                time = None
+                pass
+        
         collector_pings = []
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
+        
         if len(collector_pings) > 0:
-            await ctx.send(
-                f"**Pinging {species} Collectors** \n \n" + " ".join(collector_pings)
-            )
+            if time != None:
+                timestamp = make_time(time)
+            else:
+                time = " "
+                
+            await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings))  
+
+            try:
+                time = str(guild[str(ctx.channel.id)])
+                #await asyncio.sleep(int(time))
+                #embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                #await ctx.send(embed=embed)
+            except:
+                pass
+        
         else:
             mess = await ctx.send(
                 f"No one is collecting {species}"
@@ -46,23 +77,35 @@ async def shinyping(self, ctx, species: SpeciesConverter):
         users = self.bot.mongo.db.shinyhunt.find(
             {str(ctx.guild.id): True, 'shinyhunt': species.id}
         )
-
+        
+        try:
+                guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+        except:
+                pass
+        
+        try:
+                time = guild[str(ctx.channel.id)]
+        except:
+                time = None
+        
+        if time != None:
+                x = datetime.now() + timedelta(seconds=3)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
+                
+        else:
+                timestamp = None
+                
         shinyhunt_pings = []
         async for user in users:
             shinyhunt_pings.append(f"<@{user['_id']}> ")
         if len(shinyhunt_pings) > 0:
             await ctx.send(
-                f"**Pinging {species} Shiny Hunters** \n \n" + " ".join(shinyhunt_pings)
+                f"**Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
             )
-        
-            if ctx.channel.id in seconds_90:
-                        server_timer = 90  
-                        
-            if ctx.channel.id in seconds_120:
-                        server_timer = 120  
             
             try:
-                await asyncio.sleep(int(server_timer))
+                await asyncio.sleep(int(time))
                 embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
                 await ctx.send(embed=embed)
             except:
@@ -102,24 +145,33 @@ class Collectors(commands.Cog):
     async def timer(self, ctx: commands.Context, seconds, channel: discord.TextChannel=None):
                 
         if channel == None:
-                return await ctx.send("Please include channel!")
+                return
         
         if seconds == None:
-                return await ctx.send("Please include seconds!")
-
-        await self.bot.mongo.update_guild(
-            ctx.guild, {"$set": {channel.id: str(seconds)}}
-        )
+                return
         
-        await ctx.send(f"Now set Shiny Timer to {seconds} for <#{channel.id}>")    
+        if int(seconds) >= 120:
+                return await ctx.send("Seconds have to be less than 120 seconds!")
         
-    
+        try:
+                await self.bot.mongo.db.shtimer.insert_one(
+                        {"_id": ctx.guild.id},
+                        {"$set": {str(channel.id): str(seconds)}},
+                )
+                
+        except:
+                await self.bot.mongo.db.shtimer.update_one(
+                        {"_id": ctx.guild.id},
+                        {"$set": {str(channel.id): str(seconds)}},
+                )
+        
+        embed=discord.Embed(title="<:notify:965755380812611614> Ping Timer", description=f"**{seconds}** seconds ping timer has been set for <#{channel.id}>", color=0x36393F)
+        await ctx.send(embed=embed) 
         
     @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def whitelist(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel]):
 
@@ -136,7 +188,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def shiny(self, ctx, channels: commands.Greedy[discord.TextChannel]):
       """Whitelist shiny hunt in certain channels"""
@@ -153,7 +204,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def all(self, ctx: commands.Context):
         """Reset channels whitelist"""
@@ -168,7 +218,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def reset(self, ctx: commands.Context):
         """Clears all channels whitelist"""
@@ -185,7 +234,6 @@ class Collectors(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def collect(self, ctx, channels: commands.Greedy[discord.TextChannel]):
         """Whitelist collecting list in certain channels"""
@@ -227,7 +275,6 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @commands.hybrid_command()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def serverlist(self, ctx):
         """Adds a server to your pinging list"""
@@ -261,7 +308,6 @@ class Collectors(commands.Cog):
             await ctx.send(embed=embed)
                 
     @checks.has_started()
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     @collectlist.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
@@ -288,7 +334,6 @@ class Collectors(commands.Cog):
         
     @checks.has_started()
     @collectlist.command(slash_command=True)
-    @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, species: SpeciesConverter):
         """Adds a pokémon species or region to your collecting list"""
