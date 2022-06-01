@@ -42,9 +42,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
             collector_pings.append(f"<@{user['_id']}> ")
         
         if len(collector_pings) > 0:
-            if ctx.guild.id == :
-                print(time)
-                
+
             if time != None:
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
