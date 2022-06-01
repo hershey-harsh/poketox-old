@@ -46,17 +46,19 @@ async def collectping(self, ctx, species: SpeciesConverter):
             if time != None:
                 x = datetime.now() + timedelta(seconds=1)
                 x += timedelta(seconds=int(time))
-                time = discord.utils.format_dt(x, 'R')
+                timestamp = discord.utils.format_dt(x, 'R')
             else:
-                time = " "
+                timestamp = " "
                 
-            await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {time} \n \n" + " ".join(collector_pings))  
+            msg = await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
 
             try:
                 time = str(guild[str(ctx.channel.id)])
                 await asyncio.sleep(int(time))
                 embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
                 await ctx.send(embed=embed)
+                
+                await msg.edit(f"**Pinging {species} Collectors**\n \n" + " ".join(collector_pings))
             except:
                 pass
         
@@ -78,21 +80,14 @@ async def shinyping(self, ctx, species: SpeciesConverter):
         
         try:
                 guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
-        except:
+        except Exception as e:
                 pass
         
         try:
-                time = guild[str(ctx.channel.id)]
-        except:
+                time = str(guild[str(ctx.channel.id)])
+        except Exception as e:
                 time = None
-        
-        if time != None:
-                x = datetime.now() + timedelta(seconds=3)
-                x += timedelta(seconds=int(time))
-                timestamp = discord.utils.format_dt(x, 'R')
-                
-        else:
-                timestamp = None
+                pass
                 
         shinyhunt_pings = []
         
@@ -100,7 +95,16 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             shinyhunt_pings.append(f"<@{user['_id']}> ")
         
         if len(shinyhunt_pings) > 0:
-            await ctx.send(
+                
+            if time != None:
+                x = datetime.now() + timedelta(seconds=1)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
+            else:
+                timestamp = " "
+                time = 0
+                
+            msg = await ctx.send(
                 f"**Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
             )
             
@@ -108,6 +112,11 @@ async def shinyping(self, ctx, species: SpeciesConverter):
                 await asyncio.sleep(int(time))
                 embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
                 await ctx.send(embed=embed)
+                
+                await msg.edit(
+                        f"**Pinging {species} Shiny Hunters**\n \n" + " ".join(shinyhunt_pings)
+                )
+                
             except:
                 pass
             
