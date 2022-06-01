@@ -18,19 +18,14 @@ def get_data_from(filename):
 
     with open(path) as f:
         reader = csv.DictReader(f)
-        data = list(
-            {k: int(v) if isnumber(v) else v for k, v in row.items() if v != ""}
-            for row in reader
-        )
+        data = list({k: int(v) if isnumber(v) else v for k, v in row.items() if v != ""} for row in reader)
 
     return data
 
 
 def get_pokemon(instance):
-    species = [None] + get_data_from("pokemon.csv")
-    evolution = {
-        x["evolved_species_id"]: x for x in reversed(get_data_from("evolution.csv"))
-    }
+    species = {x["id"]: x for x in get_data_from("pokemon.csv")}
+    evolution = {x["evolved_species_id"]: x for x in reversed(get_data_from("evolution.csv"))}
 
     def get_evolution_trigger(pid):
         evo = evolution[pid]
@@ -73,7 +68,7 @@ def get_pokemon(instance):
 
     pokemon = {}
 
-    for row in species[1:]:
+    for row in species.values():
         if "enabled" not in row:
             continue
 
@@ -89,11 +84,7 @@ def get_pokemon(instance):
 
             for s in str(row["evo.to"]).split():
                 pto = species[int(s)]
-                evo_to.append(
-                    models.Evolution.evolve_to(
-                        int(s), get_evolution_trigger(pto["id"]), instance=instance
-                    )
-                )
+                evo_to.append(models.Evolution.evolve_to(int(s), get_evolution_trigger(pto["id"]), instance=instance))
 
         if evo_to and len(evo_to) == 0:
             evo_to = None
@@ -118,17 +109,14 @@ def get_pokemon(instance):
         if "name.en" in row:
             names.append(("🇬🇧", row["name.en"]))
 
+        if "name.en2" in row:
+            names.append(("🇬🇧", row["name.en2"]))
+
         if "name.de" in row:
             names.append(("🇩🇪", row["name.de"]))
 
         if "name.fr" in row:
             names.append(("🇫🇷", row["name.fr"]))
-
-        if "name.kr" in row:
-            names.append(("🇰🇷", row["name.kr"]))
-
-        if "name.kr_r" in row:
-            names.append(("🇰🇷", row["name.kr_r"]))
 
         pokemon[row["id"]] = models.Species(
             id=row["id"],
@@ -161,6 +149,7 @@ def get_pokemon(instance):
             is_form="is_form" in row,
             form_item=row["form_item"] if "form_item" in row else None,
             region=row["region"],
+            art_credit=row.get("credit"),
             instance=instance,
         )
 
@@ -180,6 +169,7 @@ def get_pokemon(instance):
         p.moves.sort(key=lambda x: x.method.level)
 
     return pokemon
+
 
 def get_items(instance):
     data = get_data_from("items.csv")
@@ -202,15 +192,14 @@ def get_items(instance):
 
     return items
 
+
 def get_effects(instance):
     data = get_data_from("move_effects.csv")
 
     effects = {}
 
     for row in data:
-        effects[row["id"]] = models.MoveEffect(
-            id=row["id"], description=row["text"], instance=instance
-        )
+        effects[row["id"]] = models.MoveEffect(id=row["id"], description=row["text"], instance=instance)
 
     return effects
 
@@ -256,8 +245,11 @@ def get_moves(instance):
 
 
 class DataManager(models.DataManagerBase):
-    def __init__(self):
+    def __init__(self, assets_base_url=None):
         self.moves = get_moves(self)
         self.pokemon = get_pokemon(self)
         self.items = get_items(self)
         self.effects = get_effects(self)
+
+        if assets_base_url is not None:
+            self.assets_base_url = assets_base_url
