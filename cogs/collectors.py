@@ -4,6 +4,7 @@ from discord.ext.menus.views import ViewMenuPages
 from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers import checks
 import datetime
+from datetime import datetime, timedelta
 from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
@@ -41,6 +42,9 @@ async def collectping(self, ctx, species: SpeciesConverter):
             collector_pings.append(f"<@{user['_id']}> ")
         
         if len(collector_pings) > 0:
+            if ctx.guild.id == :
+                print(time)
+                
             if time != None:
                 x = datetime.now() + timedelta(seconds=3)
                 x += timedelta(seconds=int(time))
@@ -93,8 +97,10 @@ async def shinyping(self, ctx, species: SpeciesConverter):
                 timestamp = None
                 
         shinyhunt_pings = []
+        
         async for user in users:
             shinyhunt_pings.append(f"<@{user['_id']}> ")
+        
         if len(shinyhunt_pings) > 0:
             await ctx.send(
                 f"**Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
