@@ -181,6 +181,24 @@ class Collectors(commands.Cog):
     @checks.has_started()
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
+    @timer.command()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def delete(self, ctx: commands.Context, channel: discord.TextChannel=None):
+                
+        if channel == None:
+                return
+        
+        await self.bot.mongo.db.shtimer.delete_one(
+                {"_id": ctx.guild.id},
+                {"$set": {str(channel.id): str(seconds)}},
+        )
+        
+        embed=discord.Embed(title="<:notify:965755380812611614> Ping Timer", description=f"Deleted ping timer for <#{channel.id}>", color=0x36393F)
+        await ctx.send(embed=embed)
+        
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
     @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def whitelist(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel]):
