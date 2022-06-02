@@ -51,7 +51,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 timestamp = " "
                 time=0
                 
-            msg = await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
+            msg = await ctx.send(f"**<:pokeball:936773252913700894> Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
 
             try:
                 if time != 0:
@@ -107,7 +107,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
                 time = 0
                 
             msg = await ctx.send(
-                f"**Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
+                f"**:sparkles: Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
             )
             
             try:
