@@ -55,6 +55,7 @@ TIER_LINK = {
 #815598238820335668 | Future World | Unlimited | Forever
 #843415018090528778 | Pokefever | Unlimited | 10k Members Forver
 #860180439666917416 | Khaleesi | Unlimited | Forever
+#867103979091001364 | Adam44#8807| Unlimited | July 7th
 
 basic_premium=[]
 premium=[772937584884056135, 762861648981131334]
