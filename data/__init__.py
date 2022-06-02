@@ -25,46 +25,6 @@ def get_data_from(filename):
 
 def get_pokemon(instance):
     species = {x["id"]: x for x in get_data_from("pokemon.csv")}
-    evolution = {x["evolved_species_id"]: x for x in reversed(get_data_from("evolution.csv"))}
-
-    def get_evolution_trigger(pid):
-        evo = evolution[pid]
-
-        if evo["evolution_trigger_id"] == 1:
-            level = evo.get("minimum_level", None)
-            item = evo.get("held_item_id", None)
-            move = evo.get("known_move_id", None)
-            movetype = evo.get("known_move_type_id", None)
-            time = evo.get("time_of_day", None)
-            relative_stats = evo.get("relative_physical_stats", None)
-
-            if "location_id" in evo:
-                return models.OtherTrigger(instance=instance)
-
-            if "minimum_happiness" in evo:
-                item = 14001
-
-            return models.LevelTrigger(
-                level=level,
-                item_id=item,
-                move_id=move,
-                move_type_id=movetype,
-                time=time,
-                relative_stats=relative_stats,
-                instance=instance,
-            )
-
-        elif evo["evolution_trigger_id"] == 2:
-            if "held_item_id" in evo:
-                return models.TradeTrigger(evo["held_item_id"], instance=instance)
-            return models.TradeTrigger(instance=instance)
-
-        elif evo["evolution_trigger_id"] == 3:
-            if "trigger_item_id" in evo:
-                return models.ItemTrigger(evo["trigger_item_id"], instance=instance)
-            return models.OtherTrigger(instance=instance)
-
-        return models.OtherTrigger(instance=instance)
 
     pokemon = {}
 
