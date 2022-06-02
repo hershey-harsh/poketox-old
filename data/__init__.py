@@ -83,8 +83,6 @@ def get_pokemon(instance):
             dex_number=row["dex_number"],
             abundance=row["abundance"] if "abundance" in row else 0,
             description=row.get("description", None),
-            evolution_from=models.EvolutionList(evo_from) if evo_from else None,
-            evolution_to=models.EvolutionList(evo_to) if evo_to else None,
             mythical="mythical" in row,
             legendary="legendary" in row,
             ultra_beast="ultra_beast" in row,
@@ -95,21 +93,6 @@ def get_pokemon(instance):
             art_credit=row.get("credit"),
             instance=instance,
         )
-
-    moves = get_data_from("pokemon_moves.csv")
-
-    for row in moves:
-        if row["pokemon_move_method_id"] == 1 and row["pokemon_id"] in pokemon:
-            pokemon[row["pokemon_id"]].moves.append(
-                models.PokemonMove(
-                    row["move_id"],
-                    models.LevelMethod(row["level"], instance=instance),
-                    instance=instance,
-                )
-            )
-
-    for p in pokemon.values():
-        p.moves.sort(key=lambda x: x.method.level)
 
     return pokemon
 
