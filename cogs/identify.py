@@ -119,7 +119,7 @@ class identifyy(commands.Cog):
         
           if species is None:
             return await ctx.send(f"Could not find a pokemon matching `{species}`.")
-          embed1=discord.Embed(title=f'{pokemon}',color=0x2F3136)
+          embed1=discord.Embed(title=f'{species}',color=0x2F3136)
 
           if species.description:
               embed1.add_field(name="Description",value= species.description.replace("\n", " "),inline=False)
