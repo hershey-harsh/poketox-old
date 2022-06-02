@@ -49,16 +49,18 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 timestamp = discord.utils.format_dt(x, 'R')
             else:
                 timestamp = " "
+                time=0
                 
             msg = await ctx.send(f"**Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
 
             try:
-                time = str(guild[str(ctx.channel.id)])
-                await asyncio.sleep(int(time))
-                embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
-                await ctx.send(embed=embed)
+                if time != 0:
+                        time = str(guild[str(ctx.channel.id)])
+                        await asyncio.sleep(int(time))
+                        embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                        await ctx.send(embed=embed)
                 
-                await msg.edit(f"**Pinging {species} Collectors**\n \n" + " ".join(collector_pings))
+                        await msg.edit(f"**Pinging {species} Collectors**\n \n" + " ".join(collector_pings))
             except:
                 pass
         
@@ -109,9 +111,10 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             )
             
             try:
-                await asyncio.sleep(int(time))
-                embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
-                await ctx.send(embed=embed)
+                if time != 0:
+                        await asyncio.sleep(int(time))
+                        embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                        await ctx.send(embed=embed)
                 
                 await msg.edit(
                         f"**Pinging {species} Shiny Hunters**\n \n" + " ".join(shinyhunt_pings)
