@@ -149,6 +149,7 @@ class Collectors(commands.Cog):
                 
     @checks.has_started()
     @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
     @commands.hybrid_group(invoke_without_command=True, case_insensitive=True, slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def timer(self, ctx: commands.Context, seconds, channel: discord.TextChannel=None):
