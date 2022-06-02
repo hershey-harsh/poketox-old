@@ -32,23 +32,6 @@ def get_pokemon(instance):
         if "enabled" not in row:
             continue
 
-        evo_from = evo_to = None
-
-        if "evo.from" in row:
-            evo_from = models.Evolution.evolve_from(
-                row["evo.from"], get_evolution_trigger(row["id"]), instance=instance
-            )
-
-        if "evo.to" in row:
-            evo_to = []
-
-            for s in str(row["evo.to"]).split():
-                pto = species[int(s)]
-                evo_to.append(models.Evolution.evolve_to(int(s), get_evolution_trigger(pto["id"]), instance=instance))
-
-        if evo_to and len(evo_to) == 0:
-            evo_to = None
-
         types = []
         if "type.0" in row:
             types.append(row["type.0"])
