@@ -29,8 +29,9 @@ from typing import Literal
 class catch_log(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
-    @checks.has_started()           
+       
+    @checks.has_started()
+    @commands.has_permissions(manage_messages=True)
     @commands.hybrid_command(brief="Toggle server settings")
     async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup', 'Starboard'], role: Optional[discord.Role] = None, channel: Optional[discord.TextChannel] = None):
         if select == "Raredex Setup":
