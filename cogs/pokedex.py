@@ -57,7 +57,7 @@ class Pokedex(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.daily_task.start()
-    self._free = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
+    self._free = commands.CooldownMapping.from_cooldown(1, 10.0, commands.BucketType.guild)
 
   def get_ratelimit(self, message):
         bucket = self._free.get_bucket(message)
@@ -113,7 +113,7 @@ class Pokedex(commands.Cog):
           embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
-          embed1.set_footer(text=f'This server is currently on the {plan} Plan')
+          embed1.set_footer(text=f'Cooldown has been removed for event\nType a!update to learn more')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
@@ -195,7 +195,7 @@ class Pokedex(commands.Cog):
           embed1=discord.Embed(title=pokemon, description=f"The pokémon spawned is {pokemon}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
-          embed1.set_footer(text=f'This server is currently on the {plan} Plan')
+          embed1.set_footer(text=f'Cooldown has been removed for event\nType a!update to learn more')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
