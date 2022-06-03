@@ -412,6 +412,31 @@ class Collectors(commands.Cog):
 
         return await ctx.send(embed=embed1)
 
+    @checks.has_started()
+    @collectlist.command(slash_command=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def multiremove(self, ctx, *, args):
+        """Remove multiple pokémon species or region from your collecting list"""
+        
+        myList = []
+        for i in args.split(', '):
+                species = self.bot.data.species_by_name(i)
+                
+                result = await self.bot.mongo.db.collector.update_one(
+                        {"_id": ctx.author.id},
+                        {"$unset": {str(species.id): True}},
+                        upsert=True,
+                )
+                
+                if result.upserted_id or result.modified_count > 0:
+                        myList.append(i.capitalize())
+                        
+                else:
+                        await ctx.send(f"**{species}** is already on your collecting list")
+
+        embed=discord.Embed(title="Collector", description=f"Removed **{', '.join(myList)}** from your collecting list.", color=0x36393F)
+
+        return await ctx.send(embed=embed)
 
     @checks.has_started()
     @collectlist.command(slash_command=True)
@@ -426,7 +451,7 @@ class Collectors(commands.Cog):
         )
 
         if result.modified_count > 0:
-            embed=discord.Embed(title="Collector", description=f"{species} has been removed from your collecting list.", color=0x36393F)
+            embed=discord.Embed(title="Collector", description=f"Removed {species} from your collecting list.", color=0x36393F)
             embed.set_thumbnail(url=species.image_url)
             await ctx.send(embed=embed)
         else:
