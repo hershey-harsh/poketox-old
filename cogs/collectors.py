@@ -408,7 +408,7 @@ class Collectors(commands.Cog):
                 else:
                         await ctx.send(f"**{species}** is already on your collecting list")
 
-        embed1=discord.Embed(title="Collector", description=f"Added **{', '.join(pokes)}** to your collecting list", color=0x36393F)
+        embed1=discord.Embed(title="Collector", description=f"Added **{', '.join(myList)}** to your collecting list", color=0x36393F)
 
         return await ctx.send(embed=embed1)
 
