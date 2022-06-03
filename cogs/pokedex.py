@@ -113,7 +113,7 @@ class Pokedex(commands.Cog):
           embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
-          embed1.set_footer(text=f'Server Plan: {plan}\nCooldown has been removed for event\nType a!update to learn more')
+          embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
@@ -195,7 +195,7 @@ class Pokedex(commands.Cog):
           embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
-          embed1.set_footer(text=f'Server Plan: {plan}\nCooldown has been removed for event\nType a!update to learn more')
+          embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           await message.reply(embed=embed1)
