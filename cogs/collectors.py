@@ -403,7 +403,7 @@ class Collectors(commands.Cog):
                 )
                 
                 if result.upserted_id or result.modified_count > 0:
-                        myList.append(species)
+                        myList.append(i.capitalize())
                         
                 else:
                         await ctx.send(f"**{species}** is already on your collecting list")
