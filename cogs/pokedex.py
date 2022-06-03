@@ -57,7 +57,7 @@ class Pokedex(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.daily_task.start()
-    self._free = commands.CooldownMapping.from_cooldown(1, 10.0, commands.BucketType.guild)
+    self._free = commands.CooldownMapping.from_cooldown(1, 30.0, commands.BucketType.guild)
 
   def get_ratelimit(self, message):
         bucket = self._free.get_bucket(message)
