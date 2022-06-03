@@ -388,6 +388,33 @@ class Collectors(commands.Cog):
 
     @checks.has_started()
     @collectlist.command(slash_command=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def multiadd(self, ctx, *, args):
+        """Adds a multiple pokémon species or region to your collecting list"""
+        
+        myList = []
+        for i in args.split(', '):
+                species = self.bot.data.species_by_name(i)
+                
+                result = await self.bot.mongo.db.collector.update_one(
+                        {"_id": ctx.author.id},
+                        {"$set": {str(species.id): True}},
+                        upsert=True,
+                )
+                
+                if result.upserted_id or result.modified_count > 0:
+                        myList.append(species)
+                        
+                else:
+                        await ctx.send(f"**{species}** is already on your collecting list")
+
+        embed1=discord.Embed(title="Collector", description=f"Added **{', '.join(pokes)}** to your collecting list", color=0x36393F)
+
+        return await ctx.send(embed=embed1)
+
+
+    @checks.has_started()
+    @collectlist.command(slash_command=True)
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def remove(self, ctx, *, species: SpeciesConverter):
