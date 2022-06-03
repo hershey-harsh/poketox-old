@@ -73,6 +73,44 @@ class Shinyhunt(commands.Cog):
             species = self.bot.data.species_by_number(user.get('shinyhunt', None))
             embed.set_thumbnail(url=species.image_url)
             await ctx.send(embed=embed, ephemeral=False)
+            
+    @checks.has_started()
+    @shinyhunt.command()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def globalsearch(self, ctx, *, species: SpeciesConverter):
+        """Lists the collectors of a pokémon species or regions"""
+
+        users = self.bot.mongo.db.collector.find({"shinyhunt": species.id})
+        pages = ViewMenuPages(
+            source=AsyncEmbedListPageSource(
+                users,
+                title=f"All {species} Collectors using the bot",
+                format_item=lambda x: f"<@{x['_id']}>",
+            )
+        )
+
+        
+        await pages.start(ctx)
+        
+    @checks.has_started()
+    @shinyhunt.command()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def search(self, ctx, *, species: SpeciesConverter):
+        """Lists the collectors of a pokémon species or regions in the server"""
+
+        users = self.bot.mongo.db.collector.find({"shinyhunt": species.id, str(ctx.guild.id): True})
+        pages = ViewMenuPages(
+            source=AsyncEmbedListPageSource(
+                users,
+                title=f"{species} Collectors in this server",
+                format_item=lambda x: f"<@{x['_id']}>",
+            )
+        )
+
+        try:
+            await pages.start(ctx)
+        except IndexError:
+            await ctx.send("No users found.")
     
     @checks.has_started()
     @shinyhunt.command()
