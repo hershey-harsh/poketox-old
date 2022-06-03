@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from helpers.converters import SpeciesConverter
 from helpers import checks
+from discord.ext.menus.views import ViewMenuPages
 
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779, 790788488983085056, 950522564751544330]
 
