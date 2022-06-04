@@ -389,11 +389,11 @@ class Collectors(commands.Cog):
     @checks.has_started()
     @collectlist.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def multiadd(self, ctx, *, args):
+    async def multiadd(self, ctx, *, pokemons):
         """Adds a multiple pokémon species or region to your collecting list"""
         
         myList = []
-        for i in args.split(', '):
+        for i in pokemons.split(', '):
                 species = self.bot.data.species_by_name(i)
                 
                 result = await self.bot.mongo.db.collector.update_one(
@@ -415,11 +415,11 @@ class Collectors(commands.Cog):
     @checks.has_started()
     @collectlist.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def multiremove(self, ctx, *, args):
+    async def multiremove(self, ctx, *, pokemons):
         """Remove multiple pokémon species or region from your collecting list"""
         
         myList = []
-        for i in args.split(', '):
+        for i in pokemons.split(', '):
                 species = self.bot.data.species_by_name(i)
                 
                 result = await self.bot.mongo.db.collector.update_one(
