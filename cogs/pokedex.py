@@ -89,8 +89,8 @@ class Pokedex(commands.Cog):
                 pokemon = await name.identifyy(img_url)
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
-                await collectors.collectping(self, ctx, species)
                 await collectors.shinyping(self, ctx, species)
+                await collectors.collectping(self, ctx, species)
                 
                 if pokemon in rare_pokes:
                         
@@ -165,8 +165,8 @@ class Pokedex(commands.Cog):
                 pokemon = await name.identifyy(img_url)
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
-                await collectors.collectping(self, ctx, species)
                 await collectors.shinyping(self, ctx, species)
+                await collectors.collectping(self, ctx, species)
                 
                 total_count = spawn_count + 1
 
