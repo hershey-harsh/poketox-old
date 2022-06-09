@@ -17,6 +17,21 @@ allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899
 import random
 import asyncio
 
+class Confirm(discord.ui.View):
+    def __init__(self):
+        super().__init__()
+        self.value = None
+
+    @discord.ui.button(label='Confirm', style=discord.ButtonStyle.green)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.value = True
+        self.stop()
+
+    @discord.ui.button(label='Cancel', style=discord.ButtonStyle.red)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.value = False
+        self.stop()
+
 async def collectping(self, ctx, species: SpeciesConverter):
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
         if guild.ping_channels and ctx.channel.id not in guild.ping_channels:
@@ -494,7 +509,15 @@ class Collectors(commands.Cog):
         """Clear your collecting list."""
 
         await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
-        await ctx.send("Cleared your collecting list.")
+        await ctx.send('Your about to **clear** your collectlist. Are you sure you want to continue?', view=view)
+        
+        await view.wait()
+        if view.value is None:
+                await ctx.send("Time's up. Aborted.")
+        elif view.value:
+                await ctx.send("Cleared your collecting list.")
+        else:
+                await ctx.send("Aborted.")
 
     @checks.has_started()
     @collectlist.command(slash_command=True)
