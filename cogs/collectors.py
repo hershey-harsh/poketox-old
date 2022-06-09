@@ -509,7 +509,7 @@ class Collectors(commands.Cog):
         """Clear your collecting list."""
 
         await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
-        await ctx.send('Your about to **clear** your collectlist. Are you sure you want to continue?', view=view)
+        await ctx.send('Your about to **clear** your collectlist. Are you sure you want to continue?', view=Confirm())
         
         await view.wait()
         if view.value is None:
