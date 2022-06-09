@@ -508,13 +508,15 @@ class Collectors(commands.Cog):
     async def clear(self, ctx):
         """Clear your collecting list."""
 
-        await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
-        await ctx.send('Your about to **clear** your collectlist. Are you sure you want to continue?', view=Confirm())
+        view = Confirm()
+    
+        await ctx.send('Your about to **clear** your collectlist. Are you sure you want to continue?', view=view)
         
         await view.wait()
         if view.value is None:
                 await ctx.send("Time's up. Aborted.")
         elif view.value:
+                await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
                 await ctx.send("Cleared your collecting list.")
         else:
                 await ctx.send("Aborted.")
