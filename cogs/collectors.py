@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext.menus.views import ViewMenuPages
 from helpers.converters import FetchUserConverter, SpeciesConverter
-from helpers import checks
+from helpers import checks, context
 import datetime
 from datetime import datetime, timedelta
 from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
