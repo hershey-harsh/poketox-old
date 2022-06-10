@@ -483,6 +483,14 @@ class Collectors(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def forceremove(self, ctx, *, user: FetchUserConverter):
         """Allows moderators to remove a player from pinging list"""
+        
+        result = await ctx.confirm("Are you sure you want to remove **{user}** from the **{ctx.guild}** pinging list?")
+        
+        if result is None:
+                return await ctx.send("Time's up. Aborted.")
+
+        if result is False:
+                return await ctx.send("Aborted.")
 
         result = await self.bot.mongo.db.collector.update_one(
             {"_id": user.id},
@@ -507,19 +515,17 @@ class Collectors(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def clear(self, ctx):
         """Clear your collecting list."""
-
-        view = Confirm()
     
-        await ctx.send('Your about to **clear** your collectlist. Are you sure you want to continue?', view=view)
+        result = await ctx.confirm('Your about to **clear** your collectlist. Are you sure you want to continue?', view=view)
         
-        await view.wait()
-        if view.value is None:
-                await ctx.send("Time's up. Aborted.")
-        elif view.value:
-                await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
-                await ctx.send("Cleared your collecting list.")
-        else:
-                await ctx.send("Aborted.")
+        if result is None:
+                return await ctx.send("Time's up. Aborted.")
+
+        if result is False:
+                return await ctx.send("Aborted.")
+                
+        await self.bot.mongo.db.collector.delete_one({"_id": ctx.author.id})
+        await ctx.send("Cleared your collecting list.")
 
     @checks.has_started()
     @collectlist.command(slash_command=True)
