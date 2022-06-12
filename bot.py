@@ -3,6 +3,8 @@ import discord
 from discord.ext import commands, events
 from discord.ext.events import member_kick
 import datetime
+import helpers
+from helpers import checks
 import aiohttp
 import config
 
@@ -67,6 +69,9 @@ class Bot(commands.Bot, events.EventsMixin):
     @property
     def data(self):
         return self.get_cog("Data").instance
+    
+    async def get_context(self, message, *, cls=helpers.context.PoketwoContext):
+        return await super().get_context(message, cls=cls)
 
 if __name__ == "__main__":
     bot = Bot()
