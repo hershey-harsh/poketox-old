@@ -276,6 +276,7 @@ class Pokedex(commands.Cog):
                 except:
                     return
             else:
+                await message.add_reaction("⌛")
                 return
             
         elif message.guild.id in config.unlimited_premium:
