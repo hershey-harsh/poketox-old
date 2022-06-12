@@ -484,7 +484,7 @@ class Collectors(commands.Cog):
     async def forceremove(self, ctx, *, user: FetchUserConverter):
         """Allows moderators to remove a player from pinging list"""
         
-        result = await ctx.confirm("Are you sure you want to remove **{user}** from the **{ctx.guild}** pinging list?")
+        result = await ctx.confirm(f"Are you sure you want to remove **{user}** from the **{ctx.guild}** pinging list?")
         
         if result is None:
                 return await ctx.send("Time's up. Aborted.")
@@ -516,7 +516,7 @@ class Collectors(commands.Cog):
     async def clear(self, ctx):
         """Clear your collecting list."""
     
-        result = await ctx.confirm('Your about to **clear** your collectlist. Are you sure you want to continue?', view=view)
+        result = await ctx.confirm('Your about to **clear** your collectlist. Are you sure you want to continue?')
         
         if result is None:
                 return await ctx.send("Time's up. Aborted.")
