@@ -37,7 +37,7 @@ class comands(commands.Cog):
             
     @commands.hybrid_command(brief="View premium plans")
     async def premium(self, ctx):
-        channel = bot.get_channel(969011272102314025)
+        channel = self.bot.get_channel(969011272102314025)
         msg = await channel.fetch_message(976635012382326806)
         await ctx.send(embed=msg.embeds[0])
             
@@ -124,7 +124,7 @@ class comands(commands.Cog):
     async def spawnrate(self, ctx, pokemon):
         
         pokemon = self.bot.data.species_by_name(pokemon)
-        pokemon = pokemon.capitalize()
+        pokemon = pokemon.name
         
         zero_set = ["Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
         first_set = ["Nihilego", "Buzzwole", "Pheromosa", "Xurkitree", "Celesteela", "Kartana", "Guzzlord", "Poipole", "Naganadel", "Stakataka", "Blacephalon"]
