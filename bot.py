@@ -5,6 +5,7 @@ from discord.ext.events import member_kick
 import datetime
 import helpers
 from helpers import checks
+from helpers import context
 import aiohttp
 import config
 
@@ -70,7 +71,7 @@ class Bot(commands.Bot, events.EventsMixin):
     def data(self):
         return self.get_cog("Data").instance
     
-    async def get_context(self, message, *, cls=helpers.context.PoketwoContext):
+    async def get_context(self, message, *, cls=context.PoketwoContext):
         return await super().get_context(message, cls=cls)
 
 if __name__ == "__main__":
