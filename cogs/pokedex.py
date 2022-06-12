@@ -24,7 +24,7 @@ with open("rare.txt","r",encoding="utf8") as file:
     rare_pokes = file.read()
 
 whitelist = [859326781927194674, 772937584884056135]
-
+ad = ["Want to support the bot? Run `a!premium`", "Need help? Join our [server](https://discord.gg/YmVA2ah5tE)", "We have frequent giveaways! Join our [server](https://discord.gg/YmVA2ah5tE)", "Want the bot? Invite it [here](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)"]
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779]
 
 q = ["Xen is made by Future#9409", "Like the bot? Type -invite in the bot's DM", "Want to help? DM Future#9409", "Join the offical server! https://discord.gg/futureworld"]
@@ -110,7 +110,7 @@ class Pokedex(commands.Cog):
       
           species = self.bot.data.species_by_name(pokemon)
         
-          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
+          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
@@ -192,7 +192,7 @@ class Pokedex(commands.Cog):
       
           species = self.bot.data.species_by_name(pokemon)
         
-          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\nNeed help? Join our [Support Server](https://discord.gg/YmVA2ah5tE)", color=0x2F3136)
+          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
