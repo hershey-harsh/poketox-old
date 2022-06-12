@@ -15,17 +15,6 @@ class Error_Hand(commands.Cog):
         self.message = None
         self.edit_status.start()
         
-    @commands.command()
-    async def invite(self, ctx):
-        """View the invite link for the bot."""
-
-        embed = self.bot.Embed(title="Invite", color=0x2F3136)
-        embed.set_thumbnail(url=self.bot.user.display_avatar.url)
-        embed.add_field(name="Invite Bot", value="https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168", inline=False)
-        embed.add_field(name="Join Server", value="https://discord.gg/YmVA2ah5tE", inline=False)
-
-        await ctx.send(embed=embed)    
-        
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         priority_channels = []
