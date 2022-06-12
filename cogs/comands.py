@@ -95,6 +95,20 @@ class comands(commands.Cog):
         await ctx.send(embed=embed)
         
     @checks.has_started()
+    @commands.hybrid_command()
+    async def invite(self, ctx):
+        """Invite Pokétox"""
+
+        embed = discord.Embed(color=0x2F3136, title = f"Pokétox Invite")
+        embed.add_field(
+            name = "Invite the bot", 
+            value = f"[Invite Link](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", 
+            inline = False
+        )
+        embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
+        await ctx.send(embed=embed)
+        
+    @checks.has_started()
     @commands.hybrid_command(aliases=("sr",))
     async def shinyrate(self, ctx, streak=1):
         """Check the shinyrate for a specific shiny hunt streak"""
