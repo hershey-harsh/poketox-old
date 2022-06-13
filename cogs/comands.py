@@ -47,7 +47,7 @@ class comands(commands.Cog):
                 "<:__:986010600238882876> ✨ Rhydon\n"
                 "<:__:986029464351801364> ✨ Bagon\n"
                 "<:__:986029465278742638> ✨ Oshawott\n\n"
-                "There are a total of `10` winners. To participate in this giveaway you must join [discord.gg/YmVA2ah5tE](https://discord.gg/YmVA2ah5tE) After joining check <#968958727292080198> or click [here](https://discord.com/channels/968956231064625172/968958727292080198/986032371772055632)"
+                "There are a total of `10` winners. To participate in this giveaway you must join https://discord.gg/YmVA2ah5tE\nAfter joining check <#968958727292080198> for the giveaway"
         )
         
     @commands.Cog.listener()
