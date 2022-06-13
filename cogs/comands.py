@@ -30,6 +30,26 @@ class comands(commands.Cog):
         self.bot = bot
         self.dblpy = dbl.DBLClient(self.bot, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3NTUyNjg5OTM4Njk1Mzc3OSIsImJvdCI6dHJ1ZSwiaWF0IjoxNjUwNDE0MjMzfQ.7aZSEjaVH-lH-KtBe_Q2pmGA-wnbyLLbODxEhcfghAE")
         
+    @commands.hybrid_command()
+    async def giveaway(self, ctx):
+        await ctx.send(
+                "**Grand Prizes**\n"
+                "<:_:984604917312417873> ✨ Eternal Flower Floette\n"
+                "<:_:986009578380603492> ✨ Cherry Blossom Cottonee\n"
+                "<:_:986009579076845620> ✨ Sprouting Oddish\n\n"
+                
+                "**Other Prizes**\n"
+                "<:_:984604914045054986> ✨ Machop\n"
+                "<:_:984604915273965659> ✨ Manectric\n"
+                "<:_:984604916351901706> ✨ Spheal\n"
+                "<:_:986009576132448259> ✨ Venipede\n"
+                "<:_:986009577483018270> ✨ Sewaddle\n"
+                "<:__:986010600238882876> ✨ Rhydon\n"
+                "<:__:986029464351801364> ✨ Bagon\n"
+                "<:__:986029465278742638> ✨ Oshawott\n\n"
+                "There are a total of `10` winners. To participate in this giveaway you must join [discord.gg/YmVA2ah5tE](https://discord.gg/YmVA2ah5tE) After joining check <#968958727292080198> or click [here](https://discord.com/channels/968956231064625172/968958727292080198/986032371772055632)"
+        )
+        
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.embeds and message.channel.id == 966129589275471902:
