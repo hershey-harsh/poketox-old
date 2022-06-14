@@ -1,36 +1,80 @@
 import logging
-from datetime import datetime, timezone, timedelta
+import sys
 
-import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 
-formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
+EXCLUDE = {
+    "func",
+    "sinfo",
+    "getMessage",
+    "args",
+    "asctime",
+    "created",
+    "exc_info",
+    "filename",
+    "funcName",
+    "levelno",
+    "lineno",
+    "message",
+    "module",
+    "msecs",
+    "msg",
+    "pathname",
+    "process",
+    "processName",
+    "relativeCreated",
+    "stack_info",
+    "thread",
+    "threadName",
+    "extra",
+}
+
+
+class LogfmtFormatter(logging.Formatter):
+    def format(self, record):
+        attrs = {"message": record.getMessage()}
+        attrs.update({k: getattr(record, k) for k in dir(record) if not (k in EXCLUDE or k.startswith("_"))})
+        attrs.update(getattr(record, "extra", None) or {})
+        return " ".join(
+            '{}="{}"'.format(k, str(v).replace('"', r"\"")) if " " in str(v) else f"{k}={v}"
+            for k, v in attrs.items()
+            if v is not None
+        )
+
+
+class ClusterFilter(logging.Filter):
+    def __init__(self, cluster):
+        self.cluster = cluster
+
+    def filter(self, record):
+        record.cluster = self.cluster
+        return True
+
+
+formatter = LogfmtFormatter()
+
 
 class Logging(commands.Cog):
+    """For logging."""
 
-  def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
-        
-  @commands.Cog.listener()
-  async def on_command(self, ctx):
-    try:
-        invite = await ctx.channel.create_invite(max_age=0) 
-    except:
-        invite = "None"
-    
-    guild_name = ctx.guild.name
 
-    guild_count = ctx.guild.member_count
-    guild_id = ctx.guild.id
-    
-    user_id = ctx.author.id
-    user_name = ctx.author.name
-    
-    command_name = ctx.command.name
-    current_time = datetime.now(timezone(timedelta(hours=-5), 'EST'))
-    
-    with open("Logs/logging.txt","a") as file:
-      file.write(f'Time: {current_time}\nCommand Name: {command_name}\nUser Name: {user_name}\nUser ID: {user_id}\nGuild Name: {guild_name}\nGuild ID: {guild_id}\nGuild Count: {guild_count}\nGuild Invite: {invite}\n\n')
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setFormatter(formatter)
 
-async def setup(bot):
+        log_filter = ClusterFilter(bot.cluster_name)
+
+        dlog = logging.getLogger("discord")
+        dlog.handlers = [handler]
+        dlog.addFilter(log_filter)
+        dlog.setLevel(logging.INFO)
+
+        self.log = logging.getLogger("poketwo")
+        self.log.handlers = [handler]
+        self.log.addFilter(log_filter)
+        self.log.setLevel(logging.INFO)
+
+
+async def setup(bot: commands.Bot):
     await bot.add_cog(Logging(bot))
