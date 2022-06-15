@@ -110,7 +110,9 @@ class Pokedex(commands.Cog):
       
           species = self.bot.data.species_by_name(pokemon)
         
-          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
+          #embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
+          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}", color=0x2F3136)
+          embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
@@ -192,7 +194,9 @@ class Pokedex(commands.Cog):
       
           species = self.bot.data.species_by_name(pokemon)
         
-          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
+          #embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
+          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}", color=0x2F3136)
+          embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
 
           embed1.set_thumbnail(url=species.image_url)
           embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
