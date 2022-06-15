@@ -66,7 +66,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
                 timestamp = " "
                 time=0
                 
-            msg = await ctx.send(f"**<:pokeball:936773252913700894> Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
+            msg = await ctx.send(f"Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!\n**<:pokeball:936773252913700894> Pinging {species} Collectors**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
 
             try:
                 if time != 0:
@@ -81,7 +81,7 @@ async def collectping(self, ctx, species: SpeciesConverter):
         
         else:
             mess = await ctx.send(
-                f"No one is collecting {species}"
+                f"Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!\nNo one is collecting {species}"
             )
            
 async def shinyping(self, ctx, species: SpeciesConverter):
@@ -122,7 +122,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
                 time = 0
                 
             msg = await ctx.send(
-                f"**:sparkles: Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
+                f"Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!\n**:sparkles: Pinging {species} Shiny Hunters**\n You may catch {species} {timestamp} \n \n" + " ".join(shinyhunt_pings)
             )
             
             try:
@@ -140,7 +140,7 @@ async def shinyping(self, ctx, species: SpeciesConverter):
             
         else:
             mess = await ctx.send(
-                f"No one is shiny hunting {species}!"
+                f"Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!\nNo one is shiny hunting {species}!"
             )
 
 q = ["Pokétox is made by Future#9409", "Like the bot? Type a!invite", "Want to help? DM Future#0005", "Join the offical server! https://discord.gg/futureworld"]
