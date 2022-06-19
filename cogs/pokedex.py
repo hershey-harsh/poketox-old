@@ -239,6 +239,8 @@ class Pokedex(commands.Cog):
                     ctx.guild, {"$set": {"total_count": str(total_count+1)}}
           )
         
+          print(str(total_count+1))
+        
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
   async def on_message(self, message):
