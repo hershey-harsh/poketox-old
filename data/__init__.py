@@ -25,12 +25,69 @@ def get_data_from(filename):
 
 def get_pokemon(instance):
     species = {x["id"]: x for x in get_data_from("pokemon.csv")}
+    evolution = {x["evolved_species_id"]: x for x in reversed(get_data_from("evolution.csv"))}
+
+    def get_evolution_trigger(pid):
+        evo = evolution[pid]
+
+        if evo["evolution_trigger_id"] == 1:
+            level = evo.get("minimum_level", None)
+            item = evo.get("held_item_id", None)
+            move = evo.get("known_move_id", None)
+            movetype = evo.get("known_move_type_id", None)
+            time = evo.get("time_of_day", None)
+            relative_stats = evo.get("relative_physical_stats", None)
+
+            if "location_id" in evo:
+                return models.OtherTrigger(instance=instance)
+
+            if "minimum_happiness" in evo:
+                item = 14001
+
+            return models.LevelTrigger(
+                level=level,
+                item_id=item,
+                move_id=move,
+                move_type_id=movetype,
+                time=time,
+                relative_stats=relative_stats,
+                instance=instance,
+            )
+
+        elif evo["evolution_trigger_id"] == 2:
+            if "held_item_id" in evo:
+                return models.TradeTrigger(evo["held_item_id"], instance=instance)
+            return models.TradeTrigger(instance=instance)
+
+        elif evo["evolution_trigger_id"] == 3:
+            if "trigger_item_id" in evo:
+                return models.ItemTrigger(evo["trigger_item_id"], instance=instance)
+            return models.OtherTrigger(instance=instance)
+
+        return models.OtherTrigger(instance=instance)
 
     pokemon = {}
 
     for row in species.values():
         if "enabled" not in row:
             continue
+
+        evo_from = evo_to = None
+
+        if "evo.from" in row:
+            evo_from = models.Evolution.evolve_from(
+                row["evo.from"], get_evolution_trigger(row["id"]), instance=instance
+            )
+
+        if "evo.to" in row:
+            evo_to = []
+
+            for s in str(row["evo.to"]).split():
+                pto = species[int(s)]
+                evo_to.append(models.Evolution.evolve_to(int(s), get_evolution_trigger(pto["id"]), instance=instance))
+
+        if evo_to and len(evo_to) == 0:
+            evo_to = None
 
         types = []
         if "type.0" in row:
@@ -83,6 +140,8 @@ def get_pokemon(instance):
             dex_number=row["dex_number"],
             abundance=row["abundance"] if "abundance" in row else 0,
             description=row.get("description", None),
+            evolution_from=models.EvolutionList(evo_from) if evo_from else None,
+            evolution_to=models.EvolutionList(evo_to) if evo_to else None,
             mythical="mythical" in row,
             legendary="legendary" in row,
             ultra_beast="ultra_beast" in row,
@@ -93,6 +152,21 @@ def get_pokemon(instance):
             art_credit=row.get("credit"),
             instance=instance,
         )
+
+    moves = get_data_from("pokemon_moves.csv")
+
+    for row in moves:
+        if row["pokemon_move_method_id"] == 1 and row["pokemon_id"] in pokemon:
+            pokemon[row["pokemon_id"]].moves.append(
+                models.PokemonMove(
+                    row["move_id"],
+                    models.LevelMethod(row["level"], instance=instance),
+                    instance=instance,
+                )
+            )
+
+    for p in pokemon.values():
+        p.moves.sort(key=lambda x: x.method.level)
 
     return pokemon
 

@@ -10,6 +10,7 @@ id,name,description,cost,shard,action,page,emote,separate
 83,Thunder Stone,,150,,evolve_normal,2,stone_thunder,
 84,Water Stone,,150,,evolve_normal,2,stone_water,
 85,Leaf Stone,,150,,evolve_normal,2,stone_leaf,
+86,Ice Stone,,150,,evolve_normal,2,stone_ice,
 107,Shiny Stone,,150,,evolve_normal,2,stone_shiny,
 108,Dusk Stone,,150,,evolve_normal,2,stone_dusk,
 109,Dawn Stone,,150,,evolve_normal,2,stone_dawn,
