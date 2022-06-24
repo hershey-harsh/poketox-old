@@ -24,7 +24,6 @@ import requests
 
 def make_name_embed(url, pokemon, description, filename):
   r = requests.get(url)
-  print(url)
   im1 = Image.open('spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
 
@@ -41,7 +40,7 @@ def make_name_embed(url, pokemon, description, filename):
   draw.text((20, 10),pokemon,(255,255,255),font=font)
   draw.text((20, 50),description,(255,255,255),font=des_font)
 
-  back_im.save(f'/data/{filename}.png', quality=100, subsampling=0)
+  back_im.save(f'{filename}.png', quality=100, subsampling=0)
   return "Worked"
 
 async def blocked_make_name_embed(url, pokemon, filename):
@@ -340,28 +339,16 @@ class Pokedex(commands.Cog):
                 return
             
         elif message.guild.id in config.unlimited_premium:
-            try:
                 await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
-            except:
-                return
             
         elif message.guild.id in config.unlimited_premium:
-                try:
-                    await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
-                except:
-                    return
+                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
         
         elif message.guild.id in config.basic_premium:
-                try:
-                    await self.premium_identify(message.embeds[0].image.url, message, "Basic")
-                except:
-                    return
+                await self.premium_identify(message.embeds[0].image.url, message, "Basic")
             
         elif message.guild.id in config.premium:
-                try:
-                    await self.premium_identify(message.embeds[0].image.url, message, "Premium")
-                except:
-                    return
+                await self.premium_identify(message.embeds[0].image.url, message, "Premium")
            
   time_to_execute_task = datetime.time(hour=4, minute=0) 
   @tasks.loop(time=time_to_execute_task)
