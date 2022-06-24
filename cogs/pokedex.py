@@ -16,7 +16,7 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
-def blocked_make_name_embed(url, pokemon=None, description=None, filename):
+def blocked_make_name_embed(url, pokemon, description, filename):
   r = requests.get(url)
 
   im1 = Image.open('/data/background.png')
