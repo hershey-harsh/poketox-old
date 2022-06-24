@@ -155,8 +155,8 @@ class Pokedex(commands.Cog):
         
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'/data/{filename}.png'))
-          os.remove("/data/{filename}.png")
+          await message.reply(file=discord.File(f'{filename}.png'))
+          os.remove(f'{filename}.png')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
@@ -248,9 +248,9 @@ class Pokedex(commands.Cog):
           print(filename)
           await blocked_make_name_embed(species.image_url, species.name, filename)
           print("Ran blocked code")
-          await message.reply(file=discord.File(f'/data/{filename}.png'))
+          await message.reply(file=discord.File(f'{filename}.png'))
           print("Sent message")
-          os.remove("/data/{filename}.png")
+          os.remove(f'{filename}.png')
           print("Removed image")
           if pokemon in rare_pokes:
             
