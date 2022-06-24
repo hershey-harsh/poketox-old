@@ -19,8 +19,8 @@ import requests
 
 def blocked_make_name_embed(url, pokemon, description, filename):
   r = requests.get(url)
-
-  im1 = Image.open('/data/background.png')
+  print(url)
+  im1 = Image.open('/data/spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
 
   resized_image = im2.resize((100, 100))
