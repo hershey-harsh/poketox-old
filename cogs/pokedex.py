@@ -48,7 +48,7 @@ async def blocked_make_name_embed(url, pokemon, filename):
   print(pokemon)
   loop = asyncio.get_running_loop() 
   description = f'The pokémon spawned is {pokemon}'
-  result = await loop.run_in_executor(None, blocked, url, pokemon, description, filename)
+  result = await loop.run_in_executor(None, blocked_make_name_embed, url, pokemon, description, filename)
   print(result)
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
