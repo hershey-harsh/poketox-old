@@ -20,7 +20,7 @@ import requests
 def blocked_make_name_embed(url, pokemon, description, filename):
   r = requests.get(url)
   print(url)
-  im1 = Image.open('/data/spawn_background.png')
+  im1 = Image.open('spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
 
   resized_image = im2.resize((100, 100))
@@ -29,8 +29,8 @@ def blocked_make_name_embed(url, pokemon, description, filename):
   back_im = im1.copy()
   back_im.paste(resized_image, (225, 5), mask=resized_image)
 
-  font = ImageFont.truetype("/data/TitanOne-Regular.ttf", 35)
-  des_font = ImageFont.truetype("/data/TitanOne-Regular.ttf", 11)
+  font = ImageFont.truetype("TitanOne-Regular.ttf", 35)
+  des_font = ImageFont.truetype("TitanOne-Regular.ttf", 11)
 
   draw = ImageDraw.Draw(back_im)
   draw.text((20, 10),pokemon,(255,255,255),font=font)
@@ -40,6 +40,7 @@ def blocked_make_name_embed(url, pokemon, description, filename):
   return "Worked"
 
 async def blocked_make_name_embed(url, pokemon, filename):
+  print(pokemon)
   loop = asyncio.get_running_loop() 
   description = f'The pokémon spawned is {pokemon}'
   result = await loop.run_in_executor(None, blocked, url, pokemon, description, filename)
