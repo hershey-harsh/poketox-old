@@ -36,6 +36,7 @@ def blocked_make_name_embed(url, pokemon, description, filename):
   draw.text((20, 50),description,(255,255,255),font=des_font)
 
   back_im.save(f'/data/{filename}.png', quality=100, subsampling=0)
+  return "Worked"
 
 async def blocked_make_name_embed(url, pokemon, filename):
   loop = asyncio.get_running_loop() 
