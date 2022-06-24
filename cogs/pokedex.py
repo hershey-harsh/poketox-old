@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 from helpers.converters import FetchUserConverter, SpeciesConverter
 import random
 import asyncio
+import os
 import datetime
 from replit import db
 from cogs import collectors
@@ -42,7 +43,7 @@ async def blocked_make_name_embed(url, pokemon, filename):
   loop = asyncio.get_running_loop() 
   description = f'The pokémon spawned is {pokemon}'
   result = await loop.run_in_executor(None, blocked, url, pokemon, description, filename)
-  return "Worked"
+  print(result)
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
