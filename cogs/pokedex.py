@@ -10,10 +10,37 @@ from cogs import collectors
 import name
 import config
 import re
+import string
 from helpers import checks
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
+
+def blocked_make_name_embed(url, pokemon=None, description=None, filename):
+  r = requests.get(url)
+
+  im1 = Image.open('/data/background.png')
+  im2 = Image.open(BytesIO(r.content))
+
+  resized_image = im2.resize((100, 100))
+  resized_image.save("new_test.png", quality=100, subsampling=0)
+
+  back_im = im1.copy()
+  back_im.paste(resized_image, (225, 5), mask=resized_image)
+
+  font = ImageFont.truetype("/data/TitanOne-Regular.ttf", 35)
+  des_font = ImageFont.truetype("/data/TitanOne-Regular.ttf", 11)
+
+  draw = ImageDraw.Draw(back_im)
+  draw.text((20, 10),pokemon,(255,255,255),font=font)
+  draw.text((20, 50),description,(255,255,255),font=des_font)
+
+  back_im.save(f'/data/{filename}.png', quality=100, subsampling=0)
+
+async def blocked_make_name_embed(url, pokemon, filename):
+  loop = asyncio.get_running_loop() 
+  description = f'The pokémon spawned is {pokemon}'
+  result = await loop.run_in_executor(None, blocked, url, pokemon, description, filename)
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
@@ -111,14 +138,20 @@ class Pokedex(commands.Cog):
           species = self.bot.data.species_by_name(pokemon)
         
           #embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
-          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}", color=0x2F3136)
-          embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
-
-          embed1.set_thumbnail(url=species.image_url)
-          embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
+          
+        
+          #embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}", color=0x2F3136)
+          #embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
+          #embed1.set_thumbnail(url=species.image_url)
+          #embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
+        
+          filename = random.choice(string.ascii_letters)
+          await blocked_make_name_embed(species.image_url, species.name, filename)
+          await message.reply(file=discord.File(f'/data/{filename}.png'))
+          os.remove("/data/{filename}.png")
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
-          await message.reply(embed=embed1)
+          #await message.reply(embed=embed1)
 
           if pokemon in rare_pokes:
                         
@@ -195,16 +228,20 @@ class Pokedex(commands.Cog):
           species = self.bot.data.species_by_name(pokemon)
         
           #embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}\n{random.choice(ad)}", color=0x2F3136)
-          embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}", color=0x2F3136)
-          embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
+          #embed1=discord.Embed(title=species, description=f"The pokémon spawned is {species}", color=0x2F3136)
+          #embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
 
-          embed1.set_thumbnail(url=species.image_url)
-          embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
+          #embed1.set_thumbnail(url=species.image_url)
+          #embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
-          await message.reply(embed=embed1)
-        
+          #await message.reply(embed=embed1)
+          filename = random.choice(string.ascii_letters)
+          await blocked_make_name_embed(species.image_url, species.name, filename)
+          await message.reply(file=discord.File(f'/data/{filename}.png'))
+          os.remove("/data/{filename}.png")
           if pokemon in rare_pokes:
+            
                         
                 ctx = await self.bot.get_context(message)
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
