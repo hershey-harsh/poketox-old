@@ -6,6 +6,11 @@ import random
 import asyncio
 import os
 import datetime
+
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageDraw
+import requests
+from io import BytesIO
+
 from replit import db
 from cogs import collectors
 import name
