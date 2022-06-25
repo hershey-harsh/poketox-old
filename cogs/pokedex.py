@@ -100,7 +100,7 @@ class Image_Text(discord.ui.View):
         embed=discord.Embed(title=self.pokemon.capitalize(), description=f"The pokémon spawned is {self.pokemon.capitalize()}", color=0x303136)
         embed.set_thumbnail(url=self.image_url)
         
-        await interaction.message.edit(content=None, attachments=None, embed=embed, view=Confirm(self.pokemon, self.bot))
+        await interaction.message.edit(content=None, attachments=[], embed=embed, view=Confirm(self.pokemon, self.bot))
         await interaction.response.send_message('Changed the message!', ephemeral=True)
         self.stop()
         
