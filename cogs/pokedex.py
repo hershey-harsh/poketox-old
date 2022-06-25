@@ -80,6 +80,106 @@ allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899
 
 q = ["Xen is made by Future#9409", "Like the bot? Type -invite in the bot's DM", "Want to help? DM Future#9409", "Join the offical server! https://discord.gg/futureworld"]
 
+class Confirm(discord.ui.View):
+    def __init__(self, species, bot):
+        super().__init__()
+        self.value = None
+        self.species = species
+        self.bot = bot
+
+class Image_Text(discord.ui.View):
+    def __init__(self, pokemon, image_url, bot):
+        super().__init__()
+        self.pokemon = pokemon
+        self.image_url = pokemon
+        self.bot = bot
+
+    @discord.ui.button(label='Text', style=discord.ButtonStyle.gray)
+    async def tex(self, interaction: discord.Interaction, button: discord.ui.Button):
+        
+        embed=discord.Embed(title=self.pokemon.capitalize(), description=f"The pokémon spawned is {self.pokemon.capitalize()}", color=0x303136)
+        embed.set_thumbnail(url=self.image_url)
+        
+        await interaction.message.edit(embed=embed, view=Confirm(self.pokemon, self.bot))
+        await interaction.response.send_message('Changed the message!', ephemeral=True)
+        self.stop()
+        
+    @discord.ui.button(label="Dex Info", style=discord.ButtonStyle.gray)
+    async def info(self, interaction: discord.Interaction, button: discord.ui.Button):
+
+        species = self.pokemon
+      
+        if species.isdigit():
+            species = self.bot.data.species_by_number(int(species))
+        else:
+            if species.lower().startswith("shiny "):
+                shiny = True
+                species = species[6:]
+
+            species = self.bot.data.species_by_name(species)
+
+        embed = discord.Embed(color=0x2F3136)
+        embed.title = f"#{species.dex_number} — {species}"
+
+        if species.description:
+            embed.description = species.description.replace("\n", " ")
+
+        # Pokemon Rarity
+        rarity = []
+        if species.mythical:
+            rarity.append("Mythical")
+        if species.legendary:
+            rarity.append("Legendary")
+        if species.ultra_beast:
+            rarity.append("Ultra Beast")
+        if species.event:
+            rarity.append("Event")
+
+        if rarity:
+            rarity = ", ".join(rarity)
+            embed.add_field(
+                name="Rarity",
+                value=rarity,
+                inline=False,
+            )
+
+        if species.evolution_text:
+            embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
+
+        if 1 == 2:
+            print("idk")
+        else:
+            embed.set_thumbnail(url=species.image_url)
+
+        base_stats = (
+            f"**HP:** {species.base_stats.hp}",
+            f"**Attack:** {species.base_stats.atk}",
+            f"**Defense:** {species.base_stats.defn}",
+            f"**Sp. Atk:** {species.base_stats.satk}",
+            f"**Sp. Def:** {species.base_stats.sdef}",
+            f"**Speed:** {species.base_stats.spd}",
+        )
+
+        embed.add_field(
+            name="Names",
+            value="\n".join(f"{x} {y}" for x, y in species.names),
+        )
+        embed.add_field(name="Base Stats", value="\n".join(base_stats))
+        embed.add_field(name="Types", value="\n".join(species.types))
+
+        await interaction.response.send_message(embed=embed,ephemeral=True)
+
+    @discord.ui.button(label="Incorrect Prediction", style=discord.ButtonStyle.gray)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message("Thanks for contributing to the bot! We reported the incorrect prediction to the Owner!", ephemeral=True)
+        data = {"content" : f'Reported by: **{interaction.user.name}** *({interaction.user.id})*{self.url}',"username" : "Incorrect Prediction"}
+
+        url = "https://discord.com/api/webhooks/936421747102744666/1UUkTqapNUlsYTZqKkR_s_EL4IwniPL4w9VKlL_QfMh8FV9zwpm0bkUkVsXA3est57T1"
+
+        requests.post(url, json = data)
+        self.value = True
+        self.stop()
+
 def hint_solve(message):
     hint = []
 
@@ -171,7 +271,7 @@ class Pokedex(commands.Cog):
         
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'))
+          await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
           os.remove(f'{filename}.png')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
@@ -210,7 +310,7 @@ class Pokedex(commands.Cog):
         spawn_count = 0
     
     #if spawn_count >=750:
-    if spawn_count >= 2000:
+    if spawn_count >= 5000:
         return
     
     else:
@@ -264,7 +364,7 @@ class Pokedex(commands.Cog):
           print(filename)
           await blocked_make_name_embed(species.image_url, species.name, filename)
           print("Ran blocked code")
-          await message.reply(file=discord.File(f'{filename}.png'))
+          await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
           print("Sent message")
           os.remove(f'{filename}.png')
           print("Removed image")
