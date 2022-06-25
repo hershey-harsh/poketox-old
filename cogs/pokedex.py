@@ -91,7 +91,7 @@ class Image_Text(discord.ui.View):
     def __init__(self, pokemon, image_url, bot):
         super().__init__()
         self.pokemon = pokemon
-        self.image_url = pokemon
+        self.image_url = image_url
         self.bot = bot
 
     @discord.ui.button(label='Text', style=discord.ButtonStyle.gray)
