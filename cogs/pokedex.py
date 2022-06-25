@@ -26,14 +26,30 @@ def make_name_embed(url, pokemon, description, filename):
   r = requests.get(url)
   im1 = Image.open('spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
+  
+  if "alolan" in pokemon.lower():
+    im1 = im1.resize((402, 112))
+
+  if "hisuian" in pokemon.lower():
+    im1 = im1.resize((402, 112))
 
   resized_image = im2.resize((100, 100))
   resized_image.save("new_test.png", quality=100, subsampling=0)
 
   back_im = im1.copy()
-  back_im.paste(resized_image, (225, 5), mask=resized_image)
 
-  font = ImageFont.truetype("TitanOne-Regular.ttf", 35)
+  if "alolan" in pokemon.lower():
+    font = ImageFont.truetype("TitanOne-Regular.ttf", 25)
+    back_im.paste(resized_image, (295, 5), mask=resized_image)
+
+  elif "hisuian" in pokemon.lower():
+    font = ImageFont.truetype("TitanOne-Regular.ttf", 25)
+    back_im.paste(resized_image, (295, 5), mask=resized_image)
+
+  else:
+    back_im.paste(resized_image, (225, 5), mask=resized_image)
+    font = ImageFont.truetype("TitanOne-Regular.ttf", 35)
+  
   des_font = ImageFont.truetype("TitanOne-Regular.ttf", 11)
 
   draw = ImageDraw.Draw(back_im)
