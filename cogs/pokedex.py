@@ -381,8 +381,8 @@ class Pokedex(commands.Cog):
 
                 try:
                             
-                                if guild['specialized'] and ctx.channel.id not in guild['specialized']:
-                                  return
+                    if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                      return
                   
                     roleid = guild["rareping"]
                     await message.channel.send(f'<@&{roleid}>')
