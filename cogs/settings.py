@@ -30,11 +30,13 @@ class catch_log(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
+    @checks.has_started()
     @commands.hybrid_group()
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def setup(self, ctx):
         pass
     
+    @checks.has_started()
     @setup.command(brief="Setup specialized pings")
     async def ping(self, ctx, select: Literal['Rare Pings', 'Alolan Pings', 'Galarian Pings', 'Hisuian Pings'], role: discord.Role = None):
             if role is None:
@@ -73,21 +75,6 @@ class catch_log(commands.Cog):
                 )
       
                 embed=discord.Embed(title="Hisuian Pings", description=f"{role.mention} will be pinged when a Hisuian-Form pokémon spawns", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-    
-    @checks.has_started()
-    @commands.has_permissions(manage_messages=True)
-    @commands.hybrid_command(brief="Toggle server settings")
-    async def raredex(self, ctx, role: Optional[discord.Role] = None):
-            if role is None:
-                return await ctx.send("Please use the Role option")
-            else:
-                await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"rareping": str(role.id)}}
-                )
-      
-                embed=discord.Embed(title="Raredex", description=f"{role.mention} will be pinged when a Rare pokémon spawns", color=0x36393F)
                 embed.set_thumbnail(url=ctx.guild.icon.url)
                 await ctx.send(embed=embed)
     
