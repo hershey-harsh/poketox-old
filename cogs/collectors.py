@@ -235,6 +235,22 @@ class Collectors(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
+    async def pings(self, ctx, channels: commands.Greedy[discord.TextChannel]):
+      """Whitelist specialized pings in certain channels"""
+
+      await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {"specialized": [x.id for x in channels]}}
+        )
+
+      embed=discord.Embed(title=":sparkles: Shiny Whitelist", description=f"Now whitelisting Shiny Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
+      embed.set_thumbnail(url=ctx.guild.icon.url)
+      await ctx.send(embed=embed)
+    
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
+    @whitelist.command(slash_command=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def shiny(self, ctx, channels: commands.Greedy[discord.TextChannel]):
       """Whitelist shiny hunt in certain channels"""
 
