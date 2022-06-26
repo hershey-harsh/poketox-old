@@ -291,6 +291,8 @@ class Collectors(commands.Cog):
         await self.bot.mongo.update_guild(ctx.guild, {"$set": {"ping_channels": [877637271929647125]}})
 
         await self.bot.mongo.update_guild(ctx.guild, {"$set": {"sh_channels": [877637271929647125]}})
+        
+        await self.bot.mongo.update_guild(ctx.guild, {"$set": {"specialized": [877637271929647125]}})
   
     @checks.has_started()
     @commands.guild_only()
@@ -648,12 +650,16 @@ class Collectors(commands.Cog):
                             
         pingchannel = "\n".join(f"<#{x}>" for x in guild.ping_channels) or "All Channels"
         shinychannel = "\n".join(f"<#{x}>" for x in guild.sh_channels) or "All Channels"
+        specialized = "\n".join(f"<#{x}>" for x in guild.specialized) or "All Channels"
                                 
         if str(pingchannel) == "<#877637271929647125>":
                 pingchannel = "None"
         
         if str(shinychannel) == "<#877637271929647125>":
                 shinychannel = "None"
+                
+        if str(specialized) == "<#877637271929647125>":
+                specialized = "None"
         
         embed.add_field(
             name=f"Collecting Channels {commands.get('whitelist_command', '')}",
@@ -664,6 +670,12 @@ class Collectors(commands.Cog):
         embed.add_field(
             name=f"Shiny Hunt Channels {commands.get('whitelist_command', '')}",
             value=shinychannel,
+            inline=False,
+        )
+        
+        embed.add_field(
+            name=f"Specialized Pings Channels {commands.get('whitelist_command', '')}",
+            value=specialized,
             inline=False,
         )
                             
