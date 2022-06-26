@@ -29,11 +29,73 @@ from typing import Literal
 class catch_log(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-       
+    
+    @commands.hybrid_group()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def setup(self, ctx):
+        pass
+    
+    @setup.command(brief="Setup specialized pings")
+    async def ping(self, ctx, select: Literal['Rare Pings', 'Alolan Pings', 'Galarian Pings', 'Hisuian Pings'], role: discord.Role = None):
+            if role is None:
+                return await ctx.send("Please select a role")
+            
+            if select == "Rare Pings":
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"rareping": str(role.id)}}
+                )
+      
+                embed=discord.Embed(title="Rare Pings", description=f"{role.mention} will be pinged when a Rare pokémon spawns", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
+
+            elif select == "Alolan Pings":
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"alolanping": str(role.id)}}
+                )
+      
+                embed=discord.Embed(title="Alolan Pings", description=f"{role.mention} will be pinged when a Alolan-Form pokémon spawns", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
+
+            elif select == "Galarian Pings":
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"galarianping": str(role.id)}}
+                )
+      
+                embed=discord.Embed(title="Galarian Pings", description=f"{role.mention} will be pinged when a Galarian-Form pokémon spawns", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
+
+            elif select == "Hisuian Pings":
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"hisuianping": str(role.id)}}
+                )
+      
+                embed=discord.Embed(title="Hisuian Pings", description=f"{role.mention} will be pinged when a Hisuian-Form pokémon spawns", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
+    
     @checks.has_started()
     @commands.has_permissions(manage_messages=True)
     @commands.hybrid_command(brief="Toggle server settings")
-    async def toggle(self, ctx, select: Literal['Naming', 'Raredex Setup', 'Starboard'], role: Optional[discord.Role] = None, channel: Optional[discord.TextChannel] = None):
+    async def raredex(self, ctx, role: Optional[discord.Role] = None):
+            if role is None:
+                return await ctx.send("Please use the Role option")
+            else:
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"rareping": str(role.id)}}
+                )
+      
+                embed=discord.Embed(title="Raredex", description=f"{role.mention} will be pinged when a Rare pokémon spawns", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
+    
+    
+    @checks.has_started()
+    @commands.has_permissions(manage_messages=True)
+    @commands.hybrid_command(brief="Toggle server settings")
+    async def toggle(self, ctx, select: Literal['Naming']):
         if select == "Raredex Setup":
             if role is None:
                 return await ctx.send("Please use the Role option")
