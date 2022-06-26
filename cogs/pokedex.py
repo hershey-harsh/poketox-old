@@ -247,8 +247,13 @@ class Pokedex(commands.Cog):
                         
                         ctx = await self.bot.get_context(message)
                         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-
+                        
                         try:
+                                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+                            
+                                if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                                  return
+                                
                                 roleid = guild["rareping"]
                                 await message.channel.send(f'<@&{roleid}>')
                 
@@ -375,6 +380,10 @@ class Pokedex(commands.Cog):
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
 
                 try:
+                            
+                                if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                                  return
+                  
                     roleid = guild["rareping"]
                     await message.channel.send(f'<@&{roleid}>')
                 
