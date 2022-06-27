@@ -118,7 +118,7 @@ class comands(commands.Cog):
     async def invite(self, ctx):
         """View the invite link for the bot."""
 
-        embed = self.bot.Embed(title="Invite", color=0x2F3136)
+        embed = discord.Embed(title="Invite", color=0x2F3136)
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
         embed.add_field(name="Invite Bot", value="[Invite Link](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)", inline=False)
         embed.add_field(name="Join Server", value="https://discord.gg/YmVA2ah5tE", inline=False)
