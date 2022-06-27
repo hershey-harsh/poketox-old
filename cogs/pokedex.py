@@ -22,7 +22,7 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
-def make_name_embed(url, pokemon, description, filename):
+def make_name_embed(url, pokemon, filename):
   r = requests.get(url)
   im1 = Image.open('spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
@@ -53,11 +53,10 @@ def make_name_embed(url, pokemon, description, filename):
   des_font = ImageFont.truetype("TitanOne-Regular.ttf", 12)
 
   draw = ImageDraw.Draw(back_im)
-  draw.text((20, 10),pokemon,(255,255,255),font=font)
-  draw.text((20, 50),description,(255,255,255),font=des_font)
+  draw.text((20, 35),pokemon,(255,255,255),font=font)
 
   back_im.save(f'{filename}.png', quality=100, subsampling=0)
-  return "Worked"
+  return "Hi"
 
 async def blocked_make_name_embed(url, pokemon, filename):
   loop = asyncio.get_running_loop()
