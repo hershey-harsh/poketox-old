@@ -60,7 +60,6 @@ def make_name_embed(url, pokemon, description, filename):
   return "Worked"
 
 async def blocked_make_name_embed(url, pokemon, filename):
-  print(pokemon)
   loop = asyncio.get_running_loop()
   
   species = _bot.data.species_by_name(pokemon)
@@ -70,7 +69,6 @@ async def blocked_make_name_embed(url, pokemon, filename):
     description = f"The pokémon spawned is {pokemon}" 
   
   result = await loop.run_in_executor(None, make_name_embed, url, pokemon, description, filename)
-  print(result)
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
@@ -153,7 +151,6 @@ class Image_Text(discord.ui.View):
             embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
 
         if 1 == 2:
-            print("idk")
         else:
             embed.set_thumbnail(url=species.image_url)
 
@@ -372,13 +369,9 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
           filename = random.choice(string.ascii_letters)
-          print(filename)
           await blocked_make_name_embed(species.image_url, species.name, filename)
-          print("Ran blocked code")
           await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
-          print("Sent message")
           os.remove(f'{filename}.png')
-          print("Removed image")
           if pokemon in rare_pokes:
             
                         
@@ -419,7 +412,6 @@ class Pokedex(commands.Cog):
                     ctx.guild, {"$set": {"total_count": str(total_count+1)}}
           )
         
-          print(str(total_count+1))
         
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
