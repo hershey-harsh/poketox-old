@@ -275,7 +275,7 @@ class Pokedex(commands.Cog):
         
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(species.image_url, species.name, filename)
-          await message.reply("**Want the bot? Type a!invite**", file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
+          await message.reply("**Want the bot?** Type a!invite", file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
           os.remove(f'{filename}.png')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
@@ -366,7 +366,7 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1)
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(species.image_url, species.name, filename)
-          await message.reply("**Want the bot? Type a!invite**", file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
+          await message.reply("**Want the bot?** Type a!invite", file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
           os.remove(f'{filename}.png')
           if pokemon in rare_pokes:
             
