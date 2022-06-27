@@ -242,7 +242,7 @@ class Pokedex(commands.Cog):
           except: 
                 allow_mode = "On"
                 
-          if allow_mode == "Idk":
+          if allow_mode == "Off":
                 pokemon = await name.identifyy(img_url)
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
@@ -331,7 +331,7 @@ class Pokedex(commands.Cog):
           except: 
                 allow_mode = "On"
                 
-          if allow_mode == "Idk":
+          if allow_mode == "Off":
                 pokemon = await name.identifyy(img_url)
                 species = self.bot.data.species_by_name(pokemon)
                 ctx = await self.bot.get_context(message)
