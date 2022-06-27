@@ -151,6 +151,7 @@ class Image_Text(discord.ui.View):
             embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
 
         if 1 == 2:
+          print("idk")
         else:
             embed.set_thumbnail(url=species.image_url)
 
