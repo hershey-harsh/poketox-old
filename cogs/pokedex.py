@@ -61,13 +61,7 @@ def make_name_embed(url, pokemon, filename):
 async def blocked_make_name_embed(url, pokemon, filename):
   loop = asyncio.get_running_loop()
   
-  species = _bot.data.species_by_name(pokemon)
-  try:
-    description = species.description
-  except:
-    description = f"The pokémon spawned is {pokemon}" 
-  
-  result = await loop.run_in_executor(None, make_name_embed, url, pokemon, description, filename)
+  result = await loop.run_in_executor(None, make_name_embed, url, pokemon, filename)
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
