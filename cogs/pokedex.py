@@ -110,10 +110,10 @@ def make_name_embed(bot, url, pokemon, filename, desc=None):
     pokemon_alt.sort(key=len)
     
     try:
-    if pokemon != pokemon_alt[1]:
-      desc = reduce(lambda a, kv: a.replace(*kv), repls, pokemon_alt[1])
-      with Pilmoji(back_im) as pilmoji:
-        pilmoji.text((15, 53), desc,(255,255,255),font=des_font, emoji_position_offset=(0, 3))
+      if pokemon != pokemon_alt[1]:
+        desc = reduce(lambda a, kv: a.replace(*kv), repls, pokemon_alt[1])
+        with Pilmoji(back_im) as pilmoji:
+          pilmoji.text((15, 53), desc,(255,255,255),font=des_font, emoji_position_offset=(0, 3))
         name_size_1 = 15
         name_size_2 = 15
     except:
