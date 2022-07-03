@@ -7,6 +7,12 @@ import config
 
 GENERAL_CHANNEL_NAMES = {"welcome", "general", "lounge", "chat", "talk", "main", ""}
 
+class But(discord.ui.View):
+    def __init__(self, query: str):
+        super().__init__()
+        self.add_item(discord.ui.Button(label='Command Usage', url=query))
+        self.add_item(discord.ui.Button(label='Community Server', url="https://discord.gg/XmbRtpr4"))
+
 class Error_Hand(commands.Cog):
     """For basic bot operation."""
 
@@ -79,7 +85,7 @@ class Error_Hand(commands.Cog):
             
         elif isinstance(error, commands.MissingRequiredArgument):
             commands_link = {
-            
+                
                 "sh view" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-view",
                 "sh set" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-set",
                 "sh clear" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-clear",
@@ -108,10 +114,29 @@ class Error_Hand(commands.Cog):
                 "collectlist search" : "https://docs.poketox.me/collectlist-pings/collectlist-search",
                 "collectlist globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch",
             }
+            
+            commands_usage = {
+                
+                "shinyhunt view" : "a!shinyhunt view",
+                "shinyhunt set" : "a!shinyhunt set <pokémon>",
+                "shinyhunt clear" : "a!shinyhunt clear",
+                "shinyhunt search" : "a!shinyhunt search <pokémon>",
+                "shinyhunt globalsearch" : "a!shinyhunt globalsearch <pokémon>",
+                "collectlist view" : "a!collectlist view",
+                "collectlist add" : "a!collectlist add <pokémon>",
+                "collectlist multiadd" : "a!collectlist multiadd <pokémon1>, <pokémon2>, <pokémon3>",
+                "collectlist multiremove" : "a!collectlist multiremove <pokémon1>, <pokémon2>, <pokémon3>",
+                "collectlist remove" : "a!collectlist remove <pokémon>",
+                "collectlist clear" : "a!collectlist clear",
+                "collectlist search" : "a!collectlist search <pokémon>",
+                "collectlist globalsearch" : "a!collectlist globalsearch <pokémon>",
+            }
+            
             try:
                 full = f'{ctx.command.full_parent_name} {ctx.command.name}'
-                embed=discord.Embed(title="Command Error", description=f"Click `[{full.title()}]({commands_link[full]})` to read its command usage.", color=0x2F3136)
-                await ctx.send(embed=embed)
+                command_usg = commands_usage[full]
+                embed=discord.Embed(title="Command Error", description=f"Click the command or the button below to read more documentation on {full.title()}\n[```{command_usg.title()}```]({commands_link[full]})`", color=0x2F3136)
+                await ctx.send(embed=embed, view=But(commands_link[full]))
             except Exception as e:
                 print(e)
             
