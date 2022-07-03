@@ -54,8 +54,10 @@ class Error_Hand(commands.Cog):
    
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        
         if isinstance(error, commands.NoPrivateMessage):
             await ctx.send("This command cannot be used in private messages.")
+            
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.message.add_reaction("\N{HOURGLASS}")
             
@@ -77,16 +79,51 @@ class Error_Hand(commands.Cog):
             
         elif isinstance(error, commands.ConversionError):
             await ctx.send(error.original)
-                
-        elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send_help(ctx.command)
             
         elif isinstance(error, commands.CheckFailure):
             await ctx.send(error)
+            
         elif isinstance(error, commands.UserInputError):
             await ctx.send(error)
+            
         elif isinstance(error, commands.CommandNotFound):
             return
+        
+        elif isinstance(error, commands.MissingRequiredArgument):
+            commands_link = {
+            
+                "sh view" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-view",
+                "sh set" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-set",
+                "sh clear" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-clear",
+                "sh search" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-search",
+                "sh globalsearch" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-globalsearch",
+                "cl view" : "https://docs.poketox.me/collectlist-pings/collectlist-view",
+                "cl add" : "https://docs.poketox.me/collectlist-pings/collectlist-add",
+                "cl multiadd" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-add",
+                "cl multiremove" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-remove",
+                "cl remove" : "https://docs.poketox.me/collectlist-pings/collectlist-remove",
+                "cl clear" : "https://docs.poketox.me/collectlist-pings/collectlist-clear",
+                "cl search" : "https://docs.poketox.me/collectlist-pings/collectlist-search"
+                "cl globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch"
+
+                "shinyhunt view" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-view",
+                "shinyhunt set" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-set",
+                "shinyhunt clear" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-clear",
+                "shinyhunt search" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-search",
+                "shinyhunt globalsearch" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-globalsearch",
+                "collectlist view" : "https://docs.poketox.me/collectlist-pings/collectlist-view",
+                "collectlist add" : "https://docs.poketox.me/collectlist-pings/collectlist-add",
+                "collectlist multiadd" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-add",
+                "collectlist multiremove" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-remove",
+                "collectlist remove" : "https://docs.poketox.me/collectlist-pings/collectlist-remove",
+                "collectlist clear" : "https://docs.poketox.me/collectlist-pings/collectlist-clear",
+                "collectlist search" : "https://docs.poketox.me/collectlist-pings/collectlist-search"
+                "collectlist globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch"
+            }
+            
+            embed=discord.Embed(title="Command Error", description=f"({ctx.command.name})[{commands_link[ctx.command.name]}]", color=0x2F3136)
+            await ctx.send(embed=embed)
+        
         else:
             print(f"Ignoring exception in command {ctx.command}")
             traceback.print_exception(
