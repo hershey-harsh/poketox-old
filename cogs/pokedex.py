@@ -67,7 +67,7 @@ from functools import reduce
 
 repls = (':flag_jp:', '<:flag_jp:993180168304734338>'), (':flag_gb:', '<:flag_gb:993180161518354452>'), (':flag_de:', '<:flag_de:993180164626321439>'), (':flag_fr:', '<:flag_fr:993180166694117436>')
 
-def make_name_embed(url, pokemon, filename, desc=None):
+def make_name_embed(bot, url, pokemon, filename, desc=None):
 
   r = requests.get(url)
   im1 = Image.open('spawn_background.png')
