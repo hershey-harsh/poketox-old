@@ -28,8 +28,8 @@ class SpeciesConverter(commands.Converter):
             potential_matches = ctx.bot.data.closest_species_by_name(arg)
             
             if len(potential_matches) > 0:
-                potential_matches = " ".join(f"{x}" for x in potential_matches)
-                embed=discord.Embed(title="Pokémon not found", description="Could not find a pokémon matching `{arg}`. Maybe you meant something from the list below:")
+                potential_matches = "\n".join(f"{x.capitalize()}" for x in potential_matches)
+                embed=discord.Embed(title="Pokémon not found", description=f"Could not find a pokémon matching `{arg}`", color=0x2F3136)
                 embed.add_field(name="Possible Pokémons", value=potential_matches, inline=False)
 
             await ctx.send(embed=embed)
