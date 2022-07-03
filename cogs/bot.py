@@ -8,9 +8,10 @@ import config
 GENERAL_CHANNEL_NAMES = {"welcome", "general", "lounge", "chat", "talk", "main", ""}
 
 class But(discord.ui.View):
-    def __init__(self, query: str):
+    def __init__(self, query=None):
         super().__init__()
-        self.add_item(discord.ui.Button(label='Command Usage', url=query))
+        if query is not None:
+            self.add_item(discord.ui.Button(label='Command Usage', url=query))
         self.add_item(discord.ui.Button(label='Community Server', url="https://discord.gg/XmbRtpr4"))
 
 class Error_Hand(commands.Cog):
@@ -62,13 +63,20 @@ class Error_Hand(commands.Cog):
     async def on_command_error(self, ctx, error):
         
         if isinstance(error, commands.NoPrivateMessage):
-            await ctx.send("This command cannot be used in private messages.")
+            
+            full = ctx.command.full_parent_name
+            if ctx.command.name is not None:
+                full = full+" "+ctx.command.name
+            
+            embed=discord.Embed(title="Command Unusable", description=f"{full.title()} is unusable in private messages. Try running {full.title()} in a server.", color=0x2F3136)
+            await ctx.send(embed=embed, view=But())
             
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.message.add_reaction("\N{HOURGLASS}")
             
         elif isinstance(error, commands.DisabledCommand):
-            await ctx.send("Sorry. This command is disabled and cannot be used.")
+            embed=discord.Embed(title="Command Disabled", description=f"{full.title()} is disabled. Check <#968961636826243112> in the Community Server for updates.", color=0x2F3136)
+            await ctx.send(embed=embed, view=But())
             
         elif isinstance(error, commands.BotMissingPermissions):
             missing = [
@@ -85,20 +93,6 @@ class Error_Hand(commands.Cog):
             
         elif isinstance(error, commands.MissingRequiredArgument):
             commands_link = {
-                
-                "sh view" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-view",
-                "sh set" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-set",
-                "sh clear" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-clear",
-                "sh search" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-search",
-                "sh globalsearch" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-globalsearch",
-                "cl view" : "https://docs.poketox.me/collectlist-pings/collectlist-view",
-                "cl add" : "https://docs.poketox.me/collectlist-pings/collectlist-add",
-                "cl multiadd" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-add",
-                "cl multiremove" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-remove",
-                "cl remove" : "https://docs.poketox.me/collectlist-pings/collectlist-remove",
-                "cl clear" : "https://docs.poketox.me/collectlist-pings/collectlist-clear",
-                "cl search" : "https://docs.poketox.me/collectlist-pings/collectlist-search",
-                "cl globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch",
 
                 "shinyhunt view" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-view",
                 "shinyhunt set" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-set",
@@ -133,9 +127,13 @@ class Error_Hand(commands.Cog):
             }
             
             try:
-                full = f'{ctx.command.full_parent_name} {ctx.command.name}'
+                full = ctx.command.full_parent_name
+                
+                if ctx.command.name is not None:
+                    full = full+" "+ctx.command.name
+                    
                 command_usg = commands_usage[full]
-                embed=discord.Embed(title="Command Error", description=f"Click the command or the button below to read more documentation\n on {full}\n[```{command_usg}```]({commands_link[full]})", color=0x2F3136)
+                embed=discord.Embed(title="Command Error", description=f"Click the command or the button below to read more \ndocumentation on {full}\n[```{command_usg}```]({commands_link[full]})", color=0x2F3136)
                 await ctx.send(embed=embed, view=But(commands_link[full]))
             except Exception as e:
                 print(e)
