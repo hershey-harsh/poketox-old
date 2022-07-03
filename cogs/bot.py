@@ -103,8 +103,8 @@ class Error_Hand(commands.Cog):
                 "cl multiremove" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-remove",
                 "cl remove" : "https://docs.poketox.me/collectlist-pings/collectlist-remove",
                 "cl clear" : "https://docs.poketox.me/collectlist-pings/collectlist-clear",
-                "cl search" : "https://docs.poketox.me/collectlist-pings/collectlist-search"
-                "cl globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch"
+                "cl search" : "https://docs.poketox.me/collectlist-pings/collectlist-search",
+                "cl globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch",
 
                 "shinyhunt view" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-view",
                 "shinyhunt set" : "https://docs.poketox.me/shiny-hunt-pings/shiny-hunt-set",
@@ -117,8 +117,8 @@ class Error_Hand(commands.Cog):
                 "collectlist multiremove" : "https://docs.poketox.me/collectlist-pings/collectlist-multi-remove",
                 "collectlist remove" : "https://docs.poketox.me/collectlist-pings/collectlist-remove",
                 "collectlist clear" : "https://docs.poketox.me/collectlist-pings/collectlist-clear",
-                "collectlist search" : "https://docs.poketox.me/collectlist-pings/collectlist-search"
-                "collectlist globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch"
+                "collectlist search" : "https://docs.poketox.me/collectlist-pings/collectlist-search",
+                "collectlist globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch",
             }
             
             embed=discord.Embed(title="Command Error", description=f"({ctx.command.name})[{commands_link[ctx.command.name]}]", color=0x2F3136)
