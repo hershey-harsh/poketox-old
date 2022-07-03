@@ -745,6 +745,19 @@ class DataManagerBase:
     def all_species_by_number(self, number: int) -> Species:
         return self.species_by_dex_number_index.get(number, [])
 
+    def closest_species_by_name(self, name: str) -> [Species]:
+        potential_names = []
+        for poke in self.pokemon.values():
+            for guess in poke.correct_guesses:
+                cleaned_up_name = (deaccent(name.lower().replace("′", "'")))
+                if guess in cleaned_up_name or cleaned_up_name in guess:
+                    if (len(potential_names) > 5):
+                        return potential_names
+                    potential_names.append(guess)
+                    break
+
+        return potential_names
+    
     def all_species_by_name(self, name: str) -> Species:
         return self.species_by_name_index.get(deaccent(name.lower().replace("′", "'")), [])
 
