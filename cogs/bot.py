@@ -77,18 +77,6 @@ class Error_Hand(commands.Cog):
             except:
                 pass
             
-        elif isinstance(error, commands.ConversionError):
-            await ctx.send(error.original)
-            
-        elif isinstance(error, commands.CheckFailure):
-            await ctx.send(error)
-            
-        elif isinstance(error, commands.UserInputError):
-            await ctx.send(error)
-            
-        elif isinstance(error, commands.CommandNotFound):
-            return
-        
         elif isinstance(error, commands.MissingRequiredArgument):
             commands_link = {
             
@@ -121,10 +109,22 @@ class Error_Hand(commands.Cog):
                 "collectlist globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch",
             }
             try:
-                embed=discord.Embed(title="Command Error", description=f"{ctx.command.name}", color=0x2F3136)
+                embed=discord.Embed(title="Command Error", description=f"({ctx.command.name})[{commands_link[str(ctx.command.name)]}]", color=0x2F3136)
                 await ctx.send(embed=embed)
             except Exception as e:
                 print(e)
+            
+        elif isinstance(error, commands.ConversionError):
+            await ctx.send(error.original)
+            
+        elif isinstance(error, commands.CheckFailure):
+            await ctx.send(error)
+            
+        elif isinstance(error, commands.UserInputError):
+            await ctx.send(error)
+            
+        elif isinstance(error, commands.CommandNotFound):
+            return
         
         else:
             print(f"Ignoring exception in command {ctx.command}")
