@@ -22,6 +22,7 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
+test = """
 def make_name_embed(url, pokemon, filename):
   r = requests.get(url)
   im1 = Image.open('spawn_background.png')
@@ -56,6 +57,69 @@ def make_name_embed(url, pokemon, filename):
 
   draw = ImageDraw.Draw(back_im)
   draw.text((13, 25),pokemon,(255,255,255),font=font)
+
+  back_im.save(f'{filename}.png', quality=100, subsampling=0)
+  return "Hi"
+"""
+
+a!jsk py
+```py
+import requests
+from pilmoji import Pilmoji
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageDraw
+from io import BytesIO
+from functools import reduce
+
+repls = (':flag_jp:', '<:flag_jp:993180168304734338>'), (':flag_gb:', '<:flag_gb:993180161518354452>'), (':flag_de:', '<:flag_de:993180164626321439>'), (':flag_fr:', '<:flag_fr:993180166694117436>')
+
+def make_name_embed(url, pokemon, filename, desc=None):
+
+  r = requests.get(url)
+  im1 = Image.open('spawn_background.png')
+  im2 = Image.open(BytesIO(r.content))
+  
+  im1 = im1.resize((312, 92))
+
+  if "alolan" in pokemon.lower():
+    im1 = im1.resize((402, 112))
+
+  if "hisuian" in pokemon.lower():
+    im1 = im1.resize((402, 112))
+
+  resized_image = im2.resize((75, 75))
+  resized_image.save("new_test.png", quality=100, subsampling=0)
+
+  back_im = im1.copy()
+
+  if "alolan" in pokemon.lower():
+    font = ImageFont.truetype("TitanOne-Regular.ttf", 25)
+    back_im.paste(resized_image, (300, 15), mask=resized_image)
+
+  elif "hisuian" in pokemon.lower():
+    font = ImageFont.truetype("TitanOne-Regular.ttf", 25)
+    back_im.paste(resized_image, (300, 15), mask=resized_image)
+
+  else:
+    back_im.paste(resized_image, (229, 9), mask=resized_image)
+    font = ImageFont.truetype("TitanOne-Regular.ttf", 35)
+  
+  des_font = ImageFont.truetype("TitanOne-Regular.ttf", 20)
+
+  draw = ImageDraw.Draw(back_im)
+  draw.text((15, 15),pokemon,(255,255,255),font=font)
+
+  if desc is not None:
+    pokemon_alt = []
+    species = _bot.data.species_by_name(pokemon)
+    for x, y in species.names:
+      pokemon_alt.append(f'{x} {y}')
+    desc = reduce(lambda a, kv: a.replace(*kv), repls, pokemon_alt[1])
+
+pokemon_alt.sort(key=len)
+    desc = reduce(lambda a, kv: a.replace(*kv), repls, desc)
+
+    with Pilmoji(back_im) as pilmoji:
+      pilmoji.text((15, 53), desc,(255,255,255),font=des_font, emoji_position_offset=(0, 3))
 
   back_im.save(f'{filename}.png', quality=100, subsampling=0)
   return "Hi"
