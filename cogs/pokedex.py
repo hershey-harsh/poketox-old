@@ -100,8 +100,6 @@ def make_name_embed(bot, url, pokemon, filename, desc=None):
   
   des_font = ImageFont.truetype("TitanOne-Regular.ttf", 20)
 
-  draw = ImageDraw.Draw(back_im)
-  draw.text((15, 15),pokemon,(255,255,255),font=font)
 
   if desc is not None:
     
@@ -111,19 +109,28 @@ def make_name_embed(bot, url, pokemon, filename, desc=None):
       pokemon_alt.append(f'{x} {y}')
     pokemon_alt.sort(key=len)
     
+    try:
     if pokemon != pokemon_alt[1]:
       desc = reduce(lambda a, kv: a.replace(*kv), repls, pokemon_alt[1])
-
-    with Pilmoji(back_im) as pilmoji:
-      pilmoji.text((15, 53), desc,(255,255,255),font=des_font, emoji_position_offset=(0, 3))
-
+      with Pilmoji(back_im) as pilmoji:
+        pilmoji.text((15, 53), desc,(255,255,255),font=des_font, emoji_position_offset=(0, 3))
+        name_size_1 = 15
+        name_size_2 = 15
+    except:
+        name_size_1 = 15
+        name_size_2 = 25
+        pass
+  
+  draw = ImageDraw.Draw(back_im)
+  draw.text((name_size_1, name_size_2),pokemon,(255,255,255),font=font)
+      
   back_im.save(f'{filename}.png', quality=100, subsampling=0)
   return "Hi"
 
-async def blocked_make_name_embed(url, pokemon, filename):
+async def blocked_make_name_embed(bot, url, pokemon, filename):
   loop = asyncio.get_running_loop()
   
-  result = await loop.run_in_executor(None, make_name_embed, url, pokemon, filename)
+  result = await loop.run_in_executor(None, make_name_embed, bot, url, pokemon, filename, "Test")
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
@@ -334,8 +341,8 @@ class Pokedex(commands.Cog):
           #embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
         
           filename = random.choice(string.ascii_letters)
-          await blocked_make_name_embed(species.image_url, species.name, filename)
-          await message.reply("**Want the bot?** Type a!invite", file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
+          await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
+          await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
           os.remove(f'{filename}.png')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
@@ -430,8 +437,8 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
           filename = random.choice(string.ascii_letters)
-          await blocked_make_name_embed(species.image_url, species.name, filename)
-          await message.reply("**Want the bot?** Type a!invite", file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
+          await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
+          await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
           os.remove(f'{filename}.png')
           if pokemon in rare_pokes:
             
