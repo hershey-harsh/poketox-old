@@ -104,14 +104,15 @@ def make_name_embed(url, pokemon, filename, desc=None):
   draw.text((15, 15),pokemon,(255,255,255),font=font)
 
   if desc is not None:
+    
     pokemon_alt = []
     species = _bot.data.species_by_name(pokemon)
     for x, y in species.names:
       pokemon_alt.append(f'{x} {y}')
-    desc = reduce(lambda a, kv: a.replace(*kv), repls, pokemon_alt[1])
-
-pokemon_alt.sort(key=len)
-    desc = reduce(lambda a, kv: a.replace(*kv), repls, desc)
+    pokemon_alt.sort(key=len)
+    
+    if pokemon != pokemon_alt[1]:
+      desc = reduce(lambda a, kv: a.replace(*kv), repls, pokemon_alt[1])
 
     with Pilmoji(back_im) as pilmoji:
       pilmoji.text((15, 53), desc,(255,255,255),font=des_font, emoji_position_offset=(0, 3))
