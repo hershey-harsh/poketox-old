@@ -106,7 +106,7 @@ def make_name_embed(url, pokemon, filename, desc=None):
   if desc is not None:
     
     pokemon_alt = []
-    species = self.bot.data.species_by_name(pokemon)
+    species = bot.data.species_by_name(pokemon)
     for x, y in species.names:
       pokemon_alt.append(f'{x} {y}')
     pokemon_alt.sort(key=len)
