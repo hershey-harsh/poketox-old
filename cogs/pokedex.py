@@ -282,11 +282,16 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1)
 
           if pokemon in rare_pokes:
+            
                         
                 ctx = await self.bot.get_context(message)
                 guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
 
                 try:
+                            
+                    if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                      return
+                  
                     roleid = guild["rareping"]
                     await message.channel.send(f'<@&{roleid}>')
                 
