@@ -62,12 +62,7 @@ def make_name_embed(url, pokemon, filename):
   return "Hi"
 """
 
-a!jsk py
-```py
-import requests
 from pilmoji import Pilmoji
-from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageDraw
-from io import BytesIO
 from functools import reduce
 
 repls = (':flag_jp:', '<:flag_jp:993180168304734338>'), (':flag_gb:', '<:flag_gb:993180161518354452>'), (':flag_de:', '<:flag_de:993180164626321439>'), (':flag_fr:', '<:flag_fr:993180166694117436>')
