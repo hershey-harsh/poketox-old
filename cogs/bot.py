@@ -110,7 +110,7 @@ class Error_Hand(commands.Cog):
             }
             try:
                 full = f'{ctx.command.full_parent_name} {ctx.command.name}'
-                embed=discord.Embed(title="Command Error", description=f"[{full.title()}]({commands_link[full]})", color=0x2F3136)
+                embed=discord.Embed(title="Command Error", description=f"Click `[{full.title()}]({commands_link[full]})` to read its command usage.", color=0x2F3136)
                 await ctx.send(embed=embed)
             except Exception as e:
                 print(e)
