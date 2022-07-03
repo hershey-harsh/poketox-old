@@ -120,9 +120,11 @@ class Error_Hand(commands.Cog):
                 "collectlist search" : "https://docs.poketox.me/collectlist-pings/collectlist-search",
                 "collectlist globalsearch" : "https://docs.poketox.me/collectlist-pings/collectlist-globalsearch",
             }
-            
-            embed=discord.Embed(title="Command Error", description=f"({ctx.command.name})[{commands_link[ctx.command.name]}]", color=0x2F3136)
+            try:
+            embed=discord.Embed(title="Command Error", description=f"({ctx.command.name})[{commands_link[str(ctx.command.name)]}]", color=0x2F3136)
             await ctx.send(embed=embed)
+            except Exception as e:
+                print(e)
         
         else:
             print(f"Ignoring exception in command {ctx.command}")
