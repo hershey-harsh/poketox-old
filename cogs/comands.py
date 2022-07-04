@@ -33,21 +33,9 @@ class comands(commands.Cog):
     @commands.hybrid_command()
     async def giveaway(self, ctx):
         await ctx.send(
-                "**Grand Prizes**\n"
-                "<:_:984604917312417873> ✨ Eternal Flower Floette\n"
-                "<:_:986009578380603492> ✨ Cherry Blossom Cottonee\n"
-                "<:_:986009579076845620> ✨ Sprouting Oddish\n\n"
-                
-                "**Other Prizes**\n"
-                "<:_:984604914045054986> ✨ Machop\n"
-                "<:_:984604915273965659> ✨ Manectric\n"
-                "<:_:984604916351901706> ✨ Spheal\n"
-                "<:_:986009576132448259> ✨ Venipede\n"
-                "<:_:986009577483018270> ✨ Sewaddle\n"
-                "<:__:986010600238882876> ✨ Rhydon\n"
-                "<:__:986029464351801364> ✨ Bagon\n"
-                "<:__:986029465278742638> ✨ Oshawott\n\n"
-                "There are a total of `10` winners. To participate in this giveaway you must join https://discord.gg/rM9SKBygnW after joining check <#968958727292080198> for the giveaway"
+                "**Prize**\n"
+                "<:eevee:993328849502875749> ✨ Autumn Eevee\n\n"
+                "To participate in this giveaway you must join https://discord.gg/rM9SKBygnW after joining check <#968958727292080198> for the giveaway."
         )
         
     @commands.Cog.listener()
