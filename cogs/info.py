@@ -30,7 +30,7 @@ def voted(userid):
 async def get_nature_embed(poke):
         with open('data/nature.json') as f:
           nature = json.load(f)
-        mature = nature[poke.name.lower()]
+        mature = nature[poke.lower()]
 
         embd=discord.Embed(title=f"{poke.capitalize()}'s Nature", description=f"The best nature of {poke}.", color=0x2F3136)
 
@@ -42,7 +42,7 @@ async def get_moveset_embed(poke):
 
         with open('data/moveset.json') as f:
           movese = json.load(f)
-        ms = movese[poke.name.lower()]
+        ms = movese[poke.lower()]
 
         embd=discord.Embed(title=f"{poke.capitalize()}'s Moveset", description="The more **HP, Defense, Speed Defense, Speed** the better chance of winning battles.", color=0x2F3136)
 
@@ -54,7 +54,7 @@ async def get_stats_embed(pokemon):
 
         with open('data/stats.json') as f:
           pokes = json.load(f)
-        name = pokes[pokemon.name.lower()]
+        name = pokes[pokemon.lower()]
 
         embd=discord.Embed(title=f"{pokemon.capitalize()}'s Stats", description="The more **HP, Defense, Speed Defense, Speed** the better stats.", color=0x2F3136)
 
