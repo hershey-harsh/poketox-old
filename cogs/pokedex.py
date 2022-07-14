@@ -25,9 +25,10 @@ import json
 import requests
 
 class Dropdown(discord.ui.Select):
-    def __init__(self, ctx, pokemon_name):
+    def __init__(self, ctx, pokemon_name, bot):
         self.ctx = ctx
         self.pokemon_name = pokemon_name
+        self.bot = bot
 
         options = [
             discord.SelectOption(label='Dex Info', description=f'View dex info for {self.pokemon_name}'),
@@ -46,7 +47,7 @@ class Dropdown(discord.ui.Select):
 
         if self.values[0] == "Dex Info":
 
-          species = self.pokemon
+          species = self.pokemon_name
       
           if species.isdigit():
             species = self.bot.data.species_by_number(int(species))
@@ -152,10 +153,11 @@ class Dropdown(discord.ui.Select):
             
 
 class DropdownView(discord.ui.View):
-    def __init__(self, ctx, pokemon_name):
+    def __init__(self, ctx, pokemon_name, bot):
         super().__init__()
         self.ctx = ctx
         self.pokemon_name = pokemon_name
+        self.bot = bot
 
         # Adds the dropdown to our view object.
         self.add_item(Dropdown(self.ctx, self.pokemon_name))
@@ -480,7 +482,7 @@ class Pokedex(commands.Cog):
         
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name))
+          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, bot))
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
@@ -578,7 +580,7 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1)
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name))
+          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, bot))
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
