@@ -7,6 +7,8 @@ import asyncio
 import os
 import datetime
 
+from cogs import info
+
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageDraw
 import requests
 from io import BytesIO
@@ -21,6 +23,142 @@ from helpers import checks
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
+
+class Dropdown(discord.ui.Select):
+    def __init__(self, ctx, pokemon_name):
+        self.ctx = ctx
+        self.pokemon_name = pokemon_name
+
+        options = [
+            discord.SelectOption(label='Dex Info', description=f'View dex info for {self.pokemon_name}'),
+            discord.SelectOption(label='Nature', description=f'View nature for {self.pokemon_name}'),
+            discord.SelectOption(label='Weakness', description=f'View weakness for {self.pokemon_name}'),
+            discord.SelectOption(label='Names', description=f'View all names for {self.pokemon_name}'),
+            discord.SelectOption(label='Statistics', description=f'View statistics for {self.pokemon_name}'),
+            discord.SelectOption(label='Duel Statistics', description=f'View duelish statistics for {self.pokemon_name}'),
+            discord.SelectOption(label='Moveset', description=f'View movesets for {self.pokemon_name}'),
+            discord.SelectOption(label='Spawn Rate', description=f'View spawnrate for {self.pokemon_name}'),
+        ]
+
+        super().__init__(placeholder='Choose the category', min_values=1, max_values=1, options=options)
+
+    async def callback(self, interaction: discord.Interaction):
+
+        if self.values[0] == "Dex Info":
+
+          species = self.pokemon
+      
+          if species.isdigit():
+            species = self.bot.data.species_by_number(int(species))
+          else:
+            if species.lower().startswith("shiny "):
+                shiny = True
+                species = species[6:]
+
+            species = self.bot.data.species_by_name(species)
+
+            embed = discord.Embed(color=0x2F3136)
+            embed.title = f"#{species.dex_number} — {species}"
+
+            if species.description:
+              embed.description = species.description.replace("\n", " ")
+
+            rarity = []
+            if species.mythical:
+              rarity.append("Mythical")
+            if species.legendary:
+              rarity.append("Legendary")
+            if species.ultra_beast:
+              rarity.append("Ultra Beast")
+            if species.event:
+              rarity.append("Event")
+
+            if rarity:
+              rarity = ", ".join(rarity)
+              embed.add_field(
+                  name="Rarity",
+                  value=rarity,
+                  inline=False,
+              )
+
+            if species.evolution_text:
+              embed.add_field(name="Evolution", value=species.evolution_text, inline=False)
+            
+            embed.set_thumbnail(url=species.image_url)
+            
+            base_stats = (
+                f"**HP:** {species.base_stats.hp}",
+                f"**Attack:** {species.base_stats.atk}",
+                f"**Defense:** {species.base_stats.defn}",
+                f"**Sp. Atk:** {species.base_stats.satk}",
+                f"**Sp. Def:** {species.base_stats.sdef}",
+                f"**Speed:** {species.base_stats.spd}",
+            )
+
+            embed.add_field(
+                name="Names",
+                value="\n".join(f"{x} {y}" for x, y in species.names),
+            )
+            embed.add_field(name="Base Stats", value="\n".join(base_stats))
+            embed.add_field(name="Types", value="\n".join(species.types))
+
+            await interaction.response.send_message(embed=embed,ephemeral=True)
+      
+        if self.values[0] == "Nature":
+          try:
+            reply = await info.get_nature_embed(self.pokemon_name)
+          except:
+            reply=discord.Embed(title=f"Data does not exist on {self.pokemon_name}", color=0x2f3136)
+          await interaction.response.send_message(embed=reply,ephemeral=True)
+            
+        if self.values[0] == "Names":
+          species = self.bot.data.species_by_name(self.pokemon_name)
+          embed=discord.Embed(title=f"Names for {self.pokemon_name}", description="\n".join(f"{x} {y}" for x, y in species.names), color=0x2f3136)
+          await interaction.response.send_message(embed=embed,ephemeral=True)
+          
+            
+        if self.values[0] == "Statistics":
+          species = self.bot.data.species_by_name(self.pokemon_name)
+
+          base_stats = (
+            f"**HP:** {species.base_stats.hp}",
+            f"**Attack:** {species.base_stats.atk}",
+            f"**Defense:** {species.base_stats.defn}",
+            f"**Sp. Atk:** {species.base_stats.satk}",
+            f"**Sp. Def:** {species.base_stats.sdef}",
+            f"**Speed:** {species.base_stats.spd}",
+          )
+            
+            
+        if self.values[0] == "Duel Statistics":
+          try:
+            reply = await info.get_stats_embed(self.pokemon_name)
+          except:
+            reply=discord.Embed(title=f"Data does not exist on {self.pokemon_name}", color=0x2f3136)
+          await interaction.response.send_message(embed=reply,ephemeral=True)
+            
+        if self.values[0] == "Moveset":
+          try:
+            reply = await info.get_moveset_embed(self.pokemon_name)
+          except:
+            reply=discord.Embed(title=f"Data does not exist on {self.pokemon_name}", color=0x2f3136)
+          await interaction.response.send_message(embed=reply,ephemeral=True)
+          
+        if self.values[0] == "Weakness":
+          return
+          
+        if self.values[0] == "Spawn Rate":
+          return
+            
+
+class DropdownView(discord.ui.View):
+    def __init__(self, ctx, pokemon_name):
+        super().__init__()
+        self.ctx = ctx
+        self.pokemon_name = pokemon_name
+
+        # Adds the dropdown to our view object.
+        self.add_item(Dropdown(self.ctx, self.pokemon_name))
 
 test = """
 def make_name_embed(url, pokemon, filename):
@@ -274,7 +412,7 @@ class Pokedex(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.daily_task.start()
-    self._free = commands.CooldownMapping.from_cooldown(1, 20.0, commands.BucketType.guild)
+    self._free = commands.CooldownMapping.from_cooldown(1, 10.0, commands.BucketType.guild)
 
   def get_ratelimit(self, message):
         bucket = self._free.get_bucket(message)
@@ -342,7 +480,7 @@ class Pokedex(commands.Cog):
         
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
+          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name))
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
@@ -440,7 +578,7 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1)
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=Image_Text(species.name, species.image_url, self.bot))
+          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name))
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
