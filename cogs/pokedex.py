@@ -162,7 +162,7 @@ class DropdownView(discord.ui.View):
         self.bot = bot
 
         # Adds the dropdown to our view object.
-        self.add_item(Dropdown(self.ctx, self.pokemon_name))
+        self.add_item(Dropdown(self.ctx, self.pokemon_name, self.bot))
 
 test = """
 def make_name_embed(url, pokemon, filename):
