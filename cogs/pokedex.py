@@ -145,6 +145,8 @@ class Dropdown(discord.ui.Select):
             reply=discord.Embed(title=f"Data does not exist on {self.pokemon_name}", color=0x2f3136)
           await interaction.response.send_message(embed=reply,ephemeral=True)
           
+        print("Ran " + self.values[0])
+            
         if self.values[0] == "Weakness":
           return
           
@@ -482,7 +484,7 @@ class Pokedex(commands.Cog):
         
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, bot))
+          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
@@ -580,7 +582,7 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1)
           filename = random.choice(string.ascii_letters)
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, bot))
+          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
