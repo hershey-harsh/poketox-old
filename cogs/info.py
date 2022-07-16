@@ -75,7 +75,7 @@ class stats(commands.Cog):
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
         pokemon = self.bot.data.species_by_name(pokemon)
-        reply = await get_nature_embed(pokemon)
+        reply = await get_nature_embed(pokemon.name)
         await ctx.send(embed=reply)
   
     @checks.has_started()
@@ -88,7 +88,7 @@ class stats(commands.Cog):
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
         pokemon = self.bot.data.species_by_name(pokemon)
-        reply = await get_stats_embed(pokemon)
+        reply = await get_stats_embed(pokemon.name)
         await ctx.reply(embed=reply)
 
     @checks.has_started()
@@ -101,7 +101,7 @@ class stats(commands.Cog):
                 embed.add_field(name="Vote for the bot", value="[Top.gg bot voting](https://top.gg/bot/875526899386953779/vote)", inline=True)
                 return await ctx.send(embed=embed)
         pokemon = self.bot.data.species_by_name(pokemon)
-        reply = await get_moveset_embed(pokemon)
+        reply = await get_moveset_embed(pokemon.name)
         await ctx.reply(embed=reply)
 
     @checks.has_started()
