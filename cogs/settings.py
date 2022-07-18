@@ -78,22 +78,22 @@ class catch_log(commands.Cog):
                 embed.set_thumbnail(url=ctx.guild.icon.url)
                 await ctx.send(embed=embed)
     
+    @checks.has_started()
+    @setup.command(brief="Setup automatic starboard")
+    async def starboard(self, ctx, channel : discord.TextChannel):
+    
+                await self.bot.mongo.update_guild(
+                    ctx.guild, {"$set": {"starboard": str(channel.id)}}
+                )
+      
+                embed=discord.Embed(title="Starboard", description=f"All Rare pokémons will be sent to {channel.mention}", color=0x36393F)
+                embed.set_thumbnail(url=ctx.guild.icon.url)
+                await ctx.send(embed=embed)
     
     @checks.has_started()
     @commands.has_permissions(manage_messages=True)
     @commands.hybrid_command(brief="Toggle server settings")
     async def toggle(self, ctx, select: Literal['Naming']):
-        if select == "Raredex Setup":
-            if role is None:
-                return await ctx.send("Please use the Role option")
-            else:
-                await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"rareping": str(role.id)}}
-                )
-      
-                embed=discord.Embed(title="Raredex", description=f"{role.mention} will be pinged when a Rare pokémon spawns", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
             
         if select == "Naming":
             guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
@@ -116,23 +116,11 @@ class catch_log(commands.Cog):
             embed=discord.Embed(title="Spawn Naming", description=f"Toggled spawn naming to {mode}", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
-            
-        if select == "Starboard":
-            if channel is None:
-                return await ctx.send("Please use the Channel option")
-            else:
-                await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"starboard": str(channel.id)}}
-                )
-      
-                embed=discord.Embed(title="Starboard", description=f"All Rare pokémons will be sent to {channel.mention}", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Disable your settings")
-    async def disable(self, ctx, select: Literal['Pings', 'Rare Dex']):
+    async def disable(self, ctx, select: Literal['Pings', 'Rare Pings', 'Alolan Pings', 'Galarian Pings', 'Hisuian Pings']):
 
         guildid = ctx.guild.id      
       
@@ -283,12 +271,9 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Enable your settings")
-    async def enable(self, ctx, select: Literal['Pings', 'Catch Logs', 'Rare Dex'], serverid: Optional[str] = None, shinyhunt: Optional[Literal['Enable']] = None, collectlist: Optional[Literal['Enable']] = None):
-
-        guildid = serverid
-      
-        if guildid == None:
-          guildid = ctx.guild.id      
+    async def enable(self, ctx, select: Literal['Pings', 'Rare Pings', 'Alolan Pings', 'Galarian Pings', 'Hisuian Pings']):
+        
+        guildid = ctx.guild.id      
       
         if select == "Pings":
           enabl="""
