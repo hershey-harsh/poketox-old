@@ -276,6 +276,10 @@ async def blocked_make_name_embed(bot, url, pokemon, filename):
 
 no_spawn = [844392814485831710, 856328341702836265, 772557819303297054, 849169202966429696]
 
+hisuian = ["Hisuian Growlithe", "Hisuian Arcanine", "Hisuian Voltorb", "Hisuian Electrode", "Hisuian Typhlosion", "Hisuian Qwilfish", "Hisuian Sneasel", "Hisuian Samurott", "Hisuian Lilligant", "Hisuian Zorua", "Hisuian Zoroark", "Hisuian Braviary", "Hisuian Sliggoo", "Hisuian Goodra", "Hisuian Avalugg", "Hisuian Decidueye", "Sneasler", "Overqwil", "Wyrdeer", "Ursaluna"]
+alolan = ["Alolan Rattata", "Alolan Raticate", "Alolan Raichu", "Alolan Sandshrew", "Alolan Sandslash", "Alolan Vulpix", "Alolan Ninetales", "Alolan Diglett", "Alolan Dugtrio", "Alolan Meowth", "Alolan Persian", "Alolan Geodude", "Alolan Graveler", "Alolan Golem", "Alolan Grimer", "Alolan Muk", "Alolan Exeggutor", "Alolan Marowak"]
+galarian = ["Galarian Zigzagoon", "Galarian Linoone", "Obstagoon", "Galarian Meowth", "Perrserker", "Galarian Ponyta", "Galarian Rapidash", "Galarian Slowpoke", "Galarian Slowbro", "Galarian Slowking", "Galarian Corsola", "Cursola", "Galarian Farfetch’d", "Sirfetch'd", "Galarian Weezing", "Galarian Mr. Mime", "Mr. Rime", "Galarian Darumaka", "Galarian Darmanitan", "Galarian Yamask", "Runerigus", "Galarian Stunfisk", "Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
+
 with open("pokemon.txt","r",encoding="utf8") as file:
     pokemon_list_string = file.read()
     
@@ -491,33 +495,51 @@ class Pokedex(commands.Cog):
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
-
-          if pokemon in rare_pokes:
-            
                         
-                ctx = await self.bot.get_context(message)
-                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-
-                try:
-                            
-                    if guild['specialized'] and ctx.channel.id not in guild['specialized']:
-                      return
-                  
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'<@&{roleid}>')
+          ctx = await self.bot.get_context(message)
+          guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
                 
+          try:
+            await collectors.shinyping(self, ctx, species)
+            await collectors.collectping(self, ctx, species)
+          except:
+                pass
+            
+          try:
+            
+            if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                return
+            
+            if pokemon in rare_pokes:
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
                 except:
                     pass
                 
-          try:
-                await collectors.shinyping(self, ctx, species)
-                await collectors.collectping(self, ctx, species)
+            elif pokemon in hisuian:
+                try:
+                    roleid = guild["alolanping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
+            elif pokemon in alolan:
+                try:
+                    roleid = guild["galarianping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
+            elif pokemon in galarian:
+                try:
+                    roleid = guild["hisuianping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
           except:
-                pass
-
-          await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"spawn_count": str(total_count)}}
-          )
+            pass
     
   async def identify(self, img_url, message, plan):
     
@@ -586,46 +608,48 @@ class Pokedex(commands.Cog):
           os.remove(f'{filename}.png')
           embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
           await message.channel.send(embed=embed)
-          if pokemon in rare_pokes:
-            
-                        
-                ctx = await self.bot.get_context(message)
-                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-
-                try:
-                            
-                    if guild['specialized'] and ctx.channel.id not in guild['specialized']:
-                      return
-                  
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'<@&{roleid}>')
-                
-                except:
-                    pass
                 
           try:
                 await collectors.shinyping(self, ctx, species)
                 await collectors.collectping(self, ctx, species)
           except:
                 pass
-            
-          total_count = spawn_count + 1
-
-          await self.bot.mongo.update_guild(
-                    ctx.guild, {"$set": {"spawn_count": str(total_count)}}
-          )
-            
-          guild = await ctx.bot.mongo.fetch_total_count(ctx.guild)
-          
-          try:
-            total_count = int(guild["total_count"])
-          except:
-            total_count = 0
-            
-          await self.bot.mongo.update_total_count(
-                    ctx.guild, {"$set": {"total_count": str(total_count+1)}}
-          )
         
+          try:
+            
+            if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                return
+            
+            if pokemon in rare_pokes:
+                try:
+                    roleid = guild["rareping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
+            elif pokemon in hisuian:
+                try:
+                    roleid = guild["alolanping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
+            elif pokemon in alolan:
+                try:
+                    roleid = guild["galarianping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
+            elif pokemon in galarian:
+                try:
+                    roleid = guild["hisuianping"]
+                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
+                except:
+                    pass
+                
+          except:
+            pass
         
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
