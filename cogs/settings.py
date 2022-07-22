@@ -31,12 +31,14 @@ class catch_log(commands.Cog):
         self.bot = bot
     
     @checks.has_started()
+    @commands.has_permissions(manage_messages=True)
     @commands.hybrid_group()
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def setup(self, ctx):
         pass
     
     @checks.has_started()
+    @commands.has_permissions(manage_messages=True)
     @setup.command(brief="Setup specialized pings")
     async def ping(self, ctx, select: Literal['Rare Pings', 'Alolan Pings', 'Galarian Pings', 'Hisuian Pings'], role: discord.Role = None):
             if role is None:
