@@ -24,8 +24,6 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
-allowed = [950522564751544330, 716390085896962058]
-
 class Dropdown(discord.ui.Select):
     def __init__(self, ctx, pokemon_name, bot):
         self.ctx = ctx
@@ -299,6 +297,7 @@ total_rare_pokes = hisuian+alolan+galarian+rare_pokes
 whitelist = [859326781927194674, 772937584884056135]
 ad = ["Want to support the bot? Run `a!premium`", "Need help? Join our [server](https://discord.gg/YmVA2ah5tE)", "We have frequent giveaways! Join our [server](https://discord.gg/YmVA2ah5tE)", "Want the bot? Invite it [here](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)"]
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779]
+allowed = [950522564751544330, 716390085896962058]
 
 q = ["Xen is made by Future#9409", "Like the bot? Type -invite in the bot's DM", "Want to help? DM Future#9409", "Join the offical server! https://discord.gg/futureworld"]
 
@@ -664,7 +663,7 @@ class Pokedex(commands.Cog):
     
   
     
-    if message.embeds and message.author.id == 716390085896962058:
+    if message.embeds and message.author.id in allowed:
       if "wild" in message.embeds[0].title:
         
         free = self.get_ratelimit(message)
