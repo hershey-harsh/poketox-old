@@ -663,7 +663,7 @@ class Pokedex(commands.Cog):
     
   
     
-    if message.embeds and message.author.id in allowed:
+    if message.embeds and message.author.id == 716390085896962058:
       if "wild" in message.embeds[0].title:
         
         free = self.get_ratelimit(message)
@@ -674,10 +674,7 @@ class Pokedex(commands.Cog):
         
         if val == False:
             if free == None:
-                try:
                     await self.identify(message.embeds[0].image.url, message, message.jump_url)
-                except:
-                    return
             else:
                 try:
                     await message.add_reaction("⌛")
