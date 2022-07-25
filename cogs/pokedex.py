@@ -24,6 +24,8 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
+allowed = [950522564751544330, 716390085896962058]
+
 class Dropdown(discord.ui.Select):
     def __init__(self, ctx, pokemon_name, bot):
         self.ctx = ctx
@@ -282,15 +284,33 @@ galarian = ["Galarian Zigzagoon", "Galarian Linoone", "Obstagoon", "Galarian Meo
 
 with open("pokemon.txt","r",encoding="utf8") as file:
     pokemon_list_string = file.read()
+
+f = open('rare.txt', 'r')
+file = f.read()
+file = file.split('\n')
+
+rare_pokes = []
+for i in file:
+    if len(i) >= 3:
+        rare_pokes.append(i)
     
-with open("rare.txt","r",encoding="utf8") as file:
-    rare_pokes = file.read()
+total_rare_pokes = hisuian+alolan+galarian+rare_pokes
 
 whitelist = [859326781927194674, 772937584884056135]
 ad = ["Want to support the bot? Run `a!premium`", "Need help? Join our [server](https://discord.gg/YmVA2ah5tE)", "We have frequent giveaways! Join our [server](https://discord.gg/YmVA2ah5tE)", "Want the bot? Invite it [here](https://discord.com/oauth2/authorize?client_id=875526899386953779&scope=bot%20applications.commands&permissions=388168)"]
 allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779]
 
 q = ["Xen is made by Future#9409", "Like the bot? Type -invite in the bot's DM", "Want to help? DM Future#9409", "Join the offical server! https://discord.gg/futureworld"]
+
+class Jump(discord.ui.View):
+    def __init__(self, query: str):
+        super().__init__()
+        url = query
+
+        # Link buttons cannot be made with the decorator
+        # Therefore we have to manually create one.
+        # We add the quoted url to the button, and add the button to the view.
+        self.add_item(discord.ui.Button(label='Go to original message', url=url))
 
 class Confirm(discord.ui.View):
     def __init__(self, species, bot):
@@ -447,32 +467,6 @@ class Pokedex(commands.Cog):
                 allow_mode = guild["name"]
           except: 
                 allow_mode = "On"
-                
-          if allow_mode == "Off":
-                pokemon = await name.identifyy(img_url)
-                species = self.bot.data.species_by_name(pokemon)
-                ctx = await self.bot.get_context(message)
-                await collectors.shinyping(self, ctx, species)
-                await collectors.collectping(self, ctx, species)
-                
-                if pokemon in rare_pokes:
-                        
-                        ctx = await self.bot.get_context(message)
-                        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-                        
-                        try:
-                                guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-                            
-                                if guild['specialized'] and ctx.channel.id not in guild['specialized']:
-                                  return
-                                
-                                roleid = guild["rareping"]
-                                await message.channel.send(f'<@&{roleid}>')
-                
-                        except:
-                                pass
-                return
-        
         
           pokemon = await name.identifyy(img_url)
       
@@ -485,11 +479,12 @@ class Pokedex(commands.Cog):
           #embed1.add_field(name="Giveaway", value="Pokétox is having a giveaway worth over 5,000,000 pokécoins. Type `a!giveaway` to learn more!", inline=False)
           #embed1.set_thumbnail(url=species.image_url)
           #embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
-        
-          filename = random.choice(string.ascii_letters)
-          await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
-          os.remove(f'{filename}.png')
+          
+          if allow_mode is "On":
+            filename = random.choice(string.ascii_letters)
+            await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
+            await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
+            os.remove(f'{filename}.png')
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
@@ -538,6 +533,15 @@ class Pokedex(commands.Cog):
                 
           except:
             pass
+ 
+          try:
+            star_channel = self.bot.get_channel(int(guild["starboard"]))
+        
+            embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"Type `.catch {pokemon.lower()}` to catch it!", color=0x2f3136)
+            embed.set_thumbnail(url=species.image_url)
+            await star_channel.send(embed=embed, view=Jump(plan))
+          except:
+            pass
     
   async def identify(self, img_url, message, plan):
     
@@ -558,34 +562,7 @@ class Pokedex(commands.Cog):
           try:
                 allow_mode = guild["name"]
           except: 
-                allow_mode = "On"
-                
-          if allow_mode == "Off":
-                pokemon = await name.identifyy(img_url)
-                species = self.bot.data.species_by_name(pokemon)
-                ctx = await self.bot.get_context(message)
-                await collectors.shinyping(self, ctx, species)
-                await collectors.collectping(self, ctx, species)
-                
-                total_count = spawn_count + 1
-
-                await self.bot.mongo.update_guild(
-                        ctx.guild, {"$set": {"spawn_count": str(total_count)}}
-                )
-                
-                if pokemon in rare_pokes:
-                        
-                        ctx = await self.bot.get_context(message)
-                        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-
-                        try:
-                                roleid = guild["rareping"]
-                                await message.channel.send(f'<@&{roleid}>')
-                
-                        except:
-                                pass
-                return
-        
+                allow_mode = "On"     
         
           pokemon = await name.identifyy(img_url)
       
@@ -600,10 +577,12 @@ class Pokedex(commands.Cog):
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
-          filename = random.choice(string.ascii_letters)
-          await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
-          await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
-          os.remove(f'{filename}.png')
+        
+          if allow_mode is "On":
+            filename = random.choice(string.ascii_letters)
+            await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
+            await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
+            os.remove(f'{filename}.png')
                 
           try:
                 await collectors.shinyping(self, ctx, species)
@@ -614,6 +593,9 @@ class Pokedex(commands.Cog):
           try:
             
             if guild['specialized'] and ctx.channel.id not in guild['specialized']:
+                return
+            
+            if pokemon not in total_rare_pokes:
                 return
             
             if pokemon in rare_pokes:
@@ -647,6 +629,15 @@ class Pokedex(commands.Cog):
           except:
             pass
         
+          try:
+            star_channel = self.bot.get_channel(int(guild["starboard"]))
+        
+            embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"Type `.catch {pokemon.lower()}` to catch it!", color=0x2f3136)
+            embed.set_thumbnail(url=species.image_url)
+            await star_channel.send(embed=embed, view=Jump(plan))
+          except:
+            pass
+        
   @commands.has_permissions(manage_messages=True)            
   @commands.Cog.listener()
   async def on_message(self, message):
@@ -671,8 +662,8 @@ class Pokedex(commands.Cog):
         #await message.channel.send(embed=embed1)
     
   
-        
-    if message.embeds and message.author.id == 716390085896962058:
+    
+    if message.embeds and message.author.id in allowed:
       if "wild" in message.embeds[0].title:
         
         free = self.get_ratelimit(message)
@@ -684,7 +675,7 @@ class Pokedex(commands.Cog):
         if val == False:
             if free == None:
                 try:
-                    await self.identify(message.embeds[0].image.url, message, "Free")
+                    await self.identify(message.embeds[0].image.url, message, message.jump_url)
                 except:
                     return
             else:
@@ -696,16 +687,16 @@ class Pokedex(commands.Cog):
                 return
             
         elif message.guild.id in config.unlimited_premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+                await self.premium_identify(message.embeds[0].image.url, message, message.jump_url)
             
         elif message.guild.id in config.unlimited_premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Unlimited")
+                await self.premium_identify(message.embeds[0].image.url, message, message.jump_url)
         
         elif message.guild.id in config.basic_premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Basic")
+                await self.premium_identify(message.embeds[0].image.url, message, message.jump_url)
             
         elif message.guild.id in config.premium:
-                await self.premium_identify(message.embeds[0].image.url, message, "Premium")
+                await self.premium_identify(message.embeds[0].image.url, message, message.jump_url)
            
   time_to_execute_task = datetime.time(hour=4, minute=0) 
   @tasks.loop(time=time_to_execute_task)
