@@ -694,21 +694,6 @@ class Pokedex(commands.Cog):
         elif message.guild.id in config.premium:
                 await self.premium_identify(message.embeds[0].image.url, message, message.jump_url)
            
-  time_to_execute_task = datetime.time(hour=4, minute=0) 
-  @tasks.loop(time=time_to_execute_task)
-  async def daily_task(self):
-        await self.bot.mongo.db.guild.update_many(
-            {},
-            {"$set": {"spawn_count": "0"}},
-        )
-        
-        webhook = DiscordWebhook(url='https://discord.com/api/webhooks/970282274933338143/redztJ-2YtovCko_kJ1IGG3flPN8VdEXJiq6-rlXzHui_xDrOiDjU2WewncMKzBKPlE2')
-        
-        embed = DiscordEmbed(title='Naming Reset', description='Pokétox has reset the Naming Count back to 0. Pokétox will name 750 pokémons as a part of the free plan', color='03b2f8')
-        webhook.add_embed(embed)
-
-        webhook.execute()
-    
 async def setup(bot):
     print("Loaded Pokedex")
     await bot.add_cog(Pokedex(bot))
