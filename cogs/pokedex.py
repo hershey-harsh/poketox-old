@@ -5,7 +5,6 @@ from helpers.converters import FetchUserConverter, SpeciesConverter
 import random
 import asyncio
 import os
-import datetime
 
 from cogs import info
 
@@ -537,7 +536,7 @@ class Pokedex(commands.Cog):
           try:
             if pokemon in total_rare_pokes:
                 star_channel = self.bot.get_channel(int(guild["starboard"]))
-                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id}", color=0x2f3136)
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
                 await star_channel.send(embed=embed, view=Jump(plan))
           except:
@@ -545,6 +544,7 @@ class Pokedex(commands.Cog):
     
   async def identify(self, img_url, message, plan):
     ctx = await self.bot.get_context(message)
+    timest = discord.utils.format_dt(datetime.now(), 'R')
     guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
     
     try:
@@ -631,7 +631,7 @@ class Pokedex(commands.Cog):
           try:
             if pokemon in total_rare_pokes:
                 star_channel = self.bot.get_channel(int(guild["starboard"]))
-                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id}", color=0x2f3136)
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
                 await star_channel.send(embed=embed, view=Jump(plan))
           except:
