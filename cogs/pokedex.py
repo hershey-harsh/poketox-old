@@ -480,7 +480,7 @@ class Pokedex(commands.Cog):
           #embed1.set_thumbnail(url=species.image_url)
           #embed1.set_footer(text=f'Server Plan: {plan}\nType a!update')
           
-          if allow_mode is "On":
+          if allow_mode == "On":
             filename = random.choice(string.ascii_letters)
             await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
             await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
@@ -578,7 +578,7 @@ class Pokedex(commands.Cog):
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
         
-          if allow_mode is "On":
+          if allow_mode == "On":
             filename = random.choice(string.ascii_letters)
             await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
             await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
