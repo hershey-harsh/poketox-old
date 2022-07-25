@@ -490,8 +490,6 @@ class Pokedex(commands.Cog):
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
           await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
           os.remove(f'{filename}.png')
-          embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
-          await message.channel.send(embed=embed)
         
           #await message.reply(embed=embed1, view=Confirm(img_url, pokemon, pokemon, self.bot))
           #await message.reply(embed=embed1)
@@ -606,8 +604,6 @@ class Pokedex(commands.Cog):
           await blocked_make_name_embed(self.bot, species.image_url, species.name, filename)
           await message.reply(file=discord.File(f'{filename}.png'), view=DropdownView(ctx, species.name, self.bot))
           os.remove(f'{filename}.png')
-          embed=discord.Embed(description="<:eevee:993328849502875749> ✨ Autumn Eevee | Type `a!giveaway` to learn more!", color=0x303136)
-          await message.channel.send(embed=embed)
                 
           try:
                 await collectors.shinyping(self, ctx, species)
