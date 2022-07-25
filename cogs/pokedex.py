@@ -502,7 +502,8 @@ class Pokedex(commands.Cog):
                 embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
                 await star_channel.send(embed=embed, view=Jump(plan))
-          except:
+          except Exception as e:
+            print(e)
             pass
             
           try:
