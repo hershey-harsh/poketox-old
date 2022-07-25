@@ -497,6 +497,15 @@ class Pokedex(commands.Cog):
                 pass
             
           try:
+            if pokemon.title() in total_rare_pokes:
+                star_channel = self.bot.get_channel(int(guild["starboard"]))
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
+                embed.set_thumbnail(url=species.image_url)
+                await star_channel.send(embed=embed, view=Jump(plan))
+          except:
+            pass
+            
+          try:
             
             if guild['specialized'] and ctx.channel.id not in guild['specialized']:
                 return
@@ -529,15 +538,6 @@ class Pokedex(commands.Cog):
                 except:
                     pass
                 
-          except:
-            pass
- 
-          try:
-            if pokemon.title() in total_rare_pokes:
-                star_channel = self.bot.get_channel(int(guild["starboard"]))
-                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
-                embed.set_thumbnail(url=species.image_url)
-                await star_channel.send(embed=embed, view=Jump(plan))
           except:
             pass
     
@@ -589,6 +589,15 @@ class Pokedex(commands.Cog):
                 pass
         
           try:
+            if pokemon.title() in total_rare_pokes:
+                star_channel = self.bot.get_channel(int(guild["starboard"]))
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
+                embed.set_thumbnail(url=species.image_url)
+                await star_channel.send(embed=embed, view=Jump(plan))
+          except:
+            pass
+        
+          try:
             
             if guild['specialized'] and ctx.channel.id not in guild['specialized']:
                 return
@@ -624,15 +633,6 @@ class Pokedex(commands.Cog):
                 except:
                     pass
                 
-          except:
-            pass
-        
-          try:
-            if pokemon.title() in total_rare_pokes:
-                star_channel = self.bot.get_channel(int(guild["starboard"]))
-                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
-                embed.set_thumbnail(url=species.image_url)
-                await star_channel.send(embed=embed, view=Jump(plan))
           except:
             pass
         
