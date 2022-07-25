@@ -630,11 +630,12 @@ class Pokedex(commands.Cog):
             pass
         
           try:
-            star_channel = self.bot.get_channel(int(guild["starboard"]))
+            if pokemon in total_rare_pokes:
+                star_channel = self.bot.get_channel(int(guild["starboard"]))
         
-            embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"Type `.catch {pokemon.lower()}` to catch it!", color=0x2f3136)
-            embed.set_thumbnail(url=species.image_url)
-            await star_channel.send(embed=embed, view=Jump(plan))
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"Type `.catch {pokemon.lower()}` to catch it!\nSpawned in {message.channel.id}", color=0x2f3136)
+                embed.set_thumbnail(url=species.image_url)
+                await star_channel.send(embed=embed, view=Jump(plan))
           except:
             pass
         
