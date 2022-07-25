@@ -501,7 +501,7 @@ class Pokedex(commands.Cog):
             if guild['specialized'] and ctx.channel.id not in guild['specialized']:
                 return
             
-            if pokemon in rare_pokes:
+            if pokemon.title() in rare_pokes:
                 try:
                     roleid = guild["rareping"]
                     await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
@@ -533,7 +533,7 @@ class Pokedex(commands.Cog):
             pass
  
           try:
-            if pokemon in total_rare_pokes:
+            if pokemon.title() in total_rare_pokes:
                 star_channel = self.bot.get_channel(int(guild["starboard"]))
                 embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
@@ -593,7 +593,7 @@ class Pokedex(commands.Cog):
             if guild['specialized'] and ctx.channel.id not in guild['specialized']:
                 return
             
-            if pokemon not in total_rare_pokes:
+            if pokemon.title() not in total_rare_pokes:
                 return
             
             if pokemon in rare_pokes:
@@ -628,7 +628,7 @@ class Pokedex(commands.Cog):
             pass
         
           try:
-            if pokemon in total_rare_pokes:
+            if pokemon.title() in total_rare_pokes:
                 star_channel = self.bot.get_channel(int(guild["starboard"]))
                 embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {timest}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
