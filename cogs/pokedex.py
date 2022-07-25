@@ -536,7 +536,7 @@ class Pokedex(commands.Cog):
           try:
             if pokemon in total_rare_pokes:
                 star_channel = self.bot.get_channel(int(guild["starboard"]))
-                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {discord.utils.format_dt(datetime.utcnow(), style='R')}", color=0x2f3136)
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {discord.utils.format_dt(datetime.now(), 'R')}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
                 await star_channel.send(embed=embed, view=Jump(plan))
           except:
@@ -631,7 +631,7 @@ class Pokedex(commands.Cog):
           try:
             if pokemon in total_rare_pokes:
                 star_channel = self.bot.get_channel(int(guild["starboard"]))
-                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {discord.utils.format_dt(datetime.utcnow(), style='R')}", color=0x2f3136)
+                embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{species.lower} was spawned in {message.channel.id} {discord.utils.format_dt(datetime.now(), 'R')}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
                 await star_channel.send(embed=embed, view=Jump(plan))
           except:
