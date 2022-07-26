@@ -93,7 +93,7 @@ class predict_app(commands.Cog):
         species = self.bot.data.species_by_name(pokemon)
         
         if species is None:
-          return await ctx.send(f"Could not find a pokemon matching `{species}`.")
+          return await interaction.response.send_message.send(f"Could not find a pokemon matching `{species}`.")
         
         embed=discord.Embed(title=f'{species}', description=f"This pokémon is **{species}**", color=0x2F3136)
         embed.set_thumbnail(url=species.image_url)
