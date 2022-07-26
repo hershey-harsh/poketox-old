@@ -98,7 +98,3 @@ class predict_app(commands.Cog):
         embed.set_thumbnail(url=species.image_url)
         
         await interaction.response.send_message(embed=embed, view=Confirm(pokemon, self.bot)
-                                                
-async def setup(bot):
-    print("Loaded Predict App")
-    await bot.add_cog(predict_app(bot))
