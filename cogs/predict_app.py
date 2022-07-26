@@ -87,6 +87,7 @@ class predict_app(commands.Cog):
     async def cog_unload(self) -> None:
         self.bot.tree.remove_command(self.ctx_menu.name, type=self.ctx_menu.type)
         
+    @app_commands.checks.has_permissions(ban_members=True)   
     async def app_identify(self, interaction: discord.Interaction, message: discord.Message) -> None:
         pokemon = await identifyy(message)
         species = self.bot.data.species_by_name(species)
