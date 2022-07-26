@@ -92,7 +92,7 @@ class predict_app(commands.Cog):
         if message.embeds:
             url = message.embeds[0].image.url
             
-         else:
+        else:
             url = message.content
         
         pokemon = await identifyy(url)
