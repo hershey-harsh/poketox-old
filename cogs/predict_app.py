@@ -89,7 +89,7 @@ class predict_app(commands.Cog):
         self.bot.tree.remove_command(self.ctx_menu.name, type=self.ctx_menu.type)
         
     async def app_identify(self, interaction: discord.Interaction, message: discord.Message) -> None:
-        pokemon = await identifyy(message)
+        pokemon = await identifyy(message.content)
         species = self.bot.data.species_by_name(pokemon)
         
         if species is None:
