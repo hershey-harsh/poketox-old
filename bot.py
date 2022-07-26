@@ -27,6 +27,7 @@ COGS = [
     "admin",
     "feedback",
     "economy",
+    "predict_app"
 ]
 
 intents = discord.Intents.default()
