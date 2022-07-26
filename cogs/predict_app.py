@@ -1,6 +1,7 @@
 import discord
 from name import identifyy
 from discord.ext import commands
+from discord import app_commands
 
 class Confirm(discord.ui.View):
     def __init__(self, species, bot):
