@@ -90,7 +90,7 @@ class predict_app(commands.Cog):
         
     async def app_identify(self, interaction: discord.Interaction, message: discord.Message) -> None:
         pokemon = await identifyy(message)
-        species = self.bot.data.species_by_name(species)
+        species = self.bot.data.species_by_name(pokemon)
         
         if species is None:
           return await ctx.send(f"Could not find a pokemon matching `{species}`.")
