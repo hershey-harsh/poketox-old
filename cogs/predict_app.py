@@ -99,12 +99,12 @@ class predict_app(commands.Cog):
         species = self.bot.data.species_by_name(pokemon)
         
         if species is None:
-          return await interaction.response.send_message(f"Could not find a pokemon matching `{pokemon}`.")
+          return await interaction.response.send_message("Not a valid image was found.", ephemeral=True)
         
         embed=discord.Embed(title=f'{species}', description=f"This pokémon is **{species}**", color=0x2F3136)
         embed.set_thumbnail(url=species.image_url)
         
-        await interaction.response.send_message(embed=embed, view=Confirm(pokemon, self.bot))
+        await interaction.response.send_message(embed=embed, view=Confirm(pokemon, self.bot), ephemeral=True)
                                                 
 async def setup(bot):
     print("Loaded Predict App")
