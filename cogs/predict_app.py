@@ -83,6 +83,7 @@ class predict_app(commands.Cog):
             callback=self.app_identify,
         )
         
+        
         self.bot.tree.add_command(self.ctx_menu)
 
     async def cog_unload(self) -> None:
