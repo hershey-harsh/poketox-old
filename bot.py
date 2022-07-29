@@ -16,6 +16,7 @@ COGS = [
     "collectors",
     "comands",
     "shinyhunt",
+    "pokedex",
     "identify",
     "spawn_counts",
     "info",
