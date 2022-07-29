@@ -14,6 +14,7 @@ COGS = [
     "mongo",
     "settings",
     "collectors",
+    "comands",
     "shinyhunt",
     "identify",
     "spawn_counts",
