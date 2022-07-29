@@ -6,6 +6,7 @@ import random
 import asyncio
 import os
 import emoji
+from emoji import UNICODE_EMOJI
 
 from cogs import info
 
