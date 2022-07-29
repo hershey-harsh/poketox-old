@@ -62,31 +62,6 @@ class comands(commands.Cog):
       await chan.send(embed=embed) 
         
       embed=discord.Embed(title="Suggestion Sent", color=0x2F3136)
-          
-    @checks.has_started()
-    @commands.hybrid_command()
-    async def botstats(self, ctx):
-        """Pokétox stats"""
-
-        embed = discord.Embed(color=0x2F3136, title = f"Pokétox Statistics")
-        embed.add_field(
-            name = "Total servers", 
-            value = f"{len(self.bot.guilds)}", 
-            inline = False
-        )
-
-        total_members = 0
-        for guild in self.bot.guilds:
-            total_members += guild.member_count
-
-        embed.add_field(
-            name = "Total Members", 
-            value = f"{total_members}",
-            inline = False
-        )
-
-        embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/875526899386953779/d46976087eef1662db19c8272ebb57e4.png?size=1024")
-        await ctx.send(embed = embed)
         
     @checks.has_started()
     @commands.hybrid_command()
