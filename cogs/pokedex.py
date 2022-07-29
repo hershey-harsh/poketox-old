@@ -5,6 +5,7 @@ from helpers.converters import FetchUserConverter, SpeciesConverter
 import random
 import asyncio
 import os
+import emoji
 
 from cogs import info
 
