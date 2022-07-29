@@ -28,7 +28,6 @@ from helpers.converters import FetchUserConverter, SpeciesConverter
 class comands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.dblpy = dbl.DBLClient(self.bot, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3NTUyNjg5OTM4Njk1Mzc3OSIsImJvdCI6dHJ1ZSwiaWF0IjoxNjUwNDE0MjMzfQ.7aZSEjaVH-lH-KtBe_Q2pmGA-wnbyLLbODxEhcfghAE")
         
     @commands.hybrid_command()
     async def giveaway(self, ctx):
