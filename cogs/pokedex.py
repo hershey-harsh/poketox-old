@@ -211,7 +211,7 @@ repls = (':flag_jp:', '<:flag_jp:993180168304734338>'), (':flag_gb:', '<:flag_gb
 
 def make_name_embed(bot, url, pokemon, filename, desc=None):
 
-  r = requests.get(url)
+  r = requests.get(url, verify=False)
   im1 = Image.open('spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
   
