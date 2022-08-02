@@ -415,12 +415,12 @@ class Collectors(commands.Cog):
             return await ctx.send(embed=embed2, ephemeral=True)
         
     @add.autocomplete('pokemon')
-    async def add_autocomplete(self, interaction: discord.Interaction, current: str) -> List[app_commands.Choice[str]]:
+    async def add_autocomplete(self, interaction: discord.Interaction, current: str) -> List[discord.app_commands.Choice[str]]:
         matches = interaction.client.data.closest_species_by_name(current)
         
         return [
-            app_commands.Choice(name=matches[0], value=matches[0]),
-            app_commands.Choice(name=matches[1], value=matches[1])
+            discord.app_commands.Choice(name=matches[0], value=matches[0]),
+            discord.app_commands.Choice(name=matches[1], value=matches[1])
         ]
 
     @checks.has_started()
