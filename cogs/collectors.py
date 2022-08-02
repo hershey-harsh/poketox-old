@@ -637,7 +637,9 @@ class Collectors(commands.Cog):
         
         embed = discord.Embed(color=0x36393F)
         embed.title = f"Server Configuration"
-        embed.set_thumbnail(url=ctx.guild.icon.url)
+        
+        if ctx.guild.icon is not None:
+            embed.set_thumbnail(url=ctx.guild.icon.url)
                             
         pingchannel = "\n".join(f"<#{x}>" for x in guild.ping_channels) or "All Channels"
         shinychannel = "\n".join(f"<#{x}>" for x in guild.sh_channels) or "All Channels"
