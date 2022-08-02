@@ -420,7 +420,11 @@ class Collectors(commands.Cog):
         
         return [
             discord.app_commands.Choice(name=matches[0], value=matches[0]),
-            discord.app_commands.Choice(name=matches[1], value=matches[1])
+            discord.app_commands.Choice(name=matches[1], value=matches[1]),
+            discord.app_commands.Choice(name=matches[2], value=matches[2]),
+            discord.app_commands.Choice(name=matches[3], value=matches[3]),
+            discord.app_commands.Choice(name=matches[4], value=matches[4]),
+            discord.app_commands.Choice(name=matches[5], value=matches[5]),
         ]
 
     @checks.has_started()
