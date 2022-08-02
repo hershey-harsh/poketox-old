@@ -424,9 +424,9 @@ class Collectors(commands.Cog):
         matches = interaction.client.data.closest_species_by_name(current)
         
         return [
-            app_commands.Choice(name=pokemons, value=pokemons)
-            for name in matches
-        ][:25]
+            app_commands.Choice(name=matches[0], value=matches[0]),
+            app_commands.Choice(name=matches[1], value=matches[1])
+        ]
 
     @checks.has_started()
     @collectlist.command(slash_command=True)
