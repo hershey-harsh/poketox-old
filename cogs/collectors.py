@@ -411,12 +411,18 @@ class Collectors(commands.Cog):
         if result.upserted_id or result.modified_count > 0:
             embed=discord.Embed(title="Collector", description=f"Added **{pokemon}** to your collecting list", color=0x36393F)
             embed.set_thumbnail(url=pokemon.image_url)
-            await ctx.send(embed=embed)
+            
+            await ctx.send(
+                embed=embed
+            )
         
         else:
             embed=discord.Embed(title="Collector", description=f"**{pokemon}** is already on your collecting list", color=0x36393F)
             embed.set_thumbnail(url=pokemon.image_url)
-            await ctx.send(embed=embed, ephemeral=True) #Returns ephemeral message if this command was invoked by slash.
+            
+            await ctx.send(
+                embed=embed, ephemeral=True #Returns ephemeral message if this command was invoked by slash.
+            )
         
     @add.autocomplete('pokemon')
     async def add_autocomplete(self, interaction: discord.Interaction, current: str) -> List[discord.app_commands.Choice[str]]:
@@ -426,8 +432,7 @@ class Collectors(commands.Cog):
             return
         
         return [
-            for match in matches:
-                discord.app_commands.Choice(name=match, value=match)
+                discord.app_commands.Choice(name=match, value=match) for match in matches
         ]
 
     @checks.has_started()
