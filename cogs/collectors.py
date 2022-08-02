@@ -392,39 +392,42 @@ class Collectors(commands.Cog):
             await ctx.send("No pokémon or regions found.")
         
     @checks.has_started()
-    @collectlist.command(slash_command=True)
+    @collectlist.command(slash_command=True, brief="Adds a pokémon species to your collecting list.")
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, pokemon: SpeciesConverter):
-        """Adds a pokémon species or region to your collecting list"""
+        
+        """
+        Usage: a!collectlist add <pokémon>
+        Description: Adds a pokémon species or region to your collecting list.
+        Category: Collectlist
+        """
 
         result = await self.bot.mongo.db.collector.update_one(
             {"_id": ctx.author.id},
             {"$set": {str(pokemon.id): True}},
-            upsert=True,
+            upsert=True
         )
 
         if result.upserted_id or result.modified_count > 0:
-            embed1=discord.Embed(title="Collector", description=f"Added **{pokemon}** to your collecting list", color=0x36393F)
-            embed1.set_thumbnail(url=pokemon.image_url)
-
-            return await ctx.send(embed=embed1)
+            embed=discord.Embed(title="Collector", description=f"Added **{pokemon}** to your collecting list", color=0x36393F)
+            embed.set_thumbnail(url=pokemon.image_url)
+            await ctx.send(embed=embed)
+        
         else:
-
-            embed2=discord.Embed(title="Collector", description=f"**{pokemon}** is already on your collecting list", color=0x36393F)
-            embed2.set_thumbnail(url=pokemon.image_url)
-            return await ctx.send(embed=embed2, ephemeral=True)
+            embed=discord.Embed(title="Collector", description=f"**{pokemon}** is already on your collecting list", color=0x36393F)
+            embed.set_thumbnail(url=pokemon.image_url)
+            await ctx.send(embed=embed, ephemeral=True) #Returns ephemeral message if this command was invoked by slash.
         
     @add.autocomplete('pokemon')
     async def add_autocomplete(self, interaction: discord.Interaction, current: str) -> List[discord.app_commands.Choice[str]]:
         matches = interaction.client.data.closest_species_by_name(current)
         
+        if current is None:
+            return
+        
         return [
-            discord.app_commands.Choice(name=matches[0], value=matches[0]),
-            discord.app_commands.Choice(name=matches[1], value=matches[1]),
-            discord.app_commands.Choice(name=matches[2], value=matches[2]),
-            discord.app_commands.Choice(name=matches[3], value=matches[3]),
-            discord.app_commands.Choice(name=matches[4], value=matches[4]),
-            discord.app_commands.Choice(name=matches[5], value=matches[5]),
+            for match in matches:
+                discord.app_commands.Choice(name=match, value=match)
         ]
 
     @checks.has_started()
