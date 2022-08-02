@@ -399,25 +399,34 @@ class Collectors(commands.Cog):
     @checks.has_started()
     @collectlist.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def add(self, ctx, *, species: SpeciesConverter):
+    async def add(self, ctx, *, pokemon: SpeciesConverter):
         """Adds a pokémon species or region to your collecting list"""
 
         result = await self.bot.mongo.db.collector.update_one(
             {"_id": ctx.author.id},
-            {"$set": {str(species.id): True}},
+            {"$set": {str(pokemon.id): True}},
             upsert=True,
         )
 
         if result.upserted_id or result.modified_count > 0:
-            embed1=discord.Embed(title="Collector", description=f"Added **{species}** to your collecting list", color=0x36393F)
-            embed1.set_thumbnail(url=species.image_url)
+            embed1=discord.Embed(title="Collector", description=f"Added **{pokemon}** to your collecting list", color=0x36393F)
+            embed1.set_thumbnail(url=pokemon.image_url)
 
             return await ctx.send(embed=embed1)
         else:
 
-            embed2=discord.Embed(title="Collector", description=f"**{species}** is already on your collecting list", color=0x36393F)
-            embed2.set_thumbnail(url=species.image_url)
+            embed2=discord.Embed(title="Collector", description=f"**{pokemon}** is already on your collecting list", color=0x36393F)
+            embed2.set_thumbnail(url=pokemon.image_url)
             return await ctx.send(embed=embed2, ephemeral=True)
+        
+    @add.autocomplete('pokemon')
+    async def add_autocomplete(self, interaction: discord.Interaction, current: str) -> List[app_commands.Choice[str]]:
+        matches = interaction.client.data.closest_species_by_name(current)
+        
+        return [
+            app_commands.Choice(name=pokemons, value=pokemons)
+            for name in matches
+        ][:25]
 
     @checks.has_started()
     @collectlist.command(slash_command=True)
