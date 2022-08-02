@@ -5,14 +5,9 @@ from helpers.converters import FetchUserConverter, SpeciesConverter
 from helpers import checks, context
 import datetime
 from datetime import datetime, timedelta
-from easy_pil import Editor, Canvas, load_image_async, Font, load_image, Text
+from typing import List
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
-
-seconds_90 = [850069549037912065, 853006222042333194, 853006257611079681, 853006603262623795, 953404627028701214, 953404651494068335]
-seconds_120 = [937716757387444294]
-
-allowed = [826928105922232350, 826935014049972265, 797151240173125662, 875526899386953779, 790788488983085056, 950522564751544330]
 
 import random
 import asyncio
