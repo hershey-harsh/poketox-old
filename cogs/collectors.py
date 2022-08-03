@@ -20,7 +20,7 @@ async def regionping(self, ctx, species: SpeciesConverter):
         
         species = ctx.bot.data.species_by_name(species.region)
         
-        users = self.bot.mongo.db.collector.find(
+        users = self.bot.mongo.db.region.find(
             {str(species.id): True, str(ctx.guild.id): True}
         )
 
