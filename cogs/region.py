@@ -27,7 +27,7 @@ class Region(commands.Cog):
     @checks.has_started()
     @commands.hybrid_group(aliases=("rl","regionallist",), invoke_without_command=True, slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def regionalhunter(self, ctx, *, member: discord.Member = None):
+    async def regionhunt(self, ctx, *, member: discord.Member = None):
         if member is None:
             member = ctx.author
 
@@ -48,7 +48,7 @@ class Region(commands.Cog):
         
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    @regionalhunter.command(slash_command=True)
+    @regionhunt.command(slash_command=True)
     async def view(self, ctx, *, member: discord.Member = None):
 
         """Allows members to keep track of the hunters of a region"""
@@ -72,10 +72,15 @@ class Region(commands.Cog):
             await ctx.send("No regions found.")
         
     @checks.has_started()
-    @regionalhunter.command(slash_command=True, brief="Adds a region to your regional list")
+    @regionhunt.command(slash_command=True, brief="Adds a region to your regional list")
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, region: SpeciesConverter):
 
+        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar']
+        
+        if region not in regions:
+            return await ctx.send("You cannot add pokémons to regional list.")
+        
         result = await self.bot.mongo.db.regionlist.update_one(
             {"_id": ctx.author.id},
             {"$set": {str(region.id): True}},
@@ -103,12 +108,12 @@ class Region(commands.Cog):
         regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar']
         
         return [
-            app_commands.Choice(name=region, value=region)
+            discord.app_commands.Choice(name=region, value=region)
             for region in regions if current.lower() in region.lower()
         ]
 
     @checks.has_started()
-    @regionalhunter.command(slash_command=True)
+    @regionhunt.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def multiadd(self, ctx, *, regions):
         """Adds a multiple regions to your regional list"""
@@ -134,7 +139,7 @@ class Region(commands.Cog):
         return await ctx.send(embed=embed1)
 
     @checks.has_started()
-    @regionalhunter.command(slash_command=True)
+    @regionhunt.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def multiremove(self, ctx, *, regions):
         """Remove multiple regions from your regional list"""
@@ -160,7 +165,7 @@ class Region(commands.Cog):
         return await ctx.send(embed=embed)
 
     @checks.has_started()
-    @regionalhunter.command(slash_command=True)
+    @regionhunt.command(slash_command=True)
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def remove(self, ctx, *, region: SpeciesConverter):
@@ -179,7 +184,7 @@ class Region(commands.Cog):
             await ctx.send(embed=embed, ephemeral=True)
     
     @checks.has_started()
-    @regionalhunter.command()
+    @regionhunt.command()
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def clear(self, ctx):
@@ -197,7 +202,7 @@ class Region(commands.Cog):
         await ctx.send("Cleared your regional list.")
 
     @checks.has_started()
-    @regionalhunter.command(slash_command=True)
+    @regionhunt.command(slash_command=True)
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def globalsearch(self, ctx, *, region: SpeciesConverter):
@@ -216,7 +221,7 @@ class Region(commands.Cog):
         await pages.start(ctx)
         
     @checks.has_started()
-    @regionalhunter.command(slash_command=True)
+    @regionhunt.command(slash_command=True)
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def search(self, ctx, *, region: SpeciesConverter):
