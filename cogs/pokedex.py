@@ -454,7 +454,7 @@ class Pokedex(commands.Cog):
     except:
         spawn_count = 0
     
-    if spawn_count >=5000:
+    if spawn_count >=10000000000000:
         return
     
     else:
@@ -494,6 +494,7 @@ class Pokedex(commands.Cog):
           try:
             await collectors.shinyping(self, ctx, species)
             await collectors.collectping(self, ctx, species)
+            await collectors.regionping(self, ctx, species)
           except:
                 pass
             
@@ -505,42 +506,6 @@ class Pokedex(commands.Cog):
                 await star_channel.send(embed=embed, view=Jump(plan))
           except Exception as e:
             print(e)
-            pass
-            
-          try:
-            
-            if guild['specialized'] and ctx.channel.id not in guild['specialized']:
-                return
-            
-            if pokemon.title() in rare_pokes:
-                try:
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-            elif pokemon in hisuian:
-                try:
-                    roleid = guild["alolanping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-            elif pokemon in alolan:
-                try:
-                    roleid = guild["galarianping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-            elif pokemon in galarian:
-                try:
-                    roleid = guild["hisuianping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-          except:
             pass
     
   async def identify(self, img_url, message, plan):
@@ -587,6 +552,7 @@ class Pokedex(commands.Cog):
           try:
                 await collectors.shinyping(self, ctx, species)
                 await collectors.collectping(self, ctx, species)
+                await collectors.regionping(self, ctx, species)
           except:
                 pass
         
@@ -596,45 +562,6 @@ class Pokedex(commands.Cog):
                 embed=discord.Embed(title=f"A wild {species.name} has appeared!", description=f"{pokemon.title()} has spawned in {message.channel.mention} {timest}", color=0x2f3136)
                 embed.set_thumbnail(url=species.image_url)
                 await star_channel.send(embed=embed, view=Jump(plan))
-          except:
-            pass
-        
-          try:
-            
-            if guild['specialized'] and ctx.channel.id not in guild['specialized']:
-                return
-            
-            if pokemon.title() not in total_rare_pokes:
-                return
-            
-            if pokemon in rare_pokes:
-                try:
-                    roleid = guild["rareping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-            elif pokemon in hisuian:
-                try:
-                    roleid = guild["alolanping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-            elif pokemon in alolan:
-                try:
-                    roleid = guild["galarianping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
-            elif pokemon in galarian:
-                try:
-                    roleid = guild["hisuianping"]
-                    await message.channel.send(f'**Specialized Ping**\n<@&{roleid}>')
-                except:
-                    pass
-                
           except:
             pass
         
