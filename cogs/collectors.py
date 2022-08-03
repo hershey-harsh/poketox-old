@@ -35,10 +35,6 @@ async def regionping(self, ctx, poke: SpeciesConverter):
             return
         
         species = ctx.bot.data.species_by_name(poke.region)
-        
-        users = self.bot.mongo.db.region.find(
-            {str(species.id): True, str(ctx.guild.id): True}
-        )
 
         try:
                 guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
