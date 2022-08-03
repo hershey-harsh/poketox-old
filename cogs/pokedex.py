@@ -24,6 +24,9 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import json
 import requests
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 class Dropdown(discord.ui.Select):
     def __init__(self, ctx, pokemon_name, bot):
         self.ctx = ctx
@@ -210,7 +213,7 @@ from functools import reduce
 repls = (':flag_jp:', '<:flag_jp:993180168304734338>'), (':flag_gb:', '<:flag_gb:993180161518354452>'), (':flag_de:', '<:flag_de:993180164626321439>'), (':flag_fr:', '<:flag_fr:993180166694117436>')
 
 def make_name_embed(bot, url, pokemon, filename, desc=None):
-
+  
   r = requests.get(url, verify=False)
   im1 = Image.open('spawn_background.png')
   im2 = Image.open(BytesIO(r.content))
