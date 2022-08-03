@@ -53,7 +53,7 @@ async def regionping(self, ctx, poke: SpeciesConverter):
         
         collector_pings = []
         
-        users = self.bot.mongo.db.region.find(
+        users = self.bot.mongo.db.regionlist.find(
             {str(species.id): True, str(ctx.guild.id): True}
         )
         
@@ -74,6 +74,9 @@ async def regionping(self, ctx, poke: SpeciesConverter):
             rare_users = self.bot.mongo.db.regionlist.find(
                 {str(rarity.id): True, str(ctx.guild.id): True}
             )
+            
+        else:
+            rare_users = []
         
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
