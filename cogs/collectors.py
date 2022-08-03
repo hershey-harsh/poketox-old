@@ -17,6 +17,8 @@ async def collectping(self, ctx, species: SpeciesConverter):
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
         if guild.ping_channels and ctx.channel.id not in guild.ping_channels:
             return
+        
+        region = ctx.bot.data.species_by_name(species.name).region
 
         users = self.bot.mongo.db.collector.find(
             {str(species.id): True, str(ctx.guild.id): True}
