@@ -76,9 +76,9 @@ class Region(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, region: SpeciesConverter):
 
-        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar']
+        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar', 'Hisui', 'Legendaries', 'Alolan-Form', 'Galarian-Form', 'Hisuian-Form']
         
-        if region not in regions:
+        if region.name.title() not in regions:
             return await ctx.send("You cannot add pokémons to regional list.")
         
         result = await self.bot.mongo.db.regionlist.update_one(
@@ -105,7 +105,7 @@ class Region(commands.Cog):
     async def add_autocomplete(self, interaction: discord.Interaction, current: str) -> List[discord.app_commands.Choice[str]]:
         matches = interaction.client.data.closest_species_by_name(current)
         
-        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar']
+        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar', 'Hisui', 'Legendaries', 'Alolan-Form', 'Galarian-Form', 'Hisuian-Form']
         
         return [
             discord.app_commands.Choice(name=region, value=region)
