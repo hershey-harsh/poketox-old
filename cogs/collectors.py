@@ -66,19 +66,25 @@ async def regionping(self, ctx, poke: SpeciesConverter):
             
             elif poke in legendaries:
                 rarity = ctx.bot.data.species_by_name("legendaries")
-                
-            rare_users = self.bot.mongo.db.regionlist.find(
-                {str(rarity.id): True, str(ctx.guild.id): True}
-            )
+            
+            try:
+                rare_users = self.bot.mongo.db.regionlist.find(
+                    {str(rarity.id): True, str(ctx.guild.id): True}
+                )
+            except:
+                pass
             
         else:
             rare_users = []
         
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
-            
-        async for user in rare_users:
-            collector_pings.append(f"<@{user['_id']}> ")
+        
+        try:
+            async for user in rare_users:
+                collector_pings.append(f"<@{user['_id']}> ")
+        except:
+            pass
         
         if len(collector_pings) > 0:
 
