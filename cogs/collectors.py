@@ -12,13 +12,25 @@ from helpers.pagination import AsyncEmbedListPageSource
 import random
 import asyncio
 
-async def regionping(self, ctx, species: SpeciesConverter):
+hisuian = ["Hisuian Growlithe", "Hisuian Arcanine", "Hisuian Voltorb", "Hisuian Electrode", "Hisuian Typhlosion", "Hisuian Qwilfish", "Hisuian Sneasel", "Hisuian Samurott", "Hisuian Lilligant", "Hisuian Zorua", "Hisuian Zoroark", "Hisuian Braviary", "Hisuian Sliggoo", "Hisuian Goodra", "Hisuian Avalugg", "Hisuian Decidueye", "Sneasler", "Overqwil", "Wyrdeer", "Ursaluna"]
+alolan = ["Alolan Rattata", "Alolan Raticate", "Alolan Raichu", "Alolan Sandshrew", "Alolan Sandslash", "Alolan Vulpix", "Alolan Ninetales", "Alolan Diglett", "Alolan Dugtrio", "Alolan Meowth", "Alolan Persian", "Alolan Geodude", "Alolan Graveler", "Alolan Golem", "Alolan Grimer", "Alolan Muk", "Alolan Exeggutor", "Alolan Marowak"]
+galarian = ["Galarian Zigzagoon", "Galarian Linoone", "Obstagoon", "Galarian Meowth", "Perrserker", "Galarian Ponyta", "Galarian Rapidash", "Galarian Slowpoke", "Galarian Slowbro", "Galarian Slowking", "Galarian Corsola", "Cursola", "Galarian Farfetch’d", "Sirfetch'd", "Galarian Weezing", "Galarian Mr. Mime", "Mr. Rime", "Galarian Darumaka", "Galarian Darmanitan", "Galarian Yamask", "Runerigus", "Galarian Stunfisk", "Galarian Articuno", "Galarian Zapdos", "Galarian Moltres"]
+
+legendaries = []
+
+for i in file:
+    if len(i) >= 3:
+        legendaries.append(i)
+
+total_rares = legendaries + alolan + hisuian + galarian
+
+async def regionping(self, ctx, poke: SpeciesConverter):
     
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-        if guild.region_channels and ctx.channel.id not in guild.region_channels:
+        if guild.specialized and ctx.channel.id not in guild.specialized:
             return
         
-        species = ctx.bot.data.species_by_name(species.region)
+        species = ctx.bot.data.species_by_name(poke.region)
         
         users = self.bot.mongo.db.region.find(
             {str(species.id): True, str(ctx.guild.id): True}
@@ -36,7 +48,33 @@ async def regionping(self, ctx, species: SpeciesConverter):
                 pass
         
         collector_pings = []
+        
+        users = self.bot.mongo.db.region.find(
+            {str(species.id): True, str(ctx.guild.id): True}
+        )
+        
+        if poke.name.title() in total_rares:
+            
+            if poke in hisuian:
+                rarity = ctx.bot.data.species_by_name("hisuian")
+            
+            elif poke in alolan:
+                rarity = ctx.bot.data.species_by_name("alolan")
+            
+            elif poke in galarian:
+                rarity = ctx.bot.data.species_by_name("galarian")
+            
+            elif poke in legendaries:
+                rarity = ctx.bot.data.species_by_name("legendaries")
+                
+            rare_users = self.bot.mongo.db.regionlist.find(
+                {str(rarity.id): True, str(ctx.guild.id): True}
+            )
+        
         async for user in users:
+            collector_pings.append(f"<@{user['_id']}> ")
+            
+        async for user in rare_users:
             collector_pings.append(f"<@{user['_id']}> ")
         
         if len(collector_pings) > 0:
@@ -260,14 +298,14 @@ class Collectors(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @whitelist.command(slash_command=True)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def specialized(self, ctx, channels: commands.Greedy[discord.TextChannel]):
-      """Whitelist specialized pings in certain channels"""
+    async def regional(self, ctx, channels: commands.Greedy[discord.TextChannel]):
+      """Whitelist regional pings in certain channels"""
 
       await self.bot.mongo.update_guild(
             ctx.guild, {"$set": {"specialized": [x.id for x in channels]}}
         )
 
-      embed=discord.Embed(title=":dizzy: Specialized Whitelist", description=f"Now whitelisting Specialized Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
+      embed=discord.Embed(title=":earth_americas: Regional Whitelist", description=f"Now whitelisting Regional Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
       embed.set_thumbnail(url=ctx.guild.icon.url)
       await ctx.send(embed=embed)
     
