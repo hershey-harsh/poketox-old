@@ -96,7 +96,7 @@ async def regionping(self, ctx, poke: SpeciesConverter):
                 timestamp = " "
                 time=0
                 
-            msg = await ctx.send(f"**<:pokeball:936773252913700894> Pinging {species} Regional Hunters**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
+            msg = await ctx.send(f"**:earth_americas: Pinging {species} Regional Hunters**\nYou may catch {species} Region {timestamp} \n \n" + " ".join(collector_pings))  
 
             try:
                 if time != 0:
