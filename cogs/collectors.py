@@ -18,6 +18,10 @@ galarian = ["Galarian Zigzagoon", "Galarian Linoone", "Obstagoon", "Galarian Meo
 
 legendaries = []
 
+f = open('rare.txt', 'r')
+file = f.read()
+file = file.split('\n')
+
 for i in file:
     if len(i) >= 3:
         legendaries.append(i)
