@@ -121,7 +121,7 @@ class catch_log(commands.Cog):
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.hybrid_command(brief="Disable your settings")
-    async def disable(self, ctx, select: Literal['Pings', 'Rare Pings', 'Alolan Pings', 'Galarian Pings', 'Hisuian Pings']):
+    async def disable(self, ctx, select: Literal['Pings']):
 
         guildid = ctx.guild.id      
       
@@ -171,6 +171,12 @@ class catch_log(commands.Cog):
               {"$unset": {str(ctx.guild.id): 1}},
               upsert=True,
           )
+            
+          result = await self.bot.mongo.db.regionlist.update_one(
+              {"_id": ctx.author.id},
+              {"$unset": {str(ctx.guild.id): 1}},
+              upsert=True,
+          )
 
           if result.upserted_id or result.modified_count > 0:
             embed=discord.Embed(title="Ping", description=f"You will not get pinged when your shiny hunt and what your collecting spawns in **{ctx.guild}**", color=0x36393F)
@@ -180,94 +186,6 @@ class catch_log(commands.Cog):
             embed=discord.Embed(title="Ping", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
-            
-        if select == "Rare Ping":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["rareping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["rareping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.remove_roles(role)  
-                embed=discord.Embed(title=select, description="You will not get pinged when a Rare Pokemon spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title=select, description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-                
-        if select == "Alolan Pings":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["alolanping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["alolanping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.remove_roles(role)  
-                embed=discord.Embed(title=select, description="You will not get pinged when a Alolan-Form Pokemon spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title=select, description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-            
-        if select == "Galarian Pings":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["galarianping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["galarianping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.remove_roles(role)  
-                embed=discord.Embed(title=select, description="You will not get pinged when a Galarian-Form Pokemon spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title=select, description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-                
-        if select == "Hisuian Pings":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["hisuianping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["hisuianping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.remove_roles(role)  
-                embed=discord.Embed(title="Rare Dex", description="You will not get pinged when a Hisuian-Form spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title="Raredex", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
             
     @checks.has_started()
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -322,6 +240,12 @@ class catch_log(commands.Cog):
               {"$set": {str(ctx.guild.id): True}},
               upsert=True,
           )
+            
+          result = await self.bot.mongo.db.regionlist.update_one(
+              {"_id": ctx.author.id},
+              {"$set": {str(ctx.guild.id): True}},
+              upsert=True,
+          )
 
           if result.upserted_id or result.modified_count > 0:
             embed=discord.Embed(title="Pings", description=f"You will get pinged when your shiny hunt spawns or what your collecting in **{ctx.guild}**", color=0x36393F)
@@ -331,94 +255,6 @@ class catch_log(commands.Cog):
             embed=discord.Embed(title="Pings", description=f"This feature is already enabled in **{ctx.guild}**!", color=0x36393F)
             embed.set_thumbnail(url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
-            
-        if select == "Rare Ping":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["rareping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["rareping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.add_roles(role)  
-                embed=discord.Embed(title=select, description="You will get pinged when a Rare Pokemon spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title=select, description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-                
-        if select == "Alolan Pings":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["alolanping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["alolanping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.add_roles(role)  
-                embed=discord.Embed(title=select, description="You will get pinged when a Alolan-Form Pokemon spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title=select, description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-            
-        if select == "Galarian Pings":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["galarianping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["galarianping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.add_roles(role)  
-                embed=discord.Embed(title=select, description="You will get pinged when a Galarian-Form Pokemon spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title=select, description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
-                
-        if select == "Hisuian Pings":
-            guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
-            try:
-                roleid = guild["hisuianping"]
-            except:
-                roleid = None
-
-         
-            if roleid == None:
-                return await ctx.send(f"Ask an admin to run `/setup {select}` since there is no {select} role setup")
-      
-            roleid = guild["hisuianping"]
-            role = ctx.guild.get_role(int(roleid))
-            try:
-                await ctx.author.add_roles(role)  
-                embed=discord.Embed(title="Rare Dex", description="You will get pinged when a Hisuian-Form spawns", color=0x36393F)
-                await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title="Raredex", description=f"This feature is already disabled in **{ctx.guild}**!", color=0x36393F)
-                embed.set_thumbnail(url=ctx.guild.icon.url)
-                await ctx.send(embed=embed)
         
 async def setup(bot):
     print("Loaded Catch Logger")
