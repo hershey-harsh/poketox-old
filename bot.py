@@ -15,6 +15,7 @@ COGS = [
     "settings",
     "collectors",
     "comands",
+    "region",
     "shinyhunt",
     "pokedex",
     "identify",
