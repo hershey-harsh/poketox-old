@@ -12,13 +12,66 @@ from helpers.pagination import AsyncEmbedListPageSource
 import random
 import asyncio
 
+async def regionping(self, ctx, species: SpeciesConverter):
+    
+        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+        if guild.region_channels and ctx.channel.id not in guild.region_channels:
+            return
+        
+        species = ctx.bot.data.species_by_name(species.region)
+        
+        users = self.bot.mongo.db.collector.find(
+            {str(species.id): True, str(ctx.guild.id): True}
+        )
+
+        try:
+                guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+        except Exception as e:
+                pass
+        
+        try:
+                time = str(guild[str(ctx.channel.id)])
+        except Exception as e:
+                time = None
+                pass
+        
+        collector_pings = []
+        async for user in users:
+            collector_pings.append(f"<@{user['_id']}> ")
+        
+        if len(collector_pings) > 0:
+
+            if time != None:
+                x = datetime.now() + timedelta(seconds=1)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
+            else:
+                timestamp = " "
+                time=0
+                
+            msg = await ctx.send(f"**<:pokeball:936773252913700894> Pinging {species} Regional Hunters**\nYou may catch {species} {timestamp} \n \n" + " ".join(collector_pings))  
+
+            try:
+                if time != 0:
+                        time = str(guild[str(ctx.channel.id)])
+                        await asyncio.sleep(int(time))
+                        embed=discord.Embed(description=f"Post-Tag timer has expired for {species}. You may catch it now", color=0x2F3136)
+                        await ctx.send(embed=embed)
+                
+                        await msg.edit(f"**:earth_americas: Pinging {species} Regional Hunters**\n \n" + " ".join(collector_pings))
+            except:
+                pass
+        
+        else:
+            mess = await ctx.send(
+                f"No one is regional hunting {species}"
+            )
+
 async def collectping(self, ctx, species: SpeciesConverter):
     
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
         if guild.ping_channels and ctx.channel.id not in guild.ping_channels:
             return
-        
-        region = ctx.bot.data.species_by_name(species.name).region
 
         users = self.bot.mongo.db.collector.find(
             {str(species.id): True, str(ctx.guild.id): True}
