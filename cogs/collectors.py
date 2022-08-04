@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from typing import List
 from discord import File, Member
 from helpers.pagination import AsyncEmbedListPageSource
+from typing import Union, Literal
 
 import random
 import asyncio
@@ -592,33 +593,101 @@ class Collectors(commands.Cog):
     @commands.hybrid_command(aliases = ["fr"])
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def forceremove(self, ctx, *, user: FetchUserConverter):
-        """Allows moderators to remove a player from pinging list"""
+    async def forceremove(self, ctx, *, user: Union[discord.Member, FetchUserConverter], select: Literal['Shiny Hunt', 'Collect List', 'Regional List', 'Regional Forms'] = None):
+        """Allows moderators to remove a player from a pinging list"""
         
-        result = await ctx.confirm(f"Are you sure you want to remove **{user}** from the **{ctx.guild}** pinging list?")
+        if select is None:
         
-        if result is None:
+            result = await ctx.confirm(f"Are you sure you want to remove **{user}** from the **{ctx.guild}** pinging list?")
+        
+            if result is None:
                 return await ctx.send("Time's up. Aborted.")
 
-        if result is False:
+            if result is False:
                 return await ctx.send("Aborted.")
 
-        result = await self.bot.mongo.db.collector.update_one(
-            {"_id": user.id},
-            {"$unset": {str(ctx.guild.id): 1}},
-            upsert=True,
-        )
+            result = await self.bot.mongo.db.collector.update_one(
+                {"_id": user.id},
+                {"$unset": {str(ctx.guild.id): 1}},
+                upsert=True,
+            )
         
-        result = await self.bot.mongo.db.shinyhunt.update_one(
-            {"_id": user.id},
-            {"$unset": {str(ctx.guild.id): 1}},
-            upsert=True,
-        )
+            result = await self.bot.mongo.db.shinyhunt.update_one(
+                {"_id": user.id},
+                {"$unset": {str(ctx.guild.id): 1}},
+                upsert=True,
+            )
+            
+            result = await self.bot.mongo.db.regionlist.update_one(
+                {"_id": user.id},
+                {"$unset": {str(ctx.guild.id): 1}},
+                upsert=True,
+            )
 
-        if result.upserted_id or result.modified_count > 0:
-            return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** pinging list.")
-        else:
-            return await ctx.send(f"**{user}** is not on the **{ctx.guild}** pinging list!")
+            if result.upserted_id or result.modified_count > 0:
+                return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** pinging list.")
+            else:
+                return await ctx.send(f"**{user}** is not on the **{ctx.guild}** pinging list!")
+            
+        elif "Shiny Hunt" in select:
+            result = await ctx.confirm(f"Are you sure you want to remove **{user}** from the **{ctx.guild}** {select} pinging list?")
+        
+            if result is None:
+                return await ctx.send("Time's up. Aborted.")
+
+            if result is False:
+                return await ctx.send("Aborted.")
+        
+            result = await self.bot.mongo.db.shinyhunt.update_one(
+                {"_id": user.id},
+                {"$unset": {str(ctx.guild.id): 1}},
+                upsert=True,
+            )
+
+            if result.upserted_id or result.modified_count > 0:
+                return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** {select} pinging list.")
+            else:
+                return await ctx.send(f"**{user}** is not on the **{ctx.guild}** pinging list!")
+            
+        elif "Regional List" in select:
+            result = await ctx.confirm(f"Are you sure you want to remove **{user}** from the **{ctx.guild}** {select} pinging list?")
+        
+            if result is None:
+                return await ctx.send("Time's up. Aborted.")
+
+            if result is False:
+                return await ctx.send("Aborted.")
+        
+            result = await self.bot.mongo.db.regionlist.update_one(
+                {"_id": user.id},
+                {"$unset": {str(ctx.guild.id): 1}},
+                upsert=True,
+            )
+
+            if result.upserted_id or result.modified_count > 0:
+                return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** {select} pinging list.")
+            else:
+                return await ctx.send(f"**{user}** is not on the **{ctx.guild}** {select} pinging list!")
+            
+        elif "Regional Forms" in select:
+            result = await ctx.confirm(f"Are you sure you want to remove **{user}** from the **{ctx.guild}** {select} pinging list?")
+        
+            if result is None:
+                return await ctx.send("Time's up. Aborted.")
+
+            if result is False:
+                return await ctx.send("Aborted.")
+        
+            result = await self.bot.mongo.db.regionform.update_one(
+                {"_id": user.id},
+                {"$unset": {str(ctx.guild.id): 1}},
+                upsert=True,
+            )
+
+            if result.upserted_id or result.modified_count > 0:
+                return await ctx.send(f"Removed **{user}** from the **{ctx.guild}** {select} pinging list.")
+            else:
+                return await ctx.send(f"**{user}** is not on the **{ctx.guild}** {select} pinging list!")
 
     @checks.has_started()
     @collectlist.command()
