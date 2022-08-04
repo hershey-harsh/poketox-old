@@ -73,6 +73,7 @@ class Guild(Document):
     total_count = fields.StringField()
     sh_channels = fields.ListField(fields.IntegerField, default=list)
     specialized = fields.ListField(fields.IntegerField, default=list)
+    regionform = fields.ListField(fields.IntegerField, default=list)
     name = fields.StringField()
     starboard = fields.StringField()
     spawn_count = fields.StringField()
