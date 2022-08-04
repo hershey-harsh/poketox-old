@@ -29,6 +29,92 @@ for i in file:
 
 total_rares = legendaries + alolan + hisuian + galarian
 
+async def regionformping(self, ctx, poke: SpeciesConverter):
+    
+        guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
+        if guild.regionform and ctx.channel.id not in guild.regionform:
+            return
+        
+        #species = ctx.bot.data.species_by_name(poke.region)
+
+        try:
+                guild = await self.bot.mongo.db.shtimer.find_one({"_id": ctx.guild.id})
+        except Exception as e:
+                pass
+        
+        try:
+                time = str(guild[str(ctx.channel.id)])
+        except Exception as e:
+                time = None
+                pass
+        
+        collector_pings = []
+        
+        if poke.name.title() in total_rares:
+            
+            if poke in hisuian:
+                species = "hisuian"
+                rarity = ctx.bot.data.species_by_name("hisuian")
+            
+            elif poke in alolan:
+                species = "alolan"
+                rarity = ctx.bot.data.species_by_name("alolan")
+            
+            elif poke in galarian:
+                species = "galarian"
+                rarity = ctx.bot.data.species_by_name("galarian")
+            
+            elif poke in legendaries:
+                species = "legendaries"
+                rarity = ctx.bot.data.species_by_name("legendaries")
+            
+            try:
+                rare_users = self.bot.mongo.db.regionform.find(
+                    {str(rarity.id): True, str(ctx.guild.id): True}
+                )
+            
+            except:
+                species = poke.name
+                pass
+            
+        else:
+            return
+            
+        try:
+            async for user in rare_users:
+                collector_pings.append(f"<@{user['_id']}> ")
+        except:
+            collector_pings = []
+            pass
+        
+        if len(collector_pings) > 0:
+
+            if time != None:
+                x = datetime.now() + timedelta(seconds=1)
+                x += timedelta(seconds=int(time))
+                timestamp = discord.utils.format_dt(x, 'R')
+            else:
+                timestamp = " "
+                time=0
+                
+            msg = await ctx.send(f"**:dizzy: Pinging {species} Regional Form Hunters**\nYou may catch {species.title()} Region {timestamp} \n \n" + " ".join(collector_pings))  
+
+            try:
+                if time != 0:
+                        time = str(guild[str(ctx.channel.id)])
+                        await asyncio.sleep(int(time))
+                        embed=discord.Embed(description=f"Post-Tag timer has expired for {species.title()}. You may catch it now", color=0x2F3136)
+                        await ctx.send(embed=embed)
+                
+                        await msg.edit(f"**:earth_americas: Pinging {species.title()} Regional Form Hunters**\n \n" + " ".join(collector_pings))
+            except:
+                pass
+        
+        else:
+            mess = await ctx.send(
+                f"No one is regional form hunting {species.title()}"
+            )
+
 async def regionping(self, ctx, poke: SpeciesConverter):
     
         guild = await ctx.bot.mongo.fetch_guild(ctx.guild)
@@ -54,38 +140,8 @@ async def regionping(self, ctx, poke: SpeciesConverter):
             {str(species.id): True, str(ctx.guild.id): True}
         )
         
-        if poke.name.title() in total_rares:
-            
-            if poke in hisuian:
-                rarity = ctx.bot.data.species_by_name("hisuian")
-            
-            elif poke in alolan:
-                rarity = ctx.bot.data.species_by_name("alolan")
-            
-            elif poke in galarian:
-                rarity = ctx.bot.data.species_by_name("galarian")
-            
-            elif poke in legendaries:
-                rarity = ctx.bot.data.species_by_name("legendaries")
-            
-            try:
-                rare_users = self.bot.mongo.db.regionlist.find(
-                    {str(rarity.id): True, str(ctx.guild.id): True}
-                )
-            except:
-                pass
-            
-        else:
-            rare_users = []
-        
         async for user in users:
             collector_pings.append(f"<@{user['_id']}> ")
-        
-        try:
-            async for user in rare_users:
-                collector_pings.append(f"<@{user['_id']}> ")
-        except:
-            pass
         
         if len(collector_pings) > 0:
 
@@ -313,6 +369,22 @@ class Collectors(commands.Cog):
 
       await self.bot.mongo.update_guild(
             ctx.guild, {"$set": {"specialized": [x.id for x in channels]}}
+        )
+
+      embed=discord.Embed(title=":earth_americas: Regional Whitelist", description=f"Now whitelisting Regional Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
+      embed.set_thumbnail(url=ctx.guild.icon.url)
+      await ctx.send(embed=embed)
+    
+    @checks.has_started()
+    @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
+    @whitelist.command(slash_command=True)
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def regionform(self, ctx, channels: commands.Greedy[discord.TextChannel]):
+      """Whitelist regional form pings in certain channels"""
+
+      await self.bot.mongo.update_guild(
+            ctx.guild, {"$set": {"regionform": [x.id for x in channels]}}
         )
 
       embed=discord.Embed(title=":earth_americas: Regional Whitelist", description=f"Now whitelisting Regional Pings in " + ", ".join(x.mention for x in channels), color=0x36393F)
