@@ -76,7 +76,7 @@ class Region(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def add(self, ctx, *, region: SpeciesConverter):
 
-        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar', 'Hisui', 'Legendaries', 'Alolan-Form', 'Galarian-Form', 'Hisuian-Form']
+        regions = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar', 'Hisui']
         
         if region.name.title() not in regions:
             return await ctx.send("You cannot add pokémons to regional list.")
