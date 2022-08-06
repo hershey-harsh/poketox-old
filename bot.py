@@ -93,5 +93,5 @@ class Bot(commands.Bot, events.EventsMixin):
 
 if __name__ == "__main__":
     bot = Bot()
-    await bot.ipc.start()
+    bot.ipc.start()
     bot.run(config.BOT_TOKEN)
