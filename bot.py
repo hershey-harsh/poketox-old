@@ -20,6 +20,7 @@ COGS = [
     "shinyhunt",
     "pokedex",
     "identify",
+    "ipc"
     "spawn_counts",
     "info",
     "weakness",
