@@ -47,7 +47,7 @@ class Bot(commands.Bot, events.EventsMixin):
             case_insensitive=True,
         )
         
-        self.ipc = ipc.Server(self, secret_key="my_secret_key")
+        self.ipc = ipc.Server(self, secret_key="192b9bdd21ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d53727823bcbf")
       
         self.config = config
         os.system("clear")
