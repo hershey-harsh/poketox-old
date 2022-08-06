@@ -11,7 +11,7 @@ class Routes(commands.Cog):
         self.bot = bot
         if not hasattr(bot, "ipc"):
             bot.ipc = ipc.Server(self.bot, host="0.0.0.0", port=8000, secret_key="2022poketox2007")
-            bot.ipc.start(self)
+            bot.ipc.start()
 
     @commands.Cog.listener()
     async def on_ipc_ready(self):
