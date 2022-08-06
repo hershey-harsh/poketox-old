@@ -1,6 +1,6 @@
 import os
 import discord
-from discord.ext import commands, events, ipc
+from discord.ext import commands, events
 from discord.ext.events import member_kick
 import datetime
 import helpers
@@ -20,7 +20,6 @@ COGS = [
     "shinyhunt",
     "pokedex",
     "identify",
-    "ipc"
     "spawn_counts",
     "info",
     "weakness",
@@ -46,8 +45,6 @@ class Bot(commands.Bot, events.EventsMixin):
             allowed_mentions=discord.AllowedMentions(everyone=False, roles=True, replied_user=False),
             case_insensitive=True,
         )
-        
-        self.ipc = ipc.Server(self, secret_key="192b9bdd21ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d53727823bcbf")
       
         self.config = config
         os.system("clear")
@@ -71,14 +68,6 @@ class Bot(commands.Bot, events.EventsMixin):
         )
         
     os.system("clear")
-    
-    async def on_ipc_ready(self):
-        """Called upon the IPC Server being ready"""
-        cprint("IPC Server is online.", 'green')
-        
-    async def on_ipc_error(self, endpoint, error):
-        """Called upon an error being raised within an IPC route"""
-        print(endpoint, "raised", error)
         
     @property
     def mongo(self):
@@ -93,5 +82,4 @@ class Bot(commands.Bot, events.EventsMixin):
 
 if __name__ == "__main__":
     bot = Bot()
-    bot.ipc.start()
     bot.run(config.BOT_TOKEN)
