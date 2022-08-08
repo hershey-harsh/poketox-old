@@ -6,6 +6,9 @@ import inspect
 from discord.ext import commands, ipc
 from discord.ext.ipc.server import route
 from discord.ext.ipc.errors import IPCError
+from flask import Flask
+
+app = Flask('')
 
 class Routes(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -28,6 +31,11 @@ class Routes(commands.Cog):
     async def get_user_data(self, data):
         user = self.bot.get_user(data.user_id)
         return user._to_minimal_user_json() # THE OUTPUT MUST BE JSON SERIALIZABLE!
+    
+    @app.route('/test')
+    def home():
+        return "I'm alive"
+    
 
 async def setup(bot):
     await bot.add_cog(Routes(bot))
