@@ -15,6 +15,7 @@ import os
 import aiohttp
 
 app = web.Application()
+routes = web.RouteTableDef()
 
 class Routes(commands.Cog):
     def __init__(self, bot: commands.Bot):
