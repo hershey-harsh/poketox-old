@@ -9,12 +9,13 @@ from helpers import context
 import aiohttp
 from termcolor import colored, cprint
 import config
+import winerp
 
 COGS = [
     "data",
     "mongo",
     "settings",
-    #"ipc",
+    "ipc",
     "collectors",
     "comands",
     "region",
