@@ -14,7 +14,7 @@ COGS = [
     "data",
     "mongo",
     "settings",
-    "ipc",
+    #"ipc",
     "collectors",
     "comands",
     "region",
@@ -83,4 +83,6 @@ class Bot(commands.Bot, events.EventsMixin):
 
 if __name__ == "__main__":
     bot = Bot()
+    bot.ipc = winerp.Client(local_name = "Poketox", port=5000)
+    bot.ipc.start()
     bot.run(config.BOT_TOKEN)
