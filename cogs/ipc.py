@@ -10,7 +10,7 @@ class Routes(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         if not hasattr(bot, "ipc"):
-            bot.ipc = ipc.Server(self.bot, host="127.0.0.1", port=5000, secret_key="your_secret_key_here")
+            bot.ipc = ipc.Server(self.bot, host="127.0.0.1", port=5000, secret_key="2022poketox2007")
             bot.ipc.start()
 
     @commands.Cog.listener()
