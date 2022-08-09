@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands, ipc
 from discord.ext.ipc.server import route
 from discord.ext.ipc.errors import IPCError
+import inspect
 
 class Routes(commands.Cog):
     def __init__(self, bot: commands.Bot):
