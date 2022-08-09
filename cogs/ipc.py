@@ -11,7 +11,7 @@ class Routes(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         if not hasattr(bot, "ipc"):
-            bot.ipc = ipc.Server(self.bot, port = 1025, secret_key="2022poketox2007")
+            bot.ipc = ipc.Server(self.bot, host="0.0.0.0", port = 1025, secret_key="2022poketox2007")
             bot.ipc.start()
         
         for name, function in inspect.getmembers(self):
