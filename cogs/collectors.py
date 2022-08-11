@@ -665,7 +665,7 @@ class Collectors(commands.Cog):
     @commands.hybrid_command(aliases = ["fr"])
     @commands.max_concurrency(1, commands.BucketType.user)
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def forceremove(self, ctx, *, user: discord.Member, select: Literal['Shiny Hunt', 'Collect List', 'Regional List', 'Regional Forms'] = None):
+    async def forceremove(self, ctx, *, user: Union[discord.Member, FetchUserConverter], select: Literal['Shiny Hunt', 'Collect List', 'Regional List', 'Regional Forms'] = None):
         """Allows moderators to remove a player from a pinging list"""
         
         if select is None:
