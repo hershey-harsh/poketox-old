@@ -435,7 +435,7 @@ pokemon = PokemonEmojis(
     ),
 )
 
-enable_emojis_for = (875526899386953779)
+enable_emojis_for = (875526899386953779, 950522564751544330,)
 
 class Sprites(commands.Cog):
     def __init__(self, bot):
