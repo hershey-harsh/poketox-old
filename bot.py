@@ -25,6 +25,7 @@ COGS = [
     "weakness",
     "dex",
     "bot",
+    "sprites",
     "raredex",
     "help",
     "admin",
