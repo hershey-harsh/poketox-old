@@ -78,6 +78,10 @@ class Bot(commands.Bot, events.EventsMixin):
     def data(self):
         return self.get_cog("Data").instance
     
+    @property
+    def sprites(self):
+        return self.get_cog("Sprites")
+    
     async def get_context(self, message, *, cls=context.PoketwoContext):
         return await super().get_context(message, cls=cls)
 
