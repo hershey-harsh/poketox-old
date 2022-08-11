@@ -14,7 +14,6 @@ COGS = [
     "data",
     "mongo",
     "settings",
-    "ipc",
     "collectors",
     "comands",
     "region",
