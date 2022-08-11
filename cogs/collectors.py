@@ -535,7 +535,7 @@ class Collectors(commands.Cog):
             source=AsyncEmbedListPageSource(
                 self.doc_to_species(result or {}),
                 title=str(member),
-                format_item=format_item,
+                format_item=format_item(x),
             )
         )
 
