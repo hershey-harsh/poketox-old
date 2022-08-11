@@ -2,7 +2,7 @@ from collections import namedtuple
 
 from discord.ext import commands
 
-PokemonEmojis = namedtuple("PokemonEmojis", ("normal", "shiny"))
+PokemonEmojis = namedtuple("PokemonEmojis", ("normal"))
 
 servers = PokemonEmojis(
     normal=(
@@ -472,10 +472,8 @@ class Sprites(commands.Cog):
         else:
             return ""
 
-    def get(self, idx, shiny=False):
+    def get(self, idx):
         if self.status:
-            if shiny and pokemon.shiny[idx]:
-                return f"<:_:{pokemon.shiny[idx]}>"
             return f"<:_:{pokemon.normal[idx]}>"
         return ""
 
