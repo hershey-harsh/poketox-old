@@ -528,11 +528,14 @@ class Collectors(commands.Cog):
 
         result = await self.bot.mongo.db.collector.find_one({"_id": member.id})
 
+        def format_item(menu, x):
+            return f"`{x.id}` {self.bot.sprites.get(x.id)} {x.name}"
+        
         pages = ViewMenuPages(
             source=AsyncEmbedListPageSource(
                 self.doc_to_species(result or {}),
                 title=str(member),
-                format_item=lambda x: x.name,
+                format_item=format_item,
             )
         )
 
