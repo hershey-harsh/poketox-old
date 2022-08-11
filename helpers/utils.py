@@ -1,19 +1,33 @@
+from typing import NamedTuple
+
 import discord
 from discord.ext import commands
 
 
+class FakeAvatar(NamedTuple):
+    url: str
+
+
 class FakeUser(discord.Object):
     @property
-    def avatar_url(self):
-        return "https://cdn.discordapp.com/embed/avatars/0.png"
+    def avatar(self):
+        return None
+
+    @property
+    def default_avatar(self):
+        return FakeAvatar("https://cdn.discordapp.com/embed/avatars/0.png")
+
+    @property
+    def display_avatar(self):
+        return self.default_avatar
 
     @property
     def mention(self):
         return "<@{0.id}>".format(self)
 
     @property
-    def roles(self):
-        return []
+    def guild_permissions(self):
+        return discord.Permissions.none()
 
     def __str__(self):
         return str(self.id)
