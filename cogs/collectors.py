@@ -537,7 +537,7 @@ class Collectors(commands.Cog):
         
         pages = ViewMenuPages(
             source=AsyncEmbedListPageSource(
-                doc_to_species_emoji(self, result),
+                self.doc_to_species_emoji(self, result),
                 title=str(member),
                 format_item=x,
             )
