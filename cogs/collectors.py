@@ -293,6 +293,13 @@ class Collectors(commands.Cog):
             if x != "_id":
                 if self.bot.data.species_by_number(int(x)):
                     yield self.bot.data.species_by_number(int(x))
+                    
+
+    async def doc_to_species_emoji(self, doc):
+        for x in doc.keys():
+            if x != "_id":
+                if self.bot.data.species_by_number(int(x)):
+                    yield f'{_bot.data.species_by_number(int(x)).id}` {_bot.sprites.get(_bot.data.species_by_number(int(x)).id)} {_bot.data.species_by_number(int(x)).name}'
                 
     @checks.has_started()
     @commands.guild_only()
@@ -527,15 +534,12 @@ class Collectors(commands.Cog):
             member = ctx.author
 
         result = await self.bot.mongo.db.collector.find_one({"_id": member.id})
-
-        def format_item(menu, x):
-            x = self.doc_to_species(result or {})
-            return f"`{x.id}` {self.bot.sprites.get(x.id)} {x.name}"
         
         pages = ViewMenuPages(
             source=AsyncEmbedListPageSource(
+                doc_to_species_emoji(self, result),
                 title=str(member),
-                format_item=format_item,
+                format_item=x,
             )
         )
 
