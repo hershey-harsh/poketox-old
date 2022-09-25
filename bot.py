@@ -16,6 +16,7 @@ COGS = [
     "settings",
     "collectors",
     "comands",
+    "ipc",
     "region",
     "shinyhunt",
     "pokedex",
