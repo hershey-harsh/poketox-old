@@ -21,6 +21,22 @@ class Routes(commands.Cog):
     async def get_user_data(self, data: ClientPayload) -> Dict:
         user = await self.bot.fetch_user(data.user_id)
         return user._to_minimal_user_json()
+    
+    @Server.route()
+    async def clear_user_list(self, data: ClientPayload) -> Dict:
+        list = data.list
+        try:
+            if list == "collectlist":
+                await self.bot.mongo.db.collector.delete_one({"_id": int(data.user_id)})
+            if list == "shinyhunt":
+                await self.bot.mongo.db.shinyhunt.update_one({"_id": int(data.user_id)}, {"$set": {'shinyhunt': None}}, upsert=True)
+            if list == "regionhunt"
+                await self.bot.mongo.db.regionlist.delete_one({"_id": ctx.author.id})
+            if list == "regionform":
+                await self.bot.mongo.db.regionformlist.delete_one({"_id": ctx.author.id})
+            return {"code":"200"}
+        except Exception as e:
+            return {"code":"400", "error":str(e)}
 
 async def setup(bot):
     await bot.add_cog(Routes(bot))
