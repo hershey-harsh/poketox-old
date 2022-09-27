@@ -30,7 +30,7 @@ class Routes(commands.Cog):
                 await self.bot.mongo.db.collector.delete_one({"_id": int(data.user_id)})
             if list == "shinyhunt":
                 await self.bot.mongo.db.shinyhunt.update_one({"_id": int(data.user_id)}, {"$set": {'shinyhunt': None}}, upsert=True)
-            if list == "regionhunt"
+            if list == "regionhunt":
                 await self.bot.mongo.db.regionlist.delete_one({"_id": ctx.author.id})
             if list == "regionform":
                 await self.bot.mongo.db.regionformlist.delete_one({"_id": ctx.author.id})
