@@ -23,6 +23,28 @@ class Routes(commands.Cog):
         return user._to_minimal_user_json()
     
     @Server.route()
+    async def get_mutual_guilds(self, data: ClientPayload) -> Dict:
+        guild_ids = data.guild_ids
+        
+        if not guild_ids:
+            return {"error": "Invalid guilds"}
+
+        guilds = []
+        for i in guild_ids:
+            guild: discord.Guild = self.bot.get_guild(int(i))
+            if not guild:
+                continue
+            if guild.get_member(self.bot.user.id):
+                guilds.append({
+                    "id": str(guild.id),
+                    "name": guild.name,
+                    "icon_url": str(guild.icon_url_as(format="png", size=512))
+                })
+                
+        return {"guilds": guilds}
+    
+    stuff = """
+    @Server.route()
     async def clear_user_list(self, data: ClientPayload) -> Dict:
         list = data.list
         try:
@@ -38,5 +60,9 @@ class Routes(commands.Cog):
         except Exception as e:
             return {"code":"400", "error":str(e)}
 
+    @Server.route()
+    async def clear_user_list(self, data: ClientPayload) -> Dict:
+    """
+        
 async def setup(bot):
     await bot.add_cog(Routes(bot))
