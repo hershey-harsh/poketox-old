@@ -21,7 +21,16 @@ class Routes(commands.Cog):
     async def get_user_data(self, data: ClientPayload) -> Dict:
         user = await self.bot.fetch_user(data.user_id)
         return user._to_minimal_user_json()
-    
+
+    @Server.route()
+    async def get_all_channels(self, data: ClientPayload) -> Dict:
+        guild_id = data.guild_id
+        
+        text_channel_names = []
+        guild = self.bot.get_guild(int(guild_id))
+        for channel in guild.text_channels:
+            text_channel_names.append(f'#{channel.name}')
+   
     @Server.route()
     async def get_mutual_guilds(self, data: ClientPayload) -> Dict:
         guild_ids = data.guild_ids
