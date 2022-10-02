@@ -37,7 +37,7 @@ class Routes(commands.Cog):
             if guild.get_member(self.bot.user.id):
                 
                 if guild.icon is not None:
-                    icon=str(guild.icon_url_as(format="png", size=512))
+                    icon=str(guild.icon_url(format="png", size=512))
                     
                 else:
                     icon = None
