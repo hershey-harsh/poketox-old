@@ -30,6 +30,8 @@ class Routes(commands.Cog):
         guild = self.bot.get_guild(int(guild_id))
         for channel in guild.text_channels:
             text_channel_names.append(f'#{channel.name}')
+            
+        return {"all_channel_names":text_channel_names}
    
     @Server.route()
     async def get_mutual_guilds(self, data: ClientPayload) -> Dict:
